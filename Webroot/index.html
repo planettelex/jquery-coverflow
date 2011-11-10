@@ -1,0 +1,35 @@
+<html>
+<head>
+	<title>Planet Telex Coverflow</title>
+	
+	<link type="text/css" href="css/site.css" rel="Stylesheet" />
+
+	<!-- Include jQuery and UI -->
+	<script type="text/javascript" src="js/jquery-1.6.2.min.js"></script>
+    <script type="text/javascript" src="js/jquery-ui-1.8.16.custom.min.js"></script>
+
+	<!-- Include jQuery CoverFlow widgets -->
+	<script type="text/javascript" src="js/jquery.ui.pt_cover.js"></script>
+	<script type="text/javascript" src="js/jquery.ui.pt_coverflow.js"></script>
+
+	<script type="text/javascript">
+		$(function () {
+			$("#coverflow").coverflow();
+		});
+	</script>
+</head>
+<body>
+<div class="pageWrapper">
+	<h1>Planet Telex Coverflow</h1>
+	<div class="demo">
+		<div class="wrapper">
+			<div id="coverflow" class="coverflow">
+	            <img src="images/gorillaz-plasticbeach.jpg" data-artist="Gorillaz" data-album="Plastic Beach"/>
+				<img src="images/kingsofleon-comearoundsunshine.jpg" data-artist="Kings Of Leon" data-album="Come Around Sunshine"/>
+				<img src="images/ironmaiden-thefinalfrontier.jpg" data-artist="Iron Maiden" data-album="The Final Frontier"/>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+</html>

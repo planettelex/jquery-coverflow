@@ -1,0 +1,18 @@
+div.wrapper {
+	height: 450px;
+	width: 800px; /*600*/
+	padding: 10px;
+	overflow: hidden;
+	position: relative;
+	margin: 0 auto;
+	
+}
+
+.coverflow
+{
+    width: 100%;
+    height: 300px;
+    position: relative;
+    overflow: hidden;
+    background-color: Black;
+}
