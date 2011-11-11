@@ -11,7 +11,7 @@ typeof jQuery != 'undefined'
 
 		widgetEventPrefix : 'pt.cover',
 
-		options : {
+		options: {
 			canvas: {
 				left: 0,
 				top: 0,
@@ -25,28 +25,27 @@ typeof jQuery != 'undefined'
 			patchSize : 64
 		},
 
-		_create : function() {
+		_create: function() {
 			this.element.load($.proxy(this, "_load"));
 		},
 
-		_setOption : function(key, value) {
+		_setOption: function(key, value) {
 			$.Widget.prototype._setOption.apply(this,
 					arguments);
 		},
 
-		destroy : function() {
+		destroy: function() {
 			$.Widget.prototype.destroy.call(this);
 		},
 
 		/* End Widget Overrides */
 
-		_canvas : null,
-		_image : null,
+		_canvas: null,
+		_image: null,
 
-		supportsCanvas : (function() {
+		supportsCanvas: (function() {
 			var elem = document.createElement('canvas');
-			return !!(elem.getContext && elem
-					.getContext('2d'));
+			return !!(elem.getContext && elem.getContext('2d'));
 		})(),
 		
 				
@@ -84,13 +83,16 @@ typeof jQuery != 'undefined'
 			this[this.options.perspective]();
 		},
 
-		_load : function() {
-			self = this;
+		_load: function() {
 			this._image = this.element.clone();
-			this._canvas = this.supportsCanvas ? $('<canvas>').click(function (e) { self._trigger("click.cover", e); }) : null;
+			this._canvas = this.supportsCanvas ? $('<canvas>').click($.proxy(this, "_click")) : null;
 			//TODO Add no canvas support
 			this.element.hide().after(this._canvas);
 			this.refresh();
+		},
+		
+		_click: function(e) {
+			this._trigger("click", e, { image: this.element }); 
 		},
 		
 		_skewLength: function () {

@@ -1,75 +1,90 @@
 typeof jQuery != 'undefined' &&
 typeof jQuery.ui != 'undefined' &&
-(function($) {
-	$.widget('pt.coverflow', {
+(function ($) {
+	$.widget ('pt.coverflow', {
 		/* Begin Widget Overrides */
 
 		widgetEventPrefix : 'pt.coverflow',
 
-		options: {
-			width: null,
-			height: null,
-			offsetSizeDiff: 20,
-			selectedIndex: 1,
-			cover: {
-				width: 300,
-				height: 300,
-				overlap: 50,
-				angle: 10
+		options : {
+			width : null,
+			height : null,
+			offsetSizeDiff : 20,
+			selectedIndex : 1,
+			cover : {
+				width : 300,
+				height : 300,
+				overlap : 50,
+				angle : 10
 			}
 		},
 
-		_create: function() {
+		_create : function() {
 			this.options.width = this.options.width || this.element.width();
 			this.options.height = this.options.height || this.element.height();
 
-			var self = this;
 			this._$images = this.element.find("img");
-			this._$images.each(function(index) {
-				//TODO Fix how the index is passed through the even handler.
-				var coverConfig = self._coverConfig(self.options.selectedIndex, index);	
-				coverConfig.options['click.cover'] = function (e) {
-					self.gotoCover(index);
-				};		
-				
-				$(this).cover(coverConfig.options);
-			});
-			
+			this._$images.each ($.proxy(this, "_createCover"));
 		},
-
-		_setOption: function(key, value) {
+		
+		_setOption : function (key, value) {
 			switch (key) {
-			case "selectedIndex":
-				this.gotoCover(value);
-				break;
+				case "selectedIndex":
+					this._gotoCover(value);
+					break;
 			}
 
 			$.Widget.prototype._setOption.apply(this, arguments);
 		},
-
-		destroy: function() {
+		
+		destroy : function() {
 			$.Widget.prototype.destroy.call(this);
 		},
 		
 		/* End Widget Overrides */
 
 		_$images: [],
-		
-		gotoCover: function(selectedIndex) {
-			var self = this;
-			this._$images.each(function(index) {
-				$this = $(this);
-				var coverConfig = self._coverConfig(selectedIndex, index);
-				$this.data("cover").option("perspective", coverConfig.options.perspective);
-				$this.data("cover").refresh();
+
+		_createCover: function(index, image) {
+			var options = this._coverConfig(this.options.selectedIndex, index, {
+				click: $.proxy(this, "_clickCover")
+			});
+			$(image).cover(options).data("coverFlow", {
+				index: index
 			});
 		},
 		
-		_coverConfig: function(selectedIndex, index) {
+		_updateCover: function(selectedIndex, index, image) {
+			var coverOptions = this._coverConfig(selectedIndex, index);
+			var cover = $ (image).data("cover");
+			for (var option in coverOptions) {
+				cover.option(option, coverOptions [option]);
+			}
+
+			cover.refresh();
+		},
+		
+		_clickCover: function(e, data) {
+			this.gotoCover(data.image.data("coverFlow").index);
+		},
+		
+		/**
+		 * Wrapper for setting the "selectedIndex" option.
+		 */
+		gotoCover: function(selectedIndex) {
+			this._setOption("selectedIndex", selectedIndex);
+		},
+		
+		_gotoCover: function(selectedIndex) {
+			this._$images.each($.curry(this, "_updateCover", selectedIndex));
+		},
+		
+		_coverConfig: function(selectedIndex, index, options) {
+			options = options || {};
 			var centerOffset = 0;
 			var perspective = "center";
 			var offsetSizeDiff = 0;
-			
+
 			if (index < selectedIndex) {
 				centerOffset = (selectedIndex - index) * -1;
 				perspective = "left";
@@ -80,28 +95,25 @@ typeof jQuery.ui != 'undefined' &&
 				perspective = "right";
 				offsetSizeDiff = this.options.offsetSizeDiff;
 			}
-			
+
 			var coverWidth = this.options.cover.width - offsetSizeDiff;
 			var coverHeight = this.options.cover.height - offsetSizeDiff;
-			
-			var coverOptions = $.extend({}, this.options.cover, {
-				perspective: perspective,
-				width: coverWidth,
-				height: coverHeight,
-				canvas: {
-					left: this._coverLeft(centerOffset, coverWidth),
-					top: this._coverTop(centerOffset, coverHeight),
-					zIndex: this._$images.length - Math.abs(centerOffset)
+
+			var coverOptions = $.extend({}, this.options.cover, options, {
+				perspective : perspective,
+				width : coverWidth,
+				height : coverHeight,
+				canvas : {
+					left : this._coverLeft(centerOffset, coverWidth),
+					top : this._coverTop(centerOffset, coverHeight),
+					zIndex : this._$images.length - Math.abs(centerOffset)
 				}
 			});
-			
-			return {
-				centerOffset: centerOffset,
-				options: coverOptions
-			};
+
+			return coverOptions;
 		},
 		
-		_coverLeft: function (centerOffset, coverWidth) {
+		_coverLeft: function(centerOffset, coverWidth) {
 			var left = (this.options.width / 2) - (coverWidth / 2) + (coverWidth * centerOffset);
 			if (centerOffset < 0) {
 				left += this.options.cover.overlap;
@@ -109,7 +121,7 @@ typeof jQuery.ui != 'undefined' &&
 			else if (centerOffset > 0) {
 				left -= this.options.cover.overlap;
 			}
-			
+
 			return left;
 		},
 		
@@ -121,4 +133,62 @@ typeof jQuery.ui != 'undefined' &&
 			return top;
 		}
 	});
-})(jQuery);
+
+	$.curry = function (fn, proxy) {
+		///	<summary>
+		///		Just like proxy, but enhanced with the ability to "curry" arguments.
+		///     Takes a function and returns a new one that will always have a particular scope.
+		///	</summary>
+		/// <remarks>
+		///     Not replacing the proxy method because there are still some edge cases where this breaks proxy.
+		/// </remarks>
+		/// <example>
+		///     Any of the following signatures will bind a function to a particular context and return the bound function.
+		///
+		/// jQuery.curry( function, scope )
+		/// jQuery.curry( scope, name )
+		/// jQuery.curry( function, scope, args... )
+		/// jQuery.curry( scope, name, args... )
+		/// </example>
+		///	<param name="fn" type="Function">
+		///		The function whose scope will be changed.
+		///	</param>
+		///	<param name="proxy" type="Object">
+		///		The object to which the scope of the function should be set.
+		///	</param>
+		///	<returns type="Function" />
+
+		var context, args = Array.prototype.slice.call(arguments, 2);
+
+		if (arguments.length >= 2) {
+
+			if ( typeof proxy === "string") {
+				context = fn;
+				fn = context [proxy];
+				proxy = undefined;
+
+			}
+			else if (proxy && !jQuery.isFunction(proxy)) {
+				context = proxy;
+				proxy = undefined;
+
+			}
+		}
+
+		if (!proxy && fn) {
+			proxy = function () {
+				var combinedArgs = jQuery.merge( [], args);
+				combinedArgs = jQuery.merge(combinedArgs, arguments);
+				return fn.apply (context || this, combinedArgs);
+			};
+		}
+
+		// Set the guid of unique handler to the same of original handler, so it can be removed
+		if (fn) {
+			proxy.guid = fn.guid = fn.guid || proxy.guid || jQuery.guid++;
+		}
+
+		// So proxy can be declared as an argument
+		return proxy;
+	};
+}) (jQuery);
