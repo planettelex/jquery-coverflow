@@ -61,7 +61,7 @@ typeof jQuery.ui != 'undefined' &&
 				cover.option(option, coverOptions [option]);
 			}
 
-			cover.refresh();
+			cover.refresh(true);
 		},
 		
 		_clickCover: function(e, data) {
@@ -99,7 +99,7 @@ typeof jQuery.ui != 'undefined' &&
 			var coverWidth = this.options.cover.width - offsetSizeDiff;
 			var coverHeight = this.options.cover.height - offsetSizeDiff;
 
-			var coverOptions = $.extend({}, this.options.cover, options, {
+			var coverOptions = $.extend(true, {}, this.options.cover, options, {
 				perspective : perspective,
 				width : coverWidth,
 				height : coverHeight,

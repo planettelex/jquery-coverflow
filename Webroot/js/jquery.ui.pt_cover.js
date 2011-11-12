@@ -22,16 +22,26 @@ typeof jQuery != 'undefined'
 			angle: 0,
 			perspective: "center", // (left|center|right)
 			subdivisionLimit : 5,
-			patchSize : 64
+			patchSize : 64,
+			animation: {
+				slide: {
+					duration: 900,
+					easing: "easeOutCirc"
+				},
+				perspective: {
+					duration: 250,
+					easing: "jswing" 
+				}
+			}
 		},
 
 		_create: function() {
+			this._oldOptions = $.extend(true, {}, this.options);
 			this.element.load($.proxy(this, "_load"));
 		},
 
 		_setOption: function(key, value) {
-			$.Widget.prototype._setOption.apply(this,
-					arguments);
+			$.Widget.prototype._setOption.apply(this, arguments);
 		},
 
 		destroy: function() {
@@ -40,8 +50,9 @@ typeof jQuery != 'undefined'
 
 		/* End Widget Overrides */
 
-		_canvas: null,
+		_$canvas: null,
 		_image: null,
+		_oldOptions: null,
 
 		supportsCanvas: (function() {
 			var elem = document.createElement('canvas');
@@ -79,24 +90,76 @@ typeof jQuery != 'undefined'
 			this._draw(points);
 		},
 		
-		refresh: function () {
+		refresh: function (animate) {
+			animate = animate || false;
+			
+			if (!animate) {
+				this[this.options.perspective]();
+			}
+			else {
+				this._$canvas
+				.css({ 
+					zIndex: this.options.canvas.zIndex,
+					top: this.options.canvas.top
+				})
+				.animate({
+					left: this.options.canvas.left
+				}, {
+					duration: this.options.animation.slide.duration,
+					easing: this.options.animation.slide.easing
+				})
+				.animate({
+					textIndent: this.options.perspective == "center" ? 0 : this.options.angle
+				}, {
+					queue: false,
+					duration: this.options.animation.perspective.duration,
+					easing: this.options.animation.perspective.easing,
+					step: $.proxy(this, "_animationStep"),
+					complete: $.proxy(this, "_animationComplete")
+				});
+			}
+		},
+		
+		_animationStep: function(now, fx) {
+			if (fx.prop == "textIndent") {
+				var perspective = this._oldOptions.perspective;
+				if (perspective == "center") {
+					perspective = this.options.perspective;
+				}
+				
+				this.options.angle = now;
+				this[perspective]();
+			}
+		},
+		
+		_animationComplete: function() {
+			this._oldOptions = $.extend(true, {}, this.options);
 			this[this.options.perspective]();
 		},
-
+		
+		_skewLength: function() {
+			return Math.tan(Math.degreesToRadians(this.options.angle)) * this.options.width;
+		},
+		
 		_load: function() {
 			this._image = this.element.clone();
-			this._canvas = this.supportsCanvas ? $('<canvas>').click($.proxy(this, "_click")) : null;
+			this._$canvas = this.supportsCanvas
+				? $('<canvas>')
+					.css({
+						top: this.options.canvas.top,
+						left: this.options.canvas.left,
+						zIndex: this.options.canvas.zIndex,
+						textIndent: this.options.angle
+					})
+					.click($.proxy(this, "_click"))
+				: null;
 			//TODO Add no canvas support
-			this.element.hide().after(this._canvas);
+			this.element.hide().after(this._$canvas);
 			this.refresh();
 		},
 		
 		_click: function(e) {
 			this._trigger("click", e, { image: this.element }); 
-		},
-		
-		_skewLength: function () {
-			return Math.tan(Math.degreesToRadians(this.options.angle)) * this.options.width;
 		},
 
 		_draw: function(points) {
@@ -117,10 +180,7 @@ typeof jQuery != 'undefined'
 			var height = maxY - minY;
 
 			// Reshape canvas.
-			var canvas = this._canvas[0];
-			canvas.style.left = this.options.canvas.left + 'px';
-			canvas.style.top = this.options.canvas.top + 'px';
-			canvas.style.zIndex = this.options.canvas.zIndex;
+			var canvas = this._$canvas[0];
 			canvas.width = width;
 			canvas.height = height;
 
