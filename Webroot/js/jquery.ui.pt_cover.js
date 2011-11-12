@@ -142,7 +142,7 @@ typeof jQuery != 'undefined'
 		},
 		
 		_load: function() {
-			this._image = this.element.clone();
+			this._image = this.element;
 			this._$canvas = this.supportsCanvas
 				? $('<canvas>')
 					.css({
@@ -154,7 +154,7 @@ typeof jQuery != 'undefined'
 					.click($.proxy(this, "_click"))
 				: null;
 			//TODO Add no canvas support
-			this.element.hide().after(this._$canvas);
+			this.element.after(this._$canvas).detach();
 			this.refresh();
 		},
 		
@@ -326,8 +326,7 @@ typeof jQuery != 'undefined'
 			var padv = pady * dv;
 
 			ctx.drawImage(this._image[0], u1 * iw, v1 * ih,
-					Math.min(u4 - u1 + padu, 1) * iw, Math.min(v4 - v1 + padv, 1)
-							* ih, dx, dy, 1 + padx, 1 + pady);
+				Math.min(u4 - u1 + padu, 1) * iw, Math.min(v4 - v1 + padv, 1) * ih, dx, dy, 1 + padx, 1 + pady);
 			ctx.restore();
 		},
 
