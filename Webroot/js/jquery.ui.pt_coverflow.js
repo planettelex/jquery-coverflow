@@ -24,7 +24,7 @@ typeof jQuery.ui != 'undefined' &&
 			this.options.height = this.options.height || this.element.height();
 
 			this._$images = this.element.find("img");
-			this._$images.each ($.proxy(this, "_createCover"));
+			this._$images.each($.proxy(this, "_createCover"));
 		},
 		
 		_setOption : function (key, value) {

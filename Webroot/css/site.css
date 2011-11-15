@@ -14,7 +14,3 @@ div.wrapper {
     overflow: hidden;
     background-color: Black;
 }
-
-.coverflow canvas {
-	position: absolute;
-}

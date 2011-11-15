@@ -37,7 +37,22 @@ typeof jQuery != 'undefined'
 
 		_create: function() {
 			this._oldOptions = $.extend(true, {}, this.options);
-			this.element.load($.proxy(this, "_load"));
+			
+			// IE doesn't always invoke the load event properly!
+			if ( this.element[0].nodeType === 1 && this.element[0].tagName.toLowerCase() === 'img' && this.element[0].src !== '' ) {
+				// Image is already complete, fire the _load method (fixes browser issues where cached
+				// images aren't triggering the load event)
+				if ( this.element[0].complete || this.element[0].readyState === 4 ) {
+					this._load();
+				}
+				// Check if data URI images is supported, fire 'error' event if not
+				else if ( this.readyState === 'uninitialized' && this.src.indexOf('data:') === 0 ) {
+					this.element.trigger('error');
+				}
+				else {
+					this.element.load($.proxy(this, "_load"));
+				}
+			}
 		},
 
 		_setOption: function(key, value) {
@@ -105,6 +120,7 @@ typeof jQuery != 'undefined'
 				.animate({
 					left: this.options.canvas.left
 				}, {
+					queue: false,
 					duration: this.options.animation.slide.duration,
 					easing: this.options.animation.slide.easing
 				})
@@ -149,12 +165,13 @@ typeof jQuery != 'undefined'
 						top: this.options.canvas.top,
 						left: this.options.canvas.left,
 						zIndex: this.options.canvas.zIndex,
-						textIndent: this.options.angle
+						textIndent: this.options.angle,
+						position: "absolute"
 					})
 					.click($.proxy(this, "_click"))
 				: null;
 			//TODO Add no canvas support
-			this.element.after(this._$canvas).detach();
+			this.element.css({ top: -1000, left: -1000, position: "absolute" }).after(this._$canvas);
 			this.refresh();
 		},
 		
@@ -195,7 +212,7 @@ typeof jQuery != 'undefined'
 			ctx.clearRect(minX, minY, width, height);
 			ctx.strokeStyle = "rgb(220,0,100)";
 
-			transform = this._getProjectiveTransform(points);
+			transform = Matrix.getProjectiveTransform(points);
 
 			// Begin subdivision process.
 			var ptl = transform.transformProjectiveVector([ 0, 0, 1 ]);
@@ -328,33 +345,112 @@ typeof jQuery != 'undefined'
 			ctx.drawImage(this._image[0], u1 * iw, v1 * ih,
 				Math.min(u4 - u1 + padu, 1) * iw, Math.min(v4 - v1 + padv, 1) * ih, dx, dy, 1 + padx, 1 + pady);
 			ctx.restore();
-		},
-
-		/**
-		 * Calculate a projective transform that maps [0,1]x[0,1] onto the given set of points.
-		 */
-		_getProjectiveTransform: function (points) {
-			var eqMatrix = new Matrix(9, 8,
-				[
-					[ 1, 1, 1, 0, 0, 0, -points[3][0], -points[3][0],
-							-points[3][0] ],
-					[ 0, 1, 1, 0, 0, 0, 0, -points[2][0], -points[2][0] ],
-					[ 1, 0, 1, 0, 0, 0, -points[1][0], 0, -points[1][0] ],
-					[ 0, 0, 1, 0, 0, 0, 0, 0, -points[0][0] ],
-
-					[ 0, 0, 0, -1, -1, -1, points[3][1], points[3][1],
-							points[3][1] ],
-					[ 0, 0, 0, 0, -1, -1, 0, points[2][1], points[2][1] ],
-					[ 0, 0, 0, -1, 0, -1, points[1][1], 0, points[1][1] ],
-					[ 0, 0, 0, 0, 0, -1, 0, 0, points[0][1] ]
-				]);
-
-			var kernel = eqMatrix.rowEchelon().values;
-			var transform = new Matrix(3, 3, [
-				[ -kernel[0][8], -kernel[1][8], -kernel[2][8] ],
-				[ -kernel[3][8], -kernel[4][8], -kernel[5][8] ],
-				[ -kernel[6][8], -kernel[7][8], 1 ] ]);
-			return transform;
 		}
 	});
+	
+	// Begin Matrix
+	var Matrix = function(values) {
+		this.w = !values[0] ? 0 : values[0].length;
+		this.h = values.length;
+		this.values = values;
+	};
+	
+	/**
+	 * Calculate a projective transform that maps [0,1]x[0,1] onto the given set of points.
+	 */
+	Matrix.getProjectiveTransform = function (points) {
+		var eqMatrix = new Matrix(
+			[
+				[ 1, 1, 1, 0, 0, 0,		-points[3][0],	-points[3][0],	-points[3][0] ],
+				[ 0, 1, 1, 0, 0, 0, 	0,				-points[2][0],	-points[2][0] ],
+				[ 1, 0, 1, 0, 0, 0,		-points[1][0],	0,				-points[1][0] ],
+				[ 0, 0, 1, 0, 0, 0,		0, 				0, 				-points[0][0] ],
+				[ 0, 0, 0, -1, -1, -1,	points[3][1],	points[3][1],	points[3][1] ],
+				[ 0, 0, 0, 0, -1, -1,	0,				points[2][1],	points[2][1] ],
+				[ 0, 0, 0, -1, 0, -1,	points[1][1],	0,				points[1][1] ],
+				[ 0, 0, 0, 0, 0, -1, 	0, 				0,				points[0][1] ]
+			]);
+
+		var kernel = eqMatrix.rowEchelon().values;
+		var transform = new Matrix([
+			[ -kernel[0][8], -kernel[1][8], -kernel[2][8] ],
+			[ -kernel[3][8], -kernel[4][8], -kernel[5][8] ],
+			[ -kernel[6][8], -kernel[7][8], 1 ]
+		]);
+		return transform;
+	};
+	
+	Matrix.cloneValues = function(values) {
+		clone = [];
+		for ( var i = 0; i < values.length; ++i) {
+			clone[i] = [].concat(values[i]);
+		}
+		return clone;
+	};
+	
+	Matrix.prototype.transformProjectiveVector = function(operand) {
+		var out = [];
+		for ( var y = 0; y < this.h; ++y) {
+			out[y] = 0;
+			for ( var x = 0; x < this.w; ++x) {
+				out[y] += this.values[y][x] * operand[x];
+			}
+		}
+		var iz = 1 / (out[out.length - 1]);
+		for ( var y = 0; y < this.h; ++y) {
+			out[y] *= iz;
+		}
+		return out;
+	};
+	
+	Matrix.prototype.rowEchelon = function() {
+		if (this.w <= this.h) {
+			throw "Matrix rowEchelon size mismatch";
+		}
+	
+		var temp = Matrix.cloneValues(this.values);
+	
+		// Do Gauss-Jordan algorithm.
+		for ( var yp = 0; yp < this.h; ++yp) {
+			// Look up pivot value.
+			var pivot = temp[yp][yp];
+			while (pivot == 0) {
+				// If pivot is zero, find non-zero pivot below.
+				for ( var ys = yp + 1; ys < this.h; ++ys) {
+					if (temp[ys][yp] != 0) {
+						// Swap rows.
+						var tmpRow = temp[ys];
+						temp[ys] = temp[yp];
+						temp[yp] = tmpRow;
+						break;
+					}
+				}
+				if (ys == this.h) {
+					// No suitable pivot found. Abort.
+					return new Matrix(temp);
+				}
+				else {
+					pivot = temp[yp][yp];
+				}
+			}
+	
+			// Normalize this row.
+			var scale = 1 / pivot;
+			for ( var x = yp; x < this.w; ++x) {
+				temp[yp][x] *= scale;
+			}
+			// Subtract this row from all other rows (scaled).
+			for ( var y = 0; y < this.h; ++y) {
+				if (y == yp)
+					continue;
+				var factor = temp[y][yp];
+				temp[y][yp] = 0;
+				for ( var x = yp + 1; x < this.w; ++x) {
+					temp[y][x] -= factor * temp[yp][x];
+				}
+			}
+		}
+	
+		return new Matrix(temp);
+	};
 })(jQuery);
