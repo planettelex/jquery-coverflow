@@ -18,7 +18,12 @@ typeof jQuery.ui != 'undefined' &&
 					outer: 80	// percentage
 				},
 				backgroundScale: 10, // percentage
-				angle : 10
+				angle : 10,
+				animation: {
+					perspective: {
+						inner: 120	// percentage
+					}
+				}
 			}
 		},
 
@@ -107,7 +112,7 @@ typeof jQuery.ui != 'undefined' &&
 			
 			var perspectiveDuration = 120;
 			if (Math.abs(this._currentIndex - selectedIndex) == 1) {
-				perspectiveDuration += perspectiveDuration * (1.2);
+				perspectiveDuration += perspectiveDuration * (this.options.cover.animation.perspective.inner / 100);
 			}
 
 			var coverWidth = this.options.cover.width - (scale * this.options.cover.width);
