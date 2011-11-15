@@ -21,7 +21,8 @@ typeof jQuery.ui != 'undefined' &&
 				angle : 10,
 				animation: {
 					perspective: {
-						inner: 120	// percentage
+						duration: 80,	// milliseconds
+						inner: 120		// percentage of duration
 					}
 				}
 			}
@@ -110,7 +111,7 @@ typeof jQuery.ui != 'undefined' &&
 				scale = (this.options.cover.backgroundScale / 100);
 			}
 			
-			var perspectiveDuration = 120;
+			var perspectiveDuration = this.options.cover.animation.perspective.duration;
 			if (Math.abs(this._currentIndex - selectedIndex) == 1) {
 				perspectiveDuration += perspectiveDuration * (this.options.cover.animation.perspective.inner / 100);
 			}
