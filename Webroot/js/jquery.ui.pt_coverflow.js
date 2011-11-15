@@ -6,15 +6,18 @@ typeof jQuery.ui != 'undefined' &&
 
 		widgetEventPrefix : 'pt.coverflow',
 
-		options : {
-			width : null,
-			height : null,
-			offsetSizeDiff : 20,
-			selectedIndex : 1,
-			cover : {
-				width : 300,
-				height : 300,
-				overlap : 50,
+		options: {
+			width: null,
+			height: null,
+			selectedIndex: 1,
+			cover: {
+				width: 300,
+				height: 300,
+				overlap: {
+					inner: 20,	// percentage
+					outer: 80	// percentage
+				},
+				backgroundScale: 10, // percentage
 				angle : 10
 			}
 		},
@@ -31,6 +34,7 @@ typeof jQuery.ui != 'undefined' &&
 			switch (key) {
 				case "selectedIndex":
 					this._gotoCover(value);
+					this._currentIndex = value;
 					break;
 			}
 
@@ -44,8 +48,10 @@ typeof jQuery.ui != 'undefined' &&
 		/* End Widget Overrides */
 
 		_$images: [],
+		_currentIndex: 0,
 
 		_createCover: function(index, image) {
+			this._currentIndex = this.options.selectedIndex;
 			var options = this._coverConfig(this.options.selectedIndex, index, {
 				click: $.proxy(this, "_clickCover")
 			});
@@ -83,30 +89,48 @@ typeof jQuery.ui != 'undefined' &&
 			options = options || {};
 			var centerOffset = 0;
 			var perspective = "center";
-			var offsetSizeDiff = 0;
+			var scale = 0;
 
 			if (index < selectedIndex) {
 				centerOffset = (selectedIndex - index) * -1;
 				perspective = "left";
-				offsetSizeDiff = this.options.offsetSizeDiff;
 			}
 			else if (index > selectedIndex) {
 				centerOffset = index - selectedIndex;
 				perspective = "right";
-				offsetSizeDiff = this.options.offsetSizeDiff;
+				
+			}
+			
+			if (index != selectedIndex) {
+				scale = (this.options.cover.backgroundScale / 100);
+			}
+			
+			var perspectiveDuration = 120;
+			if (Math.abs(this._currentIndex - selectedIndex) == 1) {
+				perspectiveDuration += perspectiveDuration * (1.2);
 			}
 
-			var coverWidth = this.options.cover.width - offsetSizeDiff;
-			var coverHeight = this.options.cover.height - offsetSizeDiff;
+			var coverWidth = this.options.cover.width - (scale * this.options.cover.width);
+			var coverHeight = this.options.cover.height - (scale * this.options.cover.height);
 
 			var coverOptions = $.extend(true, {}, this.options.cover, options, {
-				perspective : perspective,
-				width : coverWidth,
-				height : coverHeight,
-				canvas : {
-					left : this._coverLeft(centerOffset, coverWidth),
-					top : this._coverTop(centerOffset, coverHeight),
-					zIndex : this._$images.length - Math.abs(centerOffset)
+				perspective: perspective,
+				width: coverWidth,
+				height: coverHeight,
+				canvas: {
+					left: this._coverLeft(centerOffset, coverWidth),
+					top: this._coverTop(centerOffset, coverHeight, scale),
+					zIndex: this._$images.length - Math.abs(centerOffset)
+				},
+				animation: {
+					slide: {
+						duration: 900,
+						easing: "easeOutCirc"
+					},
+					perspective: {
+						duration: perspectiveDuration,
+						easing: "jswing" 
+					}
 				}
 			});
 
@@ -115,20 +139,31 @@ typeof jQuery.ui != 'undefined' &&
 		
 		_coverLeft: function(centerOffset, coverWidth) {
 			var left = (this.options.width / 2) - (coverWidth / 2) + (coverWidth * centerOffset);
+			var overlap;
+			if (Math.abs(centerOffset) > 1) { // outer
+				overlap = (this.options.cover.overlap.outer / 100) * coverWidth;
+				overlap *= Math.abs(centerOffset) - 1;
+				overlap += (this.options.cover.overlap.inner / 100) * coverWidth;
+			}
+			else { // inner
+				overlap = (this.options.cover.overlap.inner / 100) * coverWidth;
+				overlap *= Math.abs(centerOffset);
+			}
+			
 			if (centerOffset < 0) {
-				left += this.options.cover.overlap;
+				left += overlap;
 			}
 			else if (centerOffset > 0) {
-				left -= this.options.cover.overlap;
+				left -= overlap;
 			}
 
 			return left;
 		},
 		
-		_coverTop: function (centerOffset, coverHeight) {
+		_coverTop: function (centerOffset, coverHeight, scalePercentage) {
 			var top = 0;
 			if (centerOffset != 0) {
-				top = (this.options.height / 2) - (coverHeight / 2);
+				top += coverHeight * (scalePercentage / 2);
 			}
 			return top;
 		}

@@ -29,7 +29,7 @@ typeof jQuery != 'undefined'
 					easing: "easeOutCirc"
 				},
 				perspective: {
-					duration: 250,
+					duration: 120,
 					easing: "jswing" 
 				}
 			}
