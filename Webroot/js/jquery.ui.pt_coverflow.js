@@ -199,7 +199,7 @@ typeof jQuery.ui != 'undefined' &&
 		///	</param>
 		///	<returns type="Function" />
 
-		var context, args = Array.prototype.slice.call(arguments, 2);
+		var context = null, args = Array.prototype.slice.call(arguments, 2);
 
 		if (arguments.length >= 2) {
 

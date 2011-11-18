@@ -21,8 +21,9 @@ typeof jQuery != 'undefined'
 			height: 300,
 			angle: 0,
 			perspective: "center", // (left|center|right)
-			subdivisionLimit : 5,
-			patchSize : 64,
+			subdivisionLimit: 3,
+			patchSize: 70,
+			addReflection: false,
 			animation: {
 				slide: {
 					duration: 900,
@@ -66,41 +67,44 @@ typeof jQuery != 'undefined'
 		/* End Widget Overrides */
 
 		_$canvas: null,
-		_image: null,
 		_oldOptions: null,
+		_srcCanvas: null,
+		_drawing: null,
 
 		supportsCanvas: (function() {
 			var elem = document.createElement('canvas');
 			return !!(elem.getContext && elem.getContext('2d'));
 		})(),
 		
-				
 		left: function() {
+			var height = this._height();
 			var points = [ 
 				[ 0, 0 ], // top left
 				[ this.options.width, this._skewLength() ], // top right
-				[ 0, this.options.height ], // bottom left
-				[ this.options.width, this.options.height - this._skewLength() ]  // bottom right
+				[ 0, height ], // bottom left
+				[ this.options.width, height - this._skewLength() ]  // bottom right
 			];
 			this._draw(points);
 		},
 		
 		center: function() {
+			var height = this._height();
 			var points = [ 
 				[ 0, 0 ], // top left
 				[ this.options.width, 0 ], // top right
-				[ 0, this.options.height ], // bottom left
-				[ this.options.width, this.options.height ]  // bottom right
+				[ 0, height ], // bottom left
+				[ this.options.width, height ]  // bottom right
 			];
 			this._draw(points);
 		},
 		
 		right: function() {
+			var height = this._height();
 			var points = [ 
 				[ 0, this._skewLength() ], // top left
 				[ this.options.width, 0 ], // top right
-				[ 0, this.options.height - this._skewLength() ], // bottom left
-				[ this.options.width, this.options.height ]  // bottom right
+				[ 0, height - this._skewLength() ], // bottom left
+				[ this.options.width, height ]  // bottom right
 			];
 			this._draw(points);
 		},
@@ -109,6 +113,7 @@ typeof jQuery != 'undefined'
 			animate = animate || false;
 			
 			if (!animate) {
+				this._oldOptions = $.extend(true, {}, this.options);
 				this[this.options.perspective]();
 			}
 			else {
@@ -153,15 +158,29 @@ typeof jQuery != 'undefined'
 			this[this.options.perspective]();
 		},
 		
+		_height: function () {
+			var height = this.options.height;
+			if (this.options.addReflection) {
+				height *= 2;
+			}
+			return height;
+		},
+		
 		_skewLength: function() {
 			return Math.tan(Math.degreesToRadians(this.options.angle)) * this.options.width;
 		},
 		
 		_load: function() {
-			this._image = this.element;
-			this._$canvas = this.supportsCanvas
-				? $('<canvas>')
+			this._$canvas = null;
+			
+			if (this.supportsCanvas) {
+				this._$canvas = $("<canvas>")
+					.attr({
+						width: this.options.width,
+						height: this.options.height
+					})
 					.css({
+						background: "black",
 						top: this.options.canvas.top,
 						left: this.options.canvas.left,
 						zIndex: this.options.canvas.zIndex,
@@ -169,184 +188,244 @@ typeof jQuery != 'undefined'
 						position: "absolute"
 					})
 					.click($.proxy(this, "_click"))
-				: null;
+			}
+
 			//TODO Add no canvas support
 			this.element.css({ top: -1000, left: -1000, position: "absolute" }).after(this._$canvas);
+			
+			this._drawing = new pt.drawing(this._$canvas[0], this.options);
+			this._drawing.importImage(this.element[0]);
+			
+			if (this.options.addReflection) {
+				this._drawing.addReflection();
+			}
+			this._srcCanvas = this._drawing.cloneCanvas();
+			
 			this.refresh();
 		},
 		
 		_click: function(e) {
 			this._trigger("click", e, { image: this.element }); 
 		},
-
-		_draw: function(points) {
-			// Get extents.
-			var minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
-			$.each(points, function() {
-				minX = Math.min(minX, Math.floor(this[0]));
-				maxX = Math.max(maxX, Math.ceil(this[0]));
-				minY = Math.min(minY, Math.floor(this[1]));
-				maxY = Math.max(maxY, Math.ceil(this[1]));
-			});
-
-			minX--;
-			minY--;
-			maxX++;
-			maxY++;
-			var width = maxX - minX;
-			var height = maxY - minY;
-
-			// Reshape canvas.
-			var canvas = this._$canvas[0];
-			canvas.width = width;
-			canvas.height = height;
-
-			// Measure texture.
-			var image = this._image[0];
-			iw = image.width;
-			ih = image.height;
-
-			// Set up basic drawing context.
-			ctx = canvas.getContext("2d");
-			ctx.translate(-minX, -minY);
-			ctx.clearRect(minX, minY, width, height);
-			ctx.strokeStyle = "rgb(220,0,100)";
-
-			transform = Matrix.getProjectiveTransform(points);
-
-			// Begin subdivision process.
-			var ptl = transform.transformProjectiveVector([ 0, 0, 1 ]);
-			var ptr = transform.transformProjectiveVector([ 1, 0, 1 ]);
-			var pbl = transform.transformProjectiveVector([ 0, 1, 1 ]);
-			var pbr = transform.transformProjectiveVector([ 1, 1, 1 ]);
-
-			ctx.beginPath();
-			ctx.moveTo(ptl[0], ptl[1]);
-			ctx.lineTo(ptr[0], ptr[1]);
-			ctx.lineTo(pbr[0], pbr[1]);
-			ctx.lineTo(pbl[0], pbl[1]);
-			ctx.closePath();
-			ctx.clip();
-
-			this._divide(0, 0, 1, 1, ptl, ptr, pbl, pbr, this.options.subdivisionLimit);
-		},
 		
-		_divide: function(u1, v1, u4, v4, p1, p2, p3, p4, limit) {
-			// See if we can still divide.
-			if (limit) {
-				// Measure patch non-affinity.
-				var d1 = [ p2[0] + p3[0] - 2 * p1[0], p2[1] + p3[1] - 2 * p1[1] ];
-				var d2 = [ p2[0] + p3[0] - 2 * p4[0], p2[1] + p3[1] - 2 * p4[1] ];
-				var d3 = [ d1[0] + d2[0], d1[1] + d2[1] ];
-				var r = Math.abs((d3[0] * d3[0] + d3[1] * d3[1]) / (d1[0] * d2[0] + d1[1] * d2[1]));
-
-				// Measure patch area.
-				d1 = [ p2[0] - p1[0] + p4[0] - p3[0], p2[1] - p1[1] + p4[1] - p3[1] ];
-				d2 = [ p3[0] - p1[0] + p4[0] - p2[0], p3[1] - p1[1] + p4[1] - p2[1] ];
-				var area = Math.abs(d1[0] * d2[1] - d1[1] * d2[0]);
-
-				// Check area > patchSize pixels (note factor 4 due to not averaging
-				// d1 and d2)
-				// The non-affinity measure is used as a correction factor.
-				if ((u1 == 0 && u4 == 1) || ((.25 + r * 5) * area > (this.options.patchSize * this.options.patchSize))) {
-					// Calculate subdivision points (middle, top, bottom, left,
-					// right).
-					var umid = (u1 + u4) / 2;
-					var vmid = (v1 + v4) / 2;
-					var pmid = transform.transformProjectiveVector([ umid, vmid, 1 ]);
-					var pt = transform.transformProjectiveVector([ umid, v1, 1 ]);
-					var pb = transform.transformProjectiveVector([ umid, v4, 1 ]);
-					var pl = transform.transformProjectiveVector([ u1, vmid, 1 ]);
-					var pr = transform.transformProjectiveVector([ u4, vmid, 1 ]);
-
-					// Subdivide.
-					limit--;
-					this._divide(u1, v1, umid, vmid, p1, pt, pl, pmid, limit);
-					this._divide(umid, v1, u4, vmid, pt, p2, pmid, pr, limit);
-					this._divide(u1, vmid, umid, v4, pl, pmid, p3, pb, limit);
-					this._divide(umid, vmid, u4, v4, pmid, pr, pb, p4, limit);
-
-					return;
-				}
-			}
-
-			// Render this patch.
-			ctx.save();
-
-			// Set clipping path.
-			ctx.beginPath();
-			ctx.moveTo(p1[0], p1[1]);
-			ctx.lineTo(p2[0], p2[1]);
-			ctx.lineTo(p4[0], p4[1]);
-			ctx.lineTo(p3[0], p3[1]);
-			ctx.closePath();
-			// ctx.clip();
-
-			// Get patch edge vectors.
-			var d12 = [ p2[0] - p1[0], p2[1] - p1[1] ];
-			var d24 = [ p4[0] - p2[0], p4[1] - p2[1] ];
-			var d43 = [ p3[0] - p4[0], p3[1] - p4[1] ];
-			var d31 = [ p1[0] - p3[0], p1[1] - p3[1] ];
-
-			// Find the corner that encloses the most area
-			var a1 = Math.abs(d12[0] * d31[1] - d12[1] * d31[0]);
-			var a2 = Math.abs(d24[0] * d12[1] - d24[1] * d12[0]);
-			var a4 = Math.abs(d43[0] * d24[1] - d43[1] * d24[0]);
-			var a3 = Math.abs(d31[0] * d43[1] - d31[1] * d43[0]);
-			var amax = Math.max(Math.max(a1, a2), Math.max(a3, a4));
-			var dx = 0, dy = 0, padx = 0, pady = 0;
-
-			// Align the transform along this corner.
-			switch (amax) {
-			case a1:
-				ctx.transform(d12[0], d12[1], -d31[0], -d31[1], p1[0], p1[1]);
-				// Calculate 1.05 pixel padding on vector basis.
-				if (u4 != 1)
-					padx = 1.05 / Math.sqrt(d12[0] * d12[0] + d12[1] * d12[1]);
-				if (v4 != 1)
-					pady = 1.05 / Math.sqrt(d31[0] * d31[0] + d31[1] * d31[1]);
-				break;
-			case a2:
-				ctx.transform(d12[0], d12[1], d24[0], d24[1], p2[0], p2[1]);
-				// Calculate 1.05 pixel padding on vector basis.
-				if (u4 != 1)
-					padx = 1.05 / Math.sqrt(d12[0] * d12[0] + d12[1] * d12[1]);
-				if (v4 != 1)
-					pady = 1.05 / Math.sqrt(d24[0] * d24[0] + d24[1] * d24[1]);
-				dx = -1;
-				break;
-			case a4:
-				ctx.transform(-d43[0], -d43[1], d24[0], d24[1], p4[0], p4[1]);
-				// Calculate 1.05 pixel padding on vector basis.
-				if (u4 != 1)
-					padx = 1.05 / Math.sqrt(d43[0] * d43[0] + d43[1] * d43[1]);
-				if (v4 != 1)
-					pady = 1.05 / Math.sqrt(d24[0] * d24[0] + d24[1] * d24[1]);
-				dx = -1;
-				dy = -1;
-				break;
-			case a3:
-				// Calculate 1.05 pixel padding on vector basis.
-				ctx.transform(-d43[0], -d43[1], -d31[0], -d31[1], p3[0], p3[1]);
-				if (u4 != 1)
-					padx = 1.05 / Math.sqrt(d43[0] * d43[0] + d43[1] * d43[1]);
-				if (v4 != 1)
-					pady = 1.05 / Math.sqrt(d31[0] * d31[0] + d31[1] * d31[1]);
-				dy = -1;
-				break;
-			}
-
-			// Calculate image padding to match.
-			var du = (u4 - u1);
-			var dv = (v4 - v1);
-			var padu = padx * du;
-			var padv = pady * dv;
-
-			ctx.drawImage(this._image[0], u1 * iw, v1 * ih,
-				Math.min(u4 - u1 + padu, 1) * iw, Math.min(v4 - v1 + padv, 1) * ih, dx, dy, 1 + padx, 1 + pady);
-			ctx.restore();
+		_draw: function(points) {
+			this._drawing.perspective(points, this._srcCanvas);
 		}
 	});
+	
+	var pt = pt || {};
+	
+	pt.drawing = function(canvas, options) {
+		this.canvas = canvas;
+		this.ctx = this.canvas.getContext("2d");
+		this.options = options;
+	};
+	
+	pt.drawing.prototype.cloneCanvas = function() {
+		var imageData = this.ctx.getImageData(0, 0, this.canvas.width, this.canvas.height);
+		var cloneCanvas = document.createElement("canvas");
+		cloneCanvas.width = this.canvas.width;
+		cloneCanvas.height = this.canvas.height;
+		var cloneCtx = cloneCanvas.getContext("2d");
+		cloneCtx.putImageData(imageData, 0, 0);
+		
+		return cloneCanvas;
+	};
+	
+	pt.drawing.prototype.importImage = function (img) {
+		this.ctx.drawImage(img, 0, 0, this.canvas.width, this.canvas.height);
+	};
+	
+	pt.drawing.prototype.perspective = function(points, srcImage) {
+		this.image = srcImage;// || this.cloneCanvas();
+		
+		// Get extents.
+		var minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+		$.each(points, function() {
+			minX = Math.min(minX, Math.floor(this[0]));
+			maxX = Math.max(maxX, Math.ceil(this[0]));
+			minY = Math.min(minY, Math.floor(this[1]));
+			maxY = Math.max(maxY, Math.ceil(this[1]));
+		});
+
+		var width = maxX - minX;
+		var height = maxY - minY;
+
+		// Reshape canvas.
+		this.canvas.width = width;
+		this.canvas.height = height;
+
+		// Measure texture.
+		iw = this.image.width;
+		ih = this.image.height;
+
+		// Set up basic drawing context.
+		this.ctx.translate(-minX, -minY);
+		this.ctx.clearRect(minX, minY, width, height);
+		this.ctx.strokeStyle = "rgb(220,0,100)";
+
+		transform = Matrix.getProjectiveTransform(points);
+
+		// Begin subdivision process.
+		var ptl = transform.transformProjectiveVector([ 0, 0, 1 ]);
+		var ptr = transform.transformProjectiveVector([ 1, 0, 1 ]);
+		var pbl = transform.transformProjectiveVector([ 0, 1, 1 ]);
+		var pbr = transform.transformProjectiveVector([ 1, 1, 1 ]);
+
+		this.ctx.beginPath();
+		this.ctx.moveTo(ptl[0], ptl[1]);
+		this.ctx.lineTo(ptr[0], ptr[1]);
+		this.ctx.lineTo(pbr[0], pbr[1]);
+		this.ctx.lineTo(pbl[0], pbl[1]);
+		this.ctx.closePath();
+		this.ctx.clip();
+
+		this.divide(0, 0, 1, 1, ptl, ptr, pbl, pbr, this.options.subdivisionLimit);
+	};
+	
+	pt.drawing.prototype.addReflection = function() {
+		var reflectionHeight = this.canvas.height;
+		var opacity = 0.5;
+		
+		// Set up the canvas clone to use as a source for the mirror image.
+		var cloneCanvas = this.cloneCanvas();
+		var cloneCtx = cloneCanvas.getContext("2d");
+		
+		// Add original image to extended canvas
+		this.canvas.height += reflectionHeight;
+		this.ctx.drawImage(cloneCanvas, 0, 0);
+		this.ctx.save();
+		
+		// Add the reflection gradient to the mirror image
+		cloneCtx.globalCompositeOperation = "destination-out";
+		var gradient = this.ctx.createLinearGradient(0, 0, 0, this.canvas.height);
+		gradient.addColorStop(1, "rgba(255, 255, 255, " + (1 - opacity) + ")");
+		gradient.addColorStop(0, "rgba(255, 255, 255, 1.0)");
+		cloneCtx.fillStyle = gradient;
+		cloneCtx.rect(0, 0, this.canvas.width, this.canvas.height);
+		cloneCtx.fill();
+		
+		// Add mirror image below original image
+		this.ctx.translate(0, this.canvas.height);
+		this.ctx.scale(1, -1);
+		this.ctx.drawImage(cloneCanvas, 0, 0);
+		this.ctx.restore();
+	};
+	
+	pt.drawing.prototype.divide = function(u1, v1, u4, v4, p1, p2, p3, p4, limit) {
+		// See if we can still divide.
+		if (limit) {
+			// Measure patch non-affinity.
+			var d1 = [ p2[0] + p3[0] - 2 * p1[0], p2[1] + p3[1] - 2 * p1[1] ];
+			var d2 = [ p2[0] + p3[0] - 2 * p4[0], p2[1] + p3[1] - 2 * p4[1] ];
+			var d3 = [ d1[0] + d2[0], d1[1] + d2[1] ];
+			var r = Math.abs((d3[0] * d3[0] + d3[1] * d3[1]) / (d1[0] * d2[0] + d1[1] * d2[1]));
+
+			// Measure patch area.
+			d1 = [ p2[0] - p1[0] + p4[0] - p3[0], p2[1] - p1[1] + p4[1] - p3[1] ];
+			d2 = [ p3[0] - p1[0] + p4[0] - p2[0], p3[1] - p1[1] + p4[1] - p2[1] ];
+			var area = Math.abs(d1[0] * d2[1] - d1[1] * d2[0]);
+
+			// Check area > patchSize pixels (note factor 4 due to not averaging
+			// d1 and d2)
+			// The non-affinity measure is used as a correction factor.
+			if ((u1 == 0 && u4 == 1) || ((.25 + r * 5) * area > (this.options.patchSize * this.options.patchSize))) {
+				// Calculate subdivision points (middle, top, bottom, left,
+				// right).
+				var umid = (u1 + u4) / 2;
+				var vmid = (v1 + v4) / 2;
+				var pmid = transform.transformProjectiveVector([ umid, vmid, 1 ]);
+				var pt = transform.transformProjectiveVector([ umid, v1, 1 ]);
+				var pb = transform.transformProjectiveVector([ umid, v4, 1 ]);
+				var pl = transform.transformProjectiveVector([ u1, vmid, 1 ]);
+				var pr = transform.transformProjectiveVector([ u4, vmid, 1 ]);
+
+				// Subdivide.
+				limit--;
+				this.divide(u1, v1, umid, vmid, p1, pt, pl, pmid, limit);
+				this.divide(umid, v1, u4, vmid, pt, p2, pmid, pr, limit);
+				this.divide(u1, vmid, umid, v4, pl, pmid, p3, pb, limit);
+				this.divide(umid, vmid, u4, v4, pmid, pr, pb, p4, limit);
+
+				return;
+			}
+		}
+
+		// Render this patch.
+		this.ctx.save();
+
+		// Set clipping path.
+		this.ctx.beginPath();
+		this.ctx.moveTo(p1[0], p1[1]);
+		this.ctx.lineTo(p2[0], p2[1]);
+		this.ctx.lineTo(p4[0], p4[1]);
+		this.ctx.lineTo(p3[0], p3[1]);
+		this.ctx.closePath();
+
+		// Get patch edge vectors.
+		var d12 = [ p2[0] - p1[0], p2[1] - p1[1] ];
+		var d24 = [ p4[0] - p2[0], p4[1] - p2[1] ];
+		var d43 = [ p3[0] - p4[0], p3[1] - p4[1] ];
+		var d31 = [ p1[0] - p3[0], p1[1] - p3[1] ];
+
+		// Find the corner that encloses the most area
+		var a1 = Math.abs(d12[0] * d31[1] - d12[1] * d31[0]);
+		var a2 = Math.abs(d24[0] * d12[1] - d24[1] * d12[0]);
+		var a4 = Math.abs(d43[0] * d24[1] - d43[1] * d24[0]);
+		var a3 = Math.abs(d31[0] * d43[1] - d31[1] * d43[0]);
+		var amax = Math.max(Math.max(a1, a2), Math.max(a3, a4));
+		var dx = 0, dy = 0, padx = 0, pady = 0;
+
+		// Align the transform along this corner.
+		switch (amax) {
+		case a1:
+			this.ctx.transform(d12[0], d12[1], -d31[0], -d31[1], p1[0], p1[1]);
+			// Calculate 1.05 pixel padding on vector basis.
+			if (u4 != 1)
+				padx = 1.05 / Math.sqrt(d12[0] * d12[0] + d12[1] * d12[1]);
+			if (v4 != 1)
+				pady = 1.05 / Math.sqrt(d31[0] * d31[0] + d31[1] * d31[1]);
+			break;
+		case a2:
+			this.ctx.transform(d12[0], d12[1], d24[0], d24[1], p2[0], p2[1]);
+			// Calculate 1.05 pixel padding on vector basis.
+			if (u4 != 1)
+				padx = 1.05 / Math.sqrt(d12[0] * d12[0] + d12[1] * d12[1]);
+			if (v4 != 1)
+				pady = 1.05 / Math.sqrt(d24[0] * d24[0] + d24[1] * d24[1]);
+			dx = -1;
+			break;
+		case a4:
+			this.ctx.transform(-d43[0], -d43[1], d24[0], d24[1], p4[0], p4[1]);
+			// Calculate 1.05 pixel padding on vector basis.
+			if (u4 != 1)
+				padx = 1.05 / Math.sqrt(d43[0] * d43[0] + d43[1] * d43[1]);
+			if (v4 != 1)
+				pady = 1.05 / Math.sqrt(d24[0] * d24[0] + d24[1] * d24[1]);
+			dx = -1;
+			dy = -1;
+			break;
+		case a3:
+			// Calculate 1.05 pixel padding on vector basis.
+			this.ctx.transform(-d43[0], -d43[1], -d31[0], -d31[1], p3[0], p3[1]);
+			if (u4 != 1)
+				padx = 1.05 / Math.sqrt(d43[0] * d43[0] + d43[1] * d43[1]);
+			if (v4 != 1)
+				pady = 1.05 / Math.sqrt(d31[0] * d31[0] + d31[1] * d31[1]);
+			dy = -1;
+			break;
+		}
+
+		// Calculate image padding to match.
+		var du = (u4 - u1);
+		var dv = (v4 - v1);
+		var padu = padx * du;
+		var padv = pady * dv;
+
+		this.ctx.drawImage(this.image, u1 * iw, v1 * ih,
+			Math.min(u4 - u1 + padu, 1) * iw, Math.min(v4 - v1 + padv, 1) * ih, dx, dy, 1 + padx, 1 + pady);
+		this.ctx.restore();
+	};
 	
 	// Begin Matrix
 	var Matrix = function(values) {
