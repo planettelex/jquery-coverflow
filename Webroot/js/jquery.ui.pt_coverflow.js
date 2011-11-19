@@ -25,14 +25,29 @@ typeof jQuery.ui != 'undefined' &&
 						inner: 120		// percentage of duration
 					}
 				}
-			}
+			},
+			images: [] // one image = {src: "", title: "", subtitle: ""}
 		},
 
 		_create : function() {
 			this.options.width = this.options.width || this.element.width();
 			this.options.height = this.options.height || this.element.height();
 
-			this._$images = this.element.find("img");
+			if (this.options.images.length > 0) {
+				 for (var i in this.options.images) {
+				 	var image = this.options.images[i];
+				 	this.element.append(
+				 		$("<img>")
+				 			.attr({ src: image.src })
+				 			.data({
+				 				title: image.title,
+				 				subtitle: image.subtitle
+				 			})
+				 	);
+				 }
+			}
+			
+			this._$images = this.element.find("img");	
 			this._$images.each($.proxy(this, "_createCover"));
 		},
 		

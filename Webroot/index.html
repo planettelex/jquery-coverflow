@@ -16,6 +16,11 @@
 	<script type="text/javascript">
 		$(function () {
 			$("#coverflow").coverflow();
+			$("#coverflow-2").coverflow({ images: [ 
+				{ src: "images/muse-the-resistance.jpg", subtitle: "Muse", title: "The Resistance" },
+				{ src: "images/radiohead-the-king-of-limbs.jpg", subtitle: "Radiohead", title: "The King of Limbs" },
+				{ src: "images/gorillaz-plasticbeach.jpg", subtitle: "Gorillaz", title: "Plastic Beach" }
+			]});
 		});
 	</script>
 </head>
@@ -23,6 +28,7 @@
 <div class="pageWrapper">
 	<h1>Planet Telex Coverflow</h1>
 	<div class="demo">
+		<h2>Demo 1</h2>
 		<div class="wrapper">
 			<div id="coverflow" class="coverflow">
 				<img src="images/muse-the-resistance.jpg" alt="Muse, The Resistance" data-subtitle="Muse" data-title="The Resistance"/>
@@ -33,6 +39,12 @@
 				<img src="images/bonobo-blacksands.jpg" alt="Bonobo, Blacksands" data-subtitle="Bonobo" data-title="Blacksands" />
 				<img src="images/portugaltheman-inthemountaininthecloud.jpg" alt="Portugal the Man, In the mountain in the cloud" data-subtitle="Portugal the Man" data-title="In the Mountain in the Cloud" />
 			</div>
+		</div>
+	</div>
+	<div class="demo">
+		<h2>Demo 2</h2>
+		<div class="wrapper">
+			<div id="coverflow-2" class="coverflow"></div>
 		</div>
 	</div>
 </div>
