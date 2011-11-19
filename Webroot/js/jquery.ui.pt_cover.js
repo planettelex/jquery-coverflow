@@ -285,27 +285,27 @@ typeof jQuery != 'undefined'
 	
 	pt.drawing.prototype.addReflection = function() {
 		var reflectionHeight = this.canvas.height;
-		var opacity = 0.5;
+		var opacity = 0.5;  //TODO This could be an option.
 		
-		// Set up the canvas clone to use as a source for the mirror image.
+		// Set up the canvas clone to be used as a source for the mirror image.
 		var cloneCanvas = this.cloneCanvas();
 		var cloneCtx = cloneCanvas.getContext("2d");
 		
-		// Add original image to extended canvas
+		// Add original image to the taller canvas.
 		this.canvas.height += reflectionHeight;
 		this.ctx.drawImage(cloneCanvas, 0, 0);
 		this.ctx.save();
 		
-		// Add the reflection gradient to the mirror image
+		// Add the reflection gradient to the mirror image.
 		cloneCtx.globalCompositeOperation = "destination-out";
 		var gradient = this.ctx.createLinearGradient(0, 0, 0, this.canvas.height);
-		gradient.addColorStop(1, "rgba(255, 255, 255, " + (1 - opacity) + ")");
 		gradient.addColorStop(0, "rgba(255, 255, 255, 1.0)");
+		gradient.addColorStop(1, "rgba(255, 255, 255, " + (1 - opacity) + ")");
 		cloneCtx.fillStyle = gradient;
 		cloneCtx.rect(0, 0, this.canvas.width, this.canvas.height);
 		cloneCtx.fill();
 		
-		// Add mirror image below original image
+		// Add the mirror image below original image.
 		this.ctx.translate(0, this.canvas.height);
 		this.ctx.scale(1, -1);
 		this.ctx.drawImage(cloneCanvas, 0, 0);

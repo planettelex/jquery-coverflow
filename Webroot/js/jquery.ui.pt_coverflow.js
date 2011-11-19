@@ -11,6 +11,7 @@ typeof jQuery.ui != 'undefined' &&
 			height: null,
 			selectedIndex: 1,
 			cover: {
+				addReflection: false,
 				width: 300,
 				height: 300,
 				overlap: {
