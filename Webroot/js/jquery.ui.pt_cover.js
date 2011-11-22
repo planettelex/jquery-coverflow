@@ -262,7 +262,6 @@ typeof jQuery != 'undefined'
 		// Set up basic drawing context.
 		this.ctx.translate(-minX, -minY);
 		this.ctx.clearRect(minX, minY, width, height);
-		this.ctx.strokeStyle = "rgb(220,0,100)";
 
 		transform = Matrix.getProjectiveTransform(points);
 
