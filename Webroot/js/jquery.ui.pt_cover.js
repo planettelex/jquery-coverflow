@@ -187,7 +187,7 @@ typeof jQuery != 'undefined'
 						textIndent: this.options.angle,
 						position: "absolute"
 					})
-					.click($.proxy(this, "_click"))
+					.click($.proxy(this, "_click"));
 			}
 
 			//TODO Add no canvas support
@@ -197,7 +197,7 @@ typeof jQuery != 'undefined'
 			this._drawing.importImage(this.element[0]);
 			
 			if (this.options.addReflection) {
-				this._drawing.addReflection();
+				this._drawing.addMirror();
 			}
 			this._srcCanvas = this._drawing.cloneCanvas();
 			
@@ -218,7 +218,10 @@ typeof jQuery != 'undefined'
 	pt.drawing = function(canvas, options) {
 		this.canvas = canvas;
 		this.ctx = this.canvas.getContext("2d");
-		this.options = options;
+		this.options = $.extend({
+			subdivisionLimit: 3,
+			patchSize: 70,
+		}, options);
 	};
 	
 	pt.drawing.prototype.cloneCanvas = function() {
@@ -237,7 +240,7 @@ typeof jQuery != 'undefined'
 	};
 	
 	pt.drawing.prototype.perspective = function(points, srcImage) {
-		this.image = srcImage;// || this.cloneCanvas();
+		this.image = srcImage || this.cloneCanvas();
 		
 		// Get extents.
 		var minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
@@ -271,6 +274,7 @@ typeof jQuery != 'undefined'
 		var pbl = transform.transformProjectiveVector([ 0, 1, 1 ]);
 		var pbr = transform.transformProjectiveVector([ 1, 1, 1 ]);
 
+		/*
 		this.ctx.beginPath();
 		this.ctx.moveTo(ptl[0], ptl[1]);
 		this.ctx.lineTo(ptr[0], ptr[1]);
@@ -278,31 +282,59 @@ typeof jQuery != 'undefined'
 		this.ctx.lineTo(pbl[0], pbl[1]);
 		this.ctx.closePath();
 		this.ctx.clip();
+		*/
 
 		this.divide(0, 0, 1, 1, ptl, ptr, pbl, pbr, this.options.subdivisionLimit);
-	};
-	
-	pt.drawing.prototype.addReflection = function() {
-		var reflectionHeight = this.canvas.height;
-		var opacity = 0.5;  //TODO This could be an option.
 		
-		// Set up the canvas clone to be used as a source for the mirror image.
-		var cloneCanvas = this.cloneCanvas();
-		var cloneCtx = cloneCanvas.getContext("2d");
+		var startY = Math.floor(this.canvas.height / 2);
+
+		/*
+		var imageData = this.ctx.getImageData(0, 0, this.canvas.width, this.canvas.height);
+		//Top to bottom
+		for (var y = startY; y < imageData.height; y++) {
+		    //Left to right
+			for (var x = 0; x < imageData.width; x++) {
+				//Look for our individual pixel info (Times 4 due to RGBA)
+				var index = (y * 4) * imageData.width + (x * 4);
+				
+				var red = imageData.data[index];
+				var green = imageData.data[index+1];
+				var blue = imageData.data[index+2];
+				var alpha = imageData.data[index+3];
+				var average = (red+green+blue)/3;
+				
+				imageData.data[index] = red;
+				imageData.data[index+1] = green;
+				imageData.data[index+2] = blue;
+				imageData.data[index+3] = alpha / 2;
+			}
+		}
 		
-		// Add original image to the taller canvas.
-		this.canvas.height += reflectionHeight;
-		this.ctx.drawImage(cloneCanvas, 0, 0);
-		this.ctx.save();
+		this.ctx.putImageData(imageData, 0, 0);
+		*/
 		
 		// Add the reflection gradient to the mirror image.
-		cloneCtx.globalCompositeOperation = "destination-out";
-		var gradient = this.ctx.createLinearGradient(0, 0, 0, this.canvas.height);
-		gradient.addColorStop(0, "rgba(255, 255, 255, 1.0)");
-		gradient.addColorStop(1, "rgba(255, 255, 255, " + (1 - opacity) + ")");
-		cloneCtx.fillStyle = gradient;
-		cloneCtx.rect(0, 0, this.canvas.width, this.canvas.height);
-		cloneCtx.fill();
+		var opacity = .5;
+		this.ctx.save();
+		this.ctx.globalCompositeOperation = "destination-out";
+		var gradient = this.ctx.createLinearGradient(0, startY, 0, this.canvas.height);
+		gradient.addColorStop(0, "rgba(255, 255, 255, " + (1 - opacity) + ")");
+		gradient.addColorStop(0.8, "rgba(255, 255, 255, 1.0)");
+		gradient.addColorStop(1, "rgba(255, 255, 255, 1.0)");
+		this.ctx.fillStyle = gradient;
+		this.ctx.rect(0, startY, this.canvas.width, startY);
+		this.ctx.fill();
+		this.ctx.restore();
+	};
+	
+	pt.drawing.prototype.addMirror = function() {
+		// Set up the canvas clone to be used as a source for the mirror image.
+		var cloneCanvas = this.cloneCanvas();
+		
+		// Add original image to the taller canvas.
+		this.canvas.height *= 2;  // Make space for the mirror image
+		this.ctx.drawImage(cloneCanvas, 0, 0);
+		this.ctx.save();
 		
 		// Add the mirror image below original image.
 		this.ctx.translate(0, this.canvas.height);

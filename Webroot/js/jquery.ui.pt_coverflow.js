@@ -11,7 +11,7 @@ typeof jQuery.ui != 'undefined' &&
 			height: null,
 			selectedIndex: 1,
 			cover: {
-				addReflection: false,
+				addReflection: true,
 				width: 300,
 				height: 300,
 				overlap: {
@@ -19,7 +19,7 @@ typeof jQuery.ui != 'undefined' &&
 					outer: 80	// percentage
 				},
 				backgroundScale: 10, // percentage
-				angle : 10,
+				angle : 12,
 				animation: {
 					perspective: {
 						duration: 80,	// milliseconds
