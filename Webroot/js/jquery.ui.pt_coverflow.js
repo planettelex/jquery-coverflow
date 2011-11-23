@@ -11,21 +11,29 @@ typeof jQuery.ui != 'undefined' &&
 			height: null,
 			selectedIndex: 1,
 			cover: {
-				enablePerspective: true,
-				enableReflection: true,
+				perspective: {
+					enabled: true
+				},
 				width: 300,
 				height: 300,
 				overlap: {
-					inner: 20,	// percentage
-					outer: 80	// percentage
+					inner: 20,			// percentage
+					outer: 80			// percentage
 				},
-				backgroundScale: 10, // percentage
-				angle : 12,
+				background: {
+					size: 90			// percentage of original image
+				},
+				angle : 12,				// degrees
 				animation: {
 					perspective: {
 						duration: 80,	// milliseconds
 						inner: 120		// percentage of duration
 					}
+				},
+				reflection: {
+					enabled: true,
+					initialOpacity: 50,	// percentage 0(transparent) <=> 100(opaque)
+					length: 80			// percentage of original image
 				}
 			},
 			images: [] // image format = { src: "", title: "", subtitle: "" }
@@ -124,7 +132,7 @@ typeof jQuery.ui != 'undefined' &&
 			}
 			
 			if (index != selectedIndex) {
-				scale = (this.options.cover.backgroundScale / 100);
+				scale = 1 - (this.options.cover.background.size / 100);
 			}
 			
 			var perspectiveDuration = this.options.cover.animation.perspective.duration;
@@ -136,7 +144,7 @@ typeof jQuery.ui != 'undefined' &&
 			var coverHeight = this.options.cover.height - (scale * this.options.cover.height);
 
 			var coverOptions = $.extend(true, {}, this.options.cover, options, {
-				perspective: this.options.cover.enablePerspective ? perspective : "center",
+				perspective: this.options.cover.perspective.enabled ? perspective : "center",
 				width: coverWidth,
 				height: coverHeight,
 				canvas: {

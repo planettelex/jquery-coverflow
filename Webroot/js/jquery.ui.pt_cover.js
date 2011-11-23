@@ -23,7 +23,11 @@ typeof jQuery != 'undefined'
 			perspective: "center", // (left|center|right)
 			subdivisionLimit: 3,
 			patchSize: 70,
-			enableReflection: false,
+			reflection: {
+				enabled: true,
+				initialOpacity: 50,	// percentage 0(transparent) <=> 100(opaque)
+				length: 80			// percentage of original image
+			},
 			animation: {
 				slide: {
 					duration: 900,
@@ -160,7 +164,7 @@ typeof jQuery != 'undefined'
 		
 		_height: function () {
 			var height = this.options.height;
-			if (this.options.enableReflection) {
+			if (this.options.reflection.enabled) {
 				height *= 2;
 			}
 			return height;
@@ -196,7 +200,7 @@ typeof jQuery != 'undefined'
 			this._drawing = new pt.drawing(this._$canvas[0], this.options);
 			this._drawing.importImage(this.element[0]);
 			
-			if (this.options.enableReflection) {
+			if (this.options.reflection.enabled) {
 				this._drawing.addMirror();
 			}
 			this._srcCanvas = this._drawing.cloneCanvas();
@@ -209,8 +213,8 @@ typeof jQuery != 'undefined'
 		},
 		
 		_draw: function(points) {
-			this._drawing.perspective(points, this._srcCanvas, !this.options.enableReflection);
-			if (this.options.enableReflection) {
+			this._drawing.perspective(points, this._srcCanvas, !this.options.reflection.enabled);
+			if (this.options.reflection.enabled) {
 				this._drawing.addMirrorReflection();
 			}
 		}
@@ -224,6 +228,10 @@ typeof jQuery != 'undefined'
 		this.options = $.extend({
 			subdivisionLimit: 3,
 			patchSize: 70,
+			reflection: {
+				initialOpacity: 50,
+				length: 80
+			},
 		}, options);
 	};
 	
@@ -310,12 +318,14 @@ typeof jQuery != 'undefined'
 		var startY = Math.floor(this.canvas.height / 2);
 
 		// Add the reflection gradient over the second half of the image.
-		var opacity = .5;
+		var opacity = this.options.reflection.initialOpacity / 100;
+		var length = this.options.reflection.length / 100;
+		
 		this.ctx.save();
 		this.ctx.globalCompositeOperation = "destination-out";
 		var gradient = this.ctx.createLinearGradient(0, startY, 0, this.canvas.height);
 		gradient.addColorStop(0, "rgba(255, 255, 255, " + (1 - opacity) + ")");
-		gradient.addColorStop(0.8, "rgba(255, 255, 255, 1.0)");
+		gradient.addColorStop(length, "rgba(255, 255, 255, 1.0)");
 		gradient.addColorStop(1, "rgba(255, 255, 255, 1.0)");
 		this.ctx.fillStyle = gradient;
 		this.ctx.rect(0, startY, this.canvas.width, startY);
