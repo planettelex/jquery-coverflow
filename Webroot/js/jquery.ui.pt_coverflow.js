@@ -11,7 +11,8 @@ typeof jQuery.ui != 'undefined' &&
 			height: null,
 			selectedIndex: 1,
 			cover: {
-				addReflection: true,
+				enablePerspective: true,
+				enableReflection: true,
 				width: 300,
 				height: 300,
 				overlap: {
@@ -27,7 +28,7 @@ typeof jQuery.ui != 'undefined' &&
 					}
 				}
 			},
-			images: [] // one image = {src: "", title: "", subtitle: ""}
+			images: [] // image format = { src: "", title: "", subtitle: "" }
 		},
 
 		_create : function() {
@@ -120,7 +121,6 @@ typeof jQuery.ui != 'undefined' &&
 			else if (index > selectedIndex) {
 				centerOffset = index - selectedIndex;
 				perspective = "right";
-				
 			}
 			
 			if (index != selectedIndex) {
@@ -136,7 +136,7 @@ typeof jQuery.ui != 'undefined' &&
 			var coverHeight = this.options.cover.height - (scale * this.options.cover.height);
 
 			var coverOptions = $.extend(true, {}, this.options.cover, options, {
-				perspective: perspective,
+				perspective: this.options.cover.enablePerspective ? perspective : "center",
 				width: coverWidth,
 				height: coverHeight,
 				canvas: {

@@ -23,7 +23,7 @@ typeof jQuery != 'undefined'
 			perspective: "center", // (left|center|right)
 			subdivisionLimit: 3,
 			patchSize: 70,
-			addReflection: false,
+			enableReflection: false,
 			animation: {
 				slide: {
 					duration: 900,
@@ -160,7 +160,7 @@ typeof jQuery != 'undefined'
 		
 		_height: function () {
 			var height = this.options.height;
-			if (this.options.addReflection) {
+			if (this.options.enableReflection) {
 				height *= 2;
 			}
 			return height;
@@ -196,7 +196,7 @@ typeof jQuery != 'undefined'
 			this._drawing = new pt.drawing(this._$canvas[0], this.options);
 			this._drawing.importImage(this.element[0]);
 			
-			if (this.options.addReflection) {
+			if (this.options.enableReflection) {
 				this._drawing.addMirror();
 			}
 			this._srcCanvas = this._drawing.cloneCanvas();
@@ -209,7 +209,10 @@ typeof jQuery != 'undefined'
 		},
 		
 		_draw: function(points) {
-			this._drawing.perspective(points, this._srcCanvas);
+			this._drawing.perspective(points, this._srcCanvas, !this.options.enableReflection);
+			if (this.options.enableReflection) {
+				this._drawing.addMirrorReflection();
+			}
 		}
 	});
 	
@@ -239,7 +242,7 @@ typeof jQuery != 'undefined'
 		this.ctx.drawImage(img, 0, 0, this.canvas.width, this.canvas.height);
 	};
 	
-	pt.drawing.prototype.perspective = function(points, srcImage) {
+	pt.drawing.prototype.perspective = function(points, srcImage, clipImage) {
 		this.image = srcImage || this.cloneCanvas();
 		
 		// Get extents.
@@ -274,57 +277,17 @@ typeof jQuery != 'undefined'
 		var pbl = transform.transformProjectiveVector([ 0, 1, 1 ]);
 		var pbr = transform.transformProjectiveVector([ 1, 1, 1 ]);
 
-		/*
-		this.ctx.beginPath();
-		this.ctx.moveTo(ptl[0], ptl[1]);
-		this.ctx.lineTo(ptr[0], ptr[1]);
-		this.ctx.lineTo(pbr[0], pbr[1]);
-		this.ctx.lineTo(pbl[0], pbl[1]);
-		this.ctx.closePath();
-		this.ctx.clip();
-		*/
+		if (clipImage) {
+			this.ctx.beginPath();
+			this.ctx.moveTo(ptl[0], ptl[1]);
+			this.ctx.lineTo(ptr[0], ptr[1]);
+			this.ctx.lineTo(pbr[0], pbr[1]);
+			this.ctx.lineTo(pbl[0], pbl[1]);
+			this.ctx.closePath();
+			this.ctx.clip();
+		}
 
 		this.divide(0, 0, 1, 1, ptl, ptr, pbl, pbr, this.options.subdivisionLimit);
-		
-		var startY = Math.floor(this.canvas.height / 2);
-
-		/*
-		var imageData = this.ctx.getImageData(0, 0, this.canvas.width, this.canvas.height);
-		//Top to bottom
-		for (var y = startY; y < imageData.height; y++) {
-		    //Left to right
-			for (var x = 0; x < imageData.width; x++) {
-				//Look for our individual pixel info (Times 4 due to RGBA)
-				var index = (y * 4) * imageData.width + (x * 4);
-				
-				var red = imageData.data[index];
-				var green = imageData.data[index+1];
-				var blue = imageData.data[index+2];
-				var alpha = imageData.data[index+3];
-				var average = (red+green+blue)/3;
-				
-				imageData.data[index] = red;
-				imageData.data[index+1] = green;
-				imageData.data[index+2] = blue;
-				imageData.data[index+3] = alpha / 2;
-			}
-		}
-		
-		this.ctx.putImageData(imageData, 0, 0);
-		*/
-		
-		// Add the reflection gradient to the mirror image.
-		var opacity = .5;
-		this.ctx.save();
-		this.ctx.globalCompositeOperation = "destination-out";
-		var gradient = this.ctx.createLinearGradient(0, startY, 0, this.canvas.height);
-		gradient.addColorStop(0, "rgba(255, 255, 255, " + (1 - opacity) + ")");
-		gradient.addColorStop(0.8, "rgba(255, 255, 255, 1.0)");
-		gradient.addColorStop(1, "rgba(255, 255, 255, 1.0)");
-		this.ctx.fillStyle = gradient;
-		this.ctx.rect(0, startY, this.canvas.width, startY);
-		this.ctx.fill();
-		this.ctx.restore();
 	};
 	
 	pt.drawing.prototype.addMirror = function() {
@@ -340,6 +303,23 @@ typeof jQuery != 'undefined'
 		this.ctx.translate(0, this.canvas.height);
 		this.ctx.scale(1, -1);
 		this.ctx.drawImage(cloneCanvas, 0, 0);
+		this.ctx.restore();
+	};
+	
+	pt.drawing.prototype.addMirrorReflection = function () {
+		var startY = Math.floor(this.canvas.height / 2);
+
+		// Add the reflection gradient over the second half of the image.
+		var opacity = .5;
+		this.ctx.save();
+		this.ctx.globalCompositeOperation = "destination-out";
+		var gradient = this.ctx.createLinearGradient(0, startY, 0, this.canvas.height);
+		gradient.addColorStop(0, "rgba(255, 255, 255, " + (1 - opacity) + ")");
+		gradient.addColorStop(0.8, "rgba(255, 255, 255, 1.0)");
+		gradient.addColorStop(1, "rgba(255, 255, 255, 1.0)");
+		this.ctx.fillStyle = gradient;
+		this.ctx.rect(0, startY, this.canvas.width, startY);
+		this.ctx.fill();
 		this.ctx.restore();
 	};
 	
