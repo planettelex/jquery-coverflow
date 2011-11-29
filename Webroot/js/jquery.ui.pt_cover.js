@@ -74,13 +74,14 @@ typeof jQuery != 'undefined'
 		_oldOptions: null,
 		_srcCanvas: null,
 		_drawing: null,
+		_$titleContainer: null,
 
 		supportsCanvas: (function() {
 			var elem = document.createElement('canvas');
 			return !!(elem.getContext && elem.getContext('2d'));
 		})(),
 		
-		left: function() {
+		left: function() {			
 			var height = this._height();
 			var points = [ 
 				[ 0, 0 ], // top left
@@ -116,11 +117,21 @@ typeof jQuery != 'undefined'
 		refresh: function (animate) {
 			animate = animate || false;
 			
+			switch (this.options.perspective) {
+				case "center":
+					this._$titleContainer.show();
+					break;
+				
+				default:
+					this._$titleContainer.hide();
+			}
+			
 			if (!animate) {
 				this._oldOptions = $.extend(true, {}, this.options);
 				this[this.options.perspective]();
 			}
 			else {
+				// Animation CSS
 				this._$canvas
 				.css({ 
 					zIndex: this.options.canvas.zIndex,
@@ -184,12 +195,12 @@ typeof jQuery != 'undefined'
 						height: this.options.height
 					})
 					.css({
-						background: "black",
 						top: this.options.canvas.top,
 						left: this.options.canvas.left,
 						zIndex: this.options.canvas.zIndex,
 						textIndent: this.options.angle,
-						position: "absolute"
+						position: "absolute",
+						cursor: "pointer"
 					})
 					.click($.proxy(this, "_click"));
 			}
@@ -204,6 +215,14 @@ typeof jQuery != 'undefined'
 				this._drawing.addMirror();
 			}
 			this._srcCanvas = this._drawing.cloneCanvas();
+			
+			this._$titleContainer = $("<div/>")
+				.addClass("cover-title")
+				.append($("<h1/>").text(this.element.data("title")))
+				.append($("<h2/>").text(this.element.data("subtitle"))
+			).hide();
+			
+			this.element.after(this._$titleContainer);
 			
 			this.refresh();
 		},

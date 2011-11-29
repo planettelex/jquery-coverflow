@@ -63,12 +63,45 @@ table {
 
 /* End reset */
 
+/* JQueryUI */
+
+.ui-slider .ui-slider-handle {
+	top: 0;
+	height: .7em;
+}
+
+/* Page level */
+
 h1 {
 	font-size: 24px;
 }
 
 h2 {
 	font-size: 20px;
+}
+
+/* Coverflow */
+
+div.cover-title h1 {
+	font-size: 14px;
+	text-align: center;
+	padding-bottom: 6px;
+}
+
+div.cover-title h2 {
+	font-size: 14px;
+	text-align: center;
+}
+
+div.cover-title {
+	font-family: Arial, Helvetica, sans-serif;
+	font-weight: bold;
+	position: absolute;
+	color: white;
+	top: 310px;
+	left: 510px;
+	z-index: 100;
+	width: 400px;
 }
 
 div.wrapper {
@@ -85,4 +118,13 @@ div.wrapper {
     position: relative;
     overflow: hidden;
     background-color: black;
+}
+
+.coverflow-slider {
+	top: 60%;
+	opacity: .8;
+}
+
+.coverflow canvas {
+	background-color: black;
 }

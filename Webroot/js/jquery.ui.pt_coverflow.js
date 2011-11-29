@@ -10,6 +10,7 @@ typeof jQuery.ui != 'undefined' &&
 			width: null,
 			height: null,
 			selectedIndex: 1,
+			sliderWidth: 80,			// percentage of width
 			cover: {
 				perspective: {
 					enabled: true
@@ -43,12 +44,17 @@ typeof jQuery.ui != 'undefined' &&
 			this.options.width = this.options.width || this.element.width();
 			this.options.height = this.options.height || this.element.height();
 
+			this._currentIndex = this.options.selectedIndex;
+
 			if (this.options.images.length > 0) {
 				 for (var i in this.options.images) {
 				 	var image = this.options.images[i];
 				 	this.element.append(
 				 		$("<img>")
-				 			.attr({ src: image.src })
+				 			.attr({
+				 				src: image.src,
+				 				alt: image.title + (!image.subtitle ? "" : ", " + image.subtitle)
+				 			})
 				 			.data({
 				 				title: image.title,
 				 				subtitle: image.subtitle
@@ -59,6 +65,47 @@ typeof jQuery.ui != 'undefined' &&
 			
 			this._$images = this.element.find("img");	
 			this._$images.each($.proxy(this, "_createCover"));
+					
+			// Scrollbar
+			var coverCount = this._$images.length - 1;
+			var sliderWidth = this.options.width - (1 - (this.options.sliderWidth / 100)) * this.options.width;
+			this._$slider = $("<div/>")
+				.css({
+					width: sliderWidth,
+					position: "absolute",
+					zIndex: coverCount + 1,
+					left: (this.options.width - sliderWidth) / 2
+				})
+				.addClass("coverflow-slider")
+				.slider({
+					value: this._currentIndex,
+					max: coverCount,
+					slide: $.proxy(this, "_sliderChange")
+				});
+				
+			var handleSize = sliderWidth / coverCount;
+			
+			this._$sliderHandleHelper = this._$slider.find(".ui-slider-handle")
+				.css({
+					width: handleSize,
+					marginLeft: -handleSize / 2 - 2
+				})
+				.wrap($("<div class='ui-handle-helper-parent'></div>")
+					.width(sliderWidth - handleSize)
+					.css({ 
+						position: "relative",
+						height: "100%",
+						margin: "0 auto"
+					})
+				)
+				.parent();
+				
+			this.element.append(this._$slider);
+		},
+		
+		_sliderChange: function (event, ui) {
+			if (ui.value != this._currentIndex)
+				this._gotoCover(ui.value);
 		},
 		
 		_setOption : function (key, value) {
@@ -79,10 +126,10 @@ typeof jQuery.ui != 'undefined' &&
 		/* End Widget Overrides */
 
 		_$images: [],
+		_$slider: null,
 		_currentIndex: 0,
 
 		_createCover: function(index, image) {
-			this._currentIndex = this.options.selectedIndex;
 			var options = this._coverConfig(this.options.selectedIndex, index, {
 				click: $.proxy(this, "_clickCover")
 			});
@@ -109,6 +156,7 @@ typeof jQuery.ui != 'undefined' &&
 		 * Wrapper for setting the "selectedIndex" option.
 		 */
 		gotoCover: function(selectedIndex) {
+			this._$slider.slider("value", selectedIndex);
 			this._setOption("selectedIndex", selectedIndex);
 		},
 		
