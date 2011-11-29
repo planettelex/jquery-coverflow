@@ -60,18 +60,16 @@ table {
 	border-collapse: collapse;
 	border-spacing: 0;
 }
-
 /* End reset */
 
 /* JQueryUI */
-
 .ui-slider .ui-slider-handle {
 	top: 0;
 	height: .7em;
+	cursor: pointer;
 }
 
 /* Page level */
-
 h1 {
 	font-size: 24px;
 }
@@ -81,7 +79,6 @@ h2 {
 }
 
 /* Coverflow */
-
 div.cover-title h1 {
 	font-size: 14px;
 	text-align: center;
@@ -96,10 +93,9 @@ div.cover-title h2 {
 div.cover-title {
 	font-family: Arial, Helvetica, sans-serif;
 	font-weight: bold;
-	position: absolute;
+	position: relative;
 	color: white;
-	top: 310px;
-	left: 510px;
+	margin: 310px auto;
 	z-index: 100;
 	width: 400px;
 }

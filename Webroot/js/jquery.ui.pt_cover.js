@@ -12,22 +12,12 @@ typeof jQuery != 'undefined'
 		widgetEventPrefix : 'pt.cover',
 
 		options: {
-			canvas: {
-				left: 0,
-				top: 0,
-				zIndex: 0
-			},
+			angle: 0,
 			width: 300,
 			height: 300,
-			angle: 0,
+			patchSize: 70,
 			perspective: "center", // (left|center|right)
 			subdivisionLimit: 3,
-			patchSize: 70,
-			reflection: {
-				enabled: true,
-				initialOpacity: 50,	// percentage 0(transparent) <=> 100(opaque)
-				length: 80			// percentage of original image
-			},
 			animation: {
 				slide: {
 					duration: 900,
@@ -37,6 +27,19 @@ typeof jQuery != 'undefined'
 					duration: 120,
 					easing: "jswing" 
 				}
+			},
+			canvas: {
+				left: 0,
+				top: 0,
+				zIndex: 0
+			},
+			reflection: {
+				enabled: true,
+				initialOpacity: 50,	// percentage 0(transparent) <=> 100(opaque)
+				length: 80			// percentage of original image
+			},
+			title: {
+				enabled: true
 			}
 		},
 
@@ -117,13 +120,15 @@ typeof jQuery != 'undefined'
 		refresh: function (animate) {
 			animate = animate || false;
 			
-			switch (this.options.perspective) {
-				case "center":
-					this._$titleContainer.show();
-					break;
-				
-				default:
-					this._$titleContainer.hide();
+			if (this.options.title.enabled) {
+				switch (this.options.perspective) {
+					case "center":
+						this._$titleContainer.show();
+						break;
+					
+					default:
+						this._$titleContainer.hide();
+				}
 			}
 			
 			if (!animate) {
@@ -214,15 +219,18 @@ typeof jQuery != 'undefined'
 			if (this.options.reflection.enabled) {
 				this._drawing.addMirror();
 			}
+			// Keep a cached copy of the canvas to be used as a source later when applying a perspective.
 			this._srcCanvas = this._drawing.cloneCanvas();
 			
-			this._$titleContainer = $("<div/>")
-				.addClass("cover-title")
-				.append($("<h1/>").text(this.element.data("title")))
-				.append($("<h2/>").text(this.element.data("subtitle"))
-			).hide();
-			
-			this.element.after(this._$titleContainer);
+			if (this.options.title.enabled) {
+				this._$titleContainer = $("<div/>")
+					.addClass("cover-title")
+					.append($("<h1/>").text(this.element.data("title")))
+					.append($("<h2/>").text(this.element.data("subtitle"))
+				).hide();
+				
+				this.element.after(this._$titleContainer);
+			}
 			
 			this.refresh();
 		},

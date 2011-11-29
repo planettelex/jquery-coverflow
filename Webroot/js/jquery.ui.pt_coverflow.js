@@ -10,34 +10,40 @@ typeof jQuery.ui != 'undefined' &&
 			width: null,
 			height: null,
 			selectedIndex: 1,
-			sliderWidth: 80,			// percentage of width
 			cover: {
-				perspective: {
-					enabled: true
-				},
-				width: 300,
-				height: 300,
-				overlap: {
-					inner: 20,			// percentage
-					outer: 80			// percentage
-				},
-				background: {
-					size: 90			// percentage of original image
-				},
 				angle : 12,				// degrees
+				height: 300,
+				width: 300,
 				animation: {
 					perspective: {
 						duration: 80,	// milliseconds
 						inner: 120		// percentage of duration
 					}
 				},
+				background: {
+					size: 90			// percentage of original image
+				},
+				overlap: {
+					inner: 20,			// percentage
+					outer: 80			// percentage
+				},
+				perspective: {
+					enabled: true
+				},
 				reflection: {
 					enabled: true,
 					initialOpacity: 50,	// percentage 0(transparent) <=> 100(opaque)
 					length: 80			// percentage of original image
+				},
+				title:  {
+					enabled: true
 				}
 			},
-			images: [] // image format = { src: "", title: "", subtitle: "" }
+			images: [], // image format = { src: "", title: "", subtitle: "" }
+			slider: {
+				enabled: true,
+				width: 80				// percentage of width
+			}
 		},
 
 		_create : function() {
@@ -66,53 +72,13 @@ typeof jQuery.ui != 'undefined' &&
 			this._$images = this.element.find("img");	
 			this._$images.each($.proxy(this, "_createCover"));
 					
-			// Scrollbar
-			var coverCount = this._$images.length - 1;
-			var sliderWidth = this.options.width - (1 - (this.options.sliderWidth / 100)) * this.options.width;
-			this._$slider = $("<div/>")
-				.css({
-					width: sliderWidth,
-					position: "absolute",
-					zIndex: coverCount + 1,
-					left: (this.options.width - sliderWidth) / 2
-				})
-				.addClass("coverflow-slider")
-				.slider({
-					value: this._currentIndex,
-					max: coverCount,
-					slide: $.proxy(this, "_sliderChange")
-				});
-				
-			var handleSize = sliderWidth / coverCount;
-			
-			this._$sliderHandleHelper = this._$slider.find(".ui-slider-handle")
-				.css({
-					width: handleSize,
-					marginLeft: -handleSize / 2 - 2
-				})
-				.wrap($("<div class='ui-handle-helper-parent'></div>")
-					.width(sliderWidth - handleSize)
-					.css({ 
-						position: "relative",
-						height: "100%",
-						margin: "0 auto"
-					})
-				)
-				.parent();
-				
-			this.element.append(this._$slider);
-		},
-		
-		_sliderChange: function (event, ui) {
-			if (ui.value != this._currentIndex)
-				this._gotoCover(ui.value);
+			this._loadSlider();
 		},
 		
 		_setOption : function (key, value) {
 			switch (key) {
 				case "selectedIndex":
 					this._gotoCover(value);
-					this._currentIndex = value;
 					break;
 			}
 
@@ -127,6 +93,7 @@ typeof jQuery.ui != 'undefined' &&
 
 		_$images: [],
 		_$slider: null,
+		_$sliderHandleHelper: null,
 		_currentIndex: 0,
 
 		_createCover: function(index, image) {
@@ -148,6 +115,11 @@ typeof jQuery.ui != 'undefined' &&
 			cover.refresh(true);
 		},
 		
+		_sliderChange: function (event, ui) {
+			if (ui.value != this._currentIndex)
+				this._gotoCover(ui.value);
+		},
+		
 		_clickCover: function(e, data) {
 			this.gotoCover(data.image.data("coverFlow").index);
 		},
@@ -156,11 +128,14 @@ typeof jQuery.ui != 'undefined' &&
 		 * Wrapper for setting the "selectedIndex" option.
 		 */
 		gotoCover: function(selectedIndex) {
-			this._$slider.slider("value", selectedIndex);
+			if (this.options.slider.enabled) {
+				this._$slider.slider("value", selectedIndex);
+			}
 			this._setOption("selectedIndex", selectedIndex);
 		},
 		
 		_gotoCover: function(selectedIndex) {
+			this._currentIndex = selectedIndex;
 			this._$images.each($.curry(this, "_updateCover", selectedIndex));
 		},
 		
@@ -238,12 +213,54 @@ typeof jQuery.ui != 'undefined' &&
 			return left;
 		},
 		
-		_coverTop: function (centerOffset, coverHeight, scalePercentage) {
+		_coverTop: function(centerOffset, coverHeight, scalePercentage) {
 			var top = 0;
 			if (centerOffset != 0) {
 				top += coverHeight * (scalePercentage / 2);
 			}
 			return top;
+		},
+		
+		_loadSlider: function() {
+			if (!this.options.slider.enabled) {
+				return;
+			}
+			
+			var coverCount = this._$images.length - 1;
+			var sliderWidth = this.options.width - (1 - (this.options.slider.width / 100)) * this.options.width;
+			var handleSize = sliderWidth / coverCount;
+
+			this._$slider = $("<div/>")
+				.css({
+					width: sliderWidth,
+					position: "absolute",
+					zIndex: coverCount + 1,
+					left: (this.options.width - sliderWidth) / 2
+				})
+				.addClass("coverflow-slider")
+				.slider({
+					value: this._currentIndex,
+					max: coverCount,
+					slide: $.proxy(this, "_sliderChange")
+				});
+				
+			
+			this._$sliderHandleHelper = this._$slider.find(".ui-slider-handle")
+				.css({
+					width: handleSize,
+					marginLeft: -handleSize / 2 - 2
+				})
+				.wrap($("<div class='ui-handle-helper-parent'></div>")
+					.width(sliderWidth - handleSize)
+					.css({ 
+						position: "relative",
+						height: "100%",
+						margin: "0 auto"
+					})
+				)
+				.parent();
+				
+			this.element.append(this._$slider);
 		}
 	});
 
