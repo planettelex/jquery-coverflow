@@ -24,8 +24,8 @@ typeof jQuery.ui != 'undefined' &&
 					size: 90			// percentage of original image
 				},
 				overlap: {
-					inner: 20,			// percentage
-					outer: 80			// percentage
+					inner: 20,			// percentage of overlap
+					outer: 80			// percentage of overlap
 				},
 				perspective: {
 					enabled: true
