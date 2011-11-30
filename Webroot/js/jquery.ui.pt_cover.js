@@ -283,7 +283,7 @@ typeof jQuery.ui != 'undefined' &&
 			reflection: {
 				initialOpacity: 50,
 				length: 80
-			},
+			}
 		}, options);
 	};
 	
