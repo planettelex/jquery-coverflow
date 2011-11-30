@@ -1,6 +1,6 @@
-typeof jQuery != 'undefined'
-&& typeof jQuery.ui != 'undefined'
-&& (function($) {
+typeof jQuery != 'undefined' &&
+typeof jQuery.ui != 'undefined' &&
+(function($) {
 	
 	Math.degreesToRadians = function (degree) {
 		return degree * (Math.PI / 180);
@@ -16,7 +16,10 @@ typeof jQuery != 'undefined'
 			width: 300,
 			height: 300,
 			patchSize: 70,
-			perspective: "center", // (left|center|right)
+			perspective: {
+				enabled: true,
+				position: "center"	// (left|center|right)
+			},
 			subdivisionLimit: 3,
 			animation: {
 				slide: {
@@ -73,7 +76,7 @@ typeof jQuery != 'undefined'
 
 		/* End Widget Overrides */
 
-		_$canvas: null,
+		_$cover: null,
 		_oldOptions: null,
 		_srcCanvas: null,
 		_drawing: null,
@@ -84,7 +87,7 @@ typeof jQuery != 'undefined'
 			return !!(elem.getContext && elem.getContext('2d'));
 		})(),
 		
-		left: function() {			
+		left: function() {
 			var height = this._height();
 			var points = [ 
 				[ 0, 0 ], // top left
@@ -121,7 +124,7 @@ typeof jQuery != 'undefined'
 			animate = animate || false;
 			
 			if (this.options.title.enabled) {
-				switch (this.options.perspective) {
+				switch (this.options.perspective.position) {
 					case "center":
 						this._$titleContainer.show();
 						break;
@@ -133,11 +136,11 @@ typeof jQuery != 'undefined'
 			
 			if (!animate) {
 				this._oldOptions = $.extend(true, {}, this.options);
-				this[this.options.perspective]();
+				this._perspective();
 			}
 			else {
 				// Animation CSS
-				this._$canvas
+				this._$cover
 				.css({ 
 					zIndex: this.options.canvas.zIndex,
 					top: this.options.canvas.top
@@ -150,7 +153,7 @@ typeof jQuery != 'undefined'
 					easing: this.options.animation.slide.easing
 				})
 				.animate({
-					textIndent: this.options.perspective == "center" ? 0 : this.options.angle
+					textIndent: this.options.perspective.position == "center" ? 0 : this.options.angle
 				}, {
 					queue: false,
 					duration: this.options.animation.perspective.duration,
@@ -163,19 +166,19 @@ typeof jQuery != 'undefined'
 		
 		_animationStep: function(now, fx) {
 			if (fx.prop == "textIndent") {
-				var perspective = this._oldOptions.perspective;
-				if (perspective == "center") {
-					perspective = this.options.perspective;
+				var position = this._oldOptions.perspective.position;
+				if (position == "center") {
+					position = this.options.perspective.position;
 				}
 				
 				this.options.angle = now;
-				this[perspective]();
+				this._perspective(position);
 			}
 		},
 		
 		_animationComplete: function() {
 			this._oldOptions = $.extend(true, {}, this.options);
-			this[this.options.perspective]();
+			this._perspective();
 		},
 		
 		_height: function () {
@@ -191,37 +194,40 @@ typeof jQuery != 'undefined'
 		},
 		
 		_load: function() {
-			this._$canvas = null;
+			this._$cover = this.element;
 			
 			if (this.supportsCanvas) {
-				this._$canvas = $("<canvas>")
-					.attr({
-						width: this.options.width,
-						height: this.options.height
-					})
-					.css({
-						top: this.options.canvas.top,
-						left: this.options.canvas.left,
-						zIndex: this.options.canvas.zIndex,
-						textIndent: this.options.angle,
-						position: "absolute",
-						cursor: "pointer"
-					})
-					.click($.proxy(this, "_click"));
+				this._$cover = $("<canvas/>");
+			}
+			
+			this._$cover.attr({
+					width: this.options.width,
+					height: this.options.height
+				})
+				.css({
+					top: this.options.canvas.top,
+					left: this.options.canvas.left,
+					zIndex: this.options.canvas.zIndex,
+					textIndent: this.options.angle,
+					position: "absolute",
+					cursor: "pointer"
+				})
+				.click($.proxy(this, "_click"));
+				
+			if (this.supportsCanvas) {
+				this.element.css({ top: -1000, left: -1000, position: "absolute" }).after(this._$cover);
+				
+				this._drawing = new pt.drawing(this._$cover[0], this.options);
+				this._drawing.importImage(this.element[0]);
+				
+				if (this.options.reflection.enabled) {
+					this._drawing.addMirror();
+				}
+				
+				// Keep a cached copy of the canvas to be used as a source later when applying a perspective.
+				this._srcCanvas = this._drawing.cloneCanvas();
 			}
 
-			//TODO Add no canvas support
-			this.element.css({ top: -1000, left: -1000, position: "absolute" }).after(this._$canvas);
-			
-			this._drawing = new pt.drawing(this._$canvas[0], this.options);
-			this._drawing.importImage(this.element[0]);
-			
-			if (this.options.reflection.enabled) {
-				this._drawing.addMirror();
-			}
-			// Keep a cached copy of the canvas to be used as a source later when applying a perspective.
-			this._srcCanvas = this._drawing.cloneCanvas();
-			
 			if (this.options.title.enabled) {
 				this._$titleContainer = $("<div/>")
 					.addClass("cover-title")
@@ -240,9 +246,28 @@ typeof jQuery != 'undefined'
 		},
 		
 		_draw: function(points) {
-			this._drawing.perspective(points, this._srcCanvas, !this.options.reflection.enabled);
-			if (this.options.reflection.enabled) {
-				this._drawing.addMirrorReflection();
+			if (this.supportsCanvas) {
+				this._drawing.perspective(points, this._srcCanvas, !this.options.reflection.enabled);
+				if (this.options.reflection.enabled) {
+					this._drawing.addMirrorReflection();
+				}
+			}
+			else {
+				this._$cover.attr({
+					width: this.options.width,
+					height: this.options.height
+				});
+			}
+		},
+		
+		_perspective: function(position) {
+			position = position || this.options.perspective.position;
+			
+			if (this.options.perspective.enabled) {
+				this[position]();
+			}
+			else {
+				this.center();
 			}
 		}
 	});

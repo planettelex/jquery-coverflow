@@ -1,7 +1,7 @@
 typeof jQuery != 'undefined' &&
 typeof jQuery.ui != 'undefined' &&
 (function ($) {
-	$.widget ('pt.coverflow', {
+	$.widget('pt.coverflow', {
 		/* Begin Widget Overrides */
 
 		widgetEventPrefix : 'pt.coverflow',
@@ -167,7 +167,9 @@ typeof jQuery.ui != 'undefined' &&
 			var coverHeight = this.options.cover.height - (scale * this.options.cover.height);
 
 			var coverOptions = $.extend(true, {}, this.options.cover, options, {
-				perspective: this.options.cover.perspective.enabled ? perspective : "center",
+				perspective: {
+					position: perspective
+				},
 				width: coverWidth,
 				height: coverHeight,
 				canvas: {
