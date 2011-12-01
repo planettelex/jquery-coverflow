@@ -1,6 +1,6 @@
 typeof jQuery != 'undefined' &&
 typeof jQuery.ui != 'undefined' &&
-(function($) {
+(function ($) {
 	
 	Math.degreesToRadians = function (degree) {
 		return degree * (Math.PI / 180);
@@ -46,7 +46,7 @@ typeof jQuery.ui != 'undefined' &&
 			}
 		},
 
-		_create: function() {
+		_create: function () {
 			this._oldOptions = $.extend(true, {}, this.options);
 			
 			// IE doesn't always invoke the load event properly!
@@ -66,11 +66,11 @@ typeof jQuery.ui != 'undefined' &&
 			}
 		},
 
-		_setOption: function(key, value) {
+		_setOption: function (key, value) {
 			$.Widget.prototype._setOption.apply(this, arguments);
 		},
 
-		destroy: function() {
+		destroy: function () {
 			$.Widget.prototype.destroy.call(this);
 		},
 
@@ -82,12 +82,12 @@ typeof jQuery.ui != 'undefined' &&
 		_drawing: null,
 		_$titleContainer: null,
 
-		supportsCanvas: (function() {
+		supportsCanvas: (function () {
 			var elem = document.createElement('canvas');
 			return !!(elem.getContext && elem.getContext('2d'));
 		})(),
 		
-		left: function() {
+		left: function () {
 			var height = this._height();
 			var points = [ 
 				[ 0, 0 ], // top left
@@ -98,7 +98,7 @@ typeof jQuery.ui != 'undefined' &&
 			this._draw(points);
 		},
 		
-		center: function() {
+		center: function () {
 			var height = this._height();
 			var points = [ 
 				[ 0, 0 ], // top left
@@ -109,7 +109,7 @@ typeof jQuery.ui != 'undefined' &&
 			this._draw(points);
 		},
 		
-		right: function() {
+		right: function () {
 			var height = this._height();
 			var points = [ 
 				[ 0, this._skewLength() ], // top left
@@ -164,7 +164,7 @@ typeof jQuery.ui != 'undefined' &&
 			}
 		},
 		
-		_animationStep: function(now, fx) {
+		_animationStep: function (now, fx) {
 			if (fx.prop == "textIndent") {
 				var position = this._oldOptions.perspective.position;
 				if (position == "center") {
@@ -176,7 +176,7 @@ typeof jQuery.ui != 'undefined' &&
 			}
 		},
 		
-		_animationComplete: function() {
+		_animationComplete: function () {
 			this._oldOptions = $.extend(true, {}, this.options);
 			this._perspective();
 		},
@@ -189,11 +189,11 @@ typeof jQuery.ui != 'undefined' &&
 			return height;
 		},
 		
-		_skewLength: function() {
+		_skewLength: function () {
 			return Math.tan(Math.degreesToRadians(this.options.angle)) * this.options.width;
 		},
 		
-		_load: function() {
+		_load: function () {
 			this._$cover = this.element;
 			
 			if (this.supportsCanvas) {
@@ -241,11 +241,11 @@ typeof jQuery.ui != 'undefined' &&
 			this.refresh();
 		},
 		
-		_click: function(e) {
+		_click: function (e) {
 			this._trigger("click", e, { image: this.element }); 
 		},
 		
-		_draw: function(points) {
+		_draw: function (points) {
 			if (this.supportsCanvas) {
 				this._drawing.perspective(points, this._srcCanvas, !this.options.reflection.enabled);
 				if (this.options.reflection.enabled) {
@@ -260,7 +260,7 @@ typeof jQuery.ui != 'undefined' &&
 			}
 		},
 		
-		_perspective: function(position) {
+		_perspective: function (position) {
 			position = position || this.options.perspective.position;
 			
 			if (this.options.perspective.enabled) {
@@ -274,7 +274,7 @@ typeof jQuery.ui != 'undefined' &&
 	
 	var pt = pt || {};
 	
-	pt.drawing = function(canvas, options) {
+	pt.drawing = function (canvas, options) {
 		this.canvas = canvas;
 		this.ctx = this.canvas.getContext("2d");
 		this.options = $.extend({
@@ -287,7 +287,7 @@ typeof jQuery.ui != 'undefined' &&
 		}, options);
 	};
 	
-	pt.drawing.prototype.cloneCanvas = function() {
+	pt.drawing.prototype.cloneCanvas = function () {
 		var imageData = this.ctx.getImageData(0, 0, this.canvas.width, this.canvas.height);
 		var cloneCanvas = document.createElement("canvas");
 		cloneCanvas.width = this.canvas.width;
@@ -302,12 +302,12 @@ typeof jQuery.ui != 'undefined' &&
 		this.ctx.drawImage(img, 0, 0, this.canvas.width, this.canvas.height);
 	};
 	
-	pt.drawing.prototype.perspective = function(points, srcImage, clipImage) {
+	pt.drawing.prototype.perspective = function (points, srcImage, clipImage) {
 		this.image = srcImage || this.cloneCanvas();
 		
 		// Get extents.
 		var minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
-		$.each(points, function() {
+		$.each(points, function () {
 			minX = Math.min(minX, Math.floor(this[0]));
 			maxX = Math.max(maxX, Math.ceil(this[0]));
 			minY = Math.min(minY, Math.floor(this[1]));
@@ -350,7 +350,7 @@ typeof jQuery.ui != 'undefined' &&
 		this.divide(0, 0, 1, 1, ptl, ptr, pbl, pbr, this.options.subdivisionLimit);
 	};
 	
-	pt.drawing.prototype.addMirror = function() {
+	pt.drawing.prototype.addMirror = function () {
 		// Set up the canvas clone to be used as a source for the mirror image.
 		var cloneCanvas = this.cloneCanvas();
 		
@@ -385,7 +385,7 @@ typeof jQuery.ui != 'undefined' &&
 		this.ctx.restore();
 	};
 	
-	pt.drawing.prototype.divide = function(u1, v1, u4, v4, p1, p2, p3, p4, limit) {
+	pt.drawing.prototype.divide = function (u1, v1, u4, v4, p1, p2, p3, p4, limit) {
 		// See if we can still divide.
 		if (limit) {
 			// Measure patch non-affinity.
@@ -501,7 +501,7 @@ typeof jQuery.ui != 'undefined' &&
 	};
 	
 	// Begin Matrix
-	var Matrix = function(values) {
+	var Matrix = function (values) {
 		this.w = !values[0] ? 0 : values[0].length;
 		this.h = values.length;
 		this.values = values;
@@ -532,7 +532,7 @@ typeof jQuery.ui != 'undefined' &&
 		return transform;
 	};
 	
-	Matrix.cloneValues = function(values) {
+	Matrix.cloneValues = function (values) {
 		clone = [];
 		for ( var i = 0; i < values.length; ++i) {
 			clone[i] = [].concat(values[i]);
@@ -540,7 +540,7 @@ typeof jQuery.ui != 'undefined' &&
 		return clone;
 	};
 	
-	Matrix.prototype.transformProjectiveVector = function(operand) {
+	Matrix.prototype.transformProjectiveVector = function (operand) {
 		var out = [];
 		for ( var y = 0; y < this.h; ++y) {
 			out[y] = 0;
@@ -555,7 +555,7 @@ typeof jQuery.ui != 'undefined' &&
 		return out;
 	};
 	
-	Matrix.prototype.rowEchelon = function() {
+	Matrix.prototype.rowEchelon = function () {
 		if (this.w <= this.h) {
 			throw "Matrix rowEchelon size mismatch";
 		}

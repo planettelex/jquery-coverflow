@@ -46,7 +46,7 @@ typeof jQuery.ui != 'undefined' &&
 			}
 		},
 
-		_create : function() {
+		_create: function () {
 			this.options.width = this.options.width || this.element.width();
 			this.options.height = this.options.height || this.element.height();
 
@@ -75,7 +75,7 @@ typeof jQuery.ui != 'undefined' &&
 			this._loadSlider();
 		},
 		
-		_setOption : function (key, value) {
+		_setOption: function (key, value) {
 			switch (key) {
 				case "selectedIndex":
 					this._gotoCover(value);
@@ -85,7 +85,7 @@ typeof jQuery.ui != 'undefined' &&
 			$.Widget.prototype._setOption.apply(this, arguments);
 		},
 		
-		destroy : function() {
+		destroy: function () {
 			$.Widget.prototype.destroy.call(this);
 		},
 		
@@ -95,8 +95,42 @@ typeof jQuery.ui != 'undefined' &&
 		_$slider: null,
 		_$sliderHandleHelper: null,
 		_currentIndex: 0,
+		
+		nextCover: function () {
+			var selectedIndex;
+			if (this._currentIndex == this._coverCount()) {
+				selectedIndex = 0;
+			}
+			else {
+				selectedIndex = this._currentIndex + 1;
+			}
+			
+			this.gotoCover(selectedIndex);
+		},
+		
+		prevCover: function () {
+			var selectedIndex;
+			if (this._currentIndex == 0) {
+				selectedIndex = this._coverCount();
+			}
+			else {
+				selectedIndex = this._currentIndex - 1;
+			}
+			
+			this.gotoCover(selectedIndex);
+		},
+		
+		/**
+		 * Wrapper for setting the "selectedIndex" option.
+		 */
+		gotoCover: function (selectedIndex) {
+			if (this.options.slider.enabled) {
+				this._$slider.slider("value", selectedIndex);
+			}
+			this._setOption("selectedIndex", selectedIndex);
+		},
 
-		_createCover: function(index, image) {
+		_createCover: function (index, image) {
 			var options = this._coverConfig(this.options.selectedIndex, index, {
 				click: $.proxy(this, "_clickCover")
 			});
@@ -105,7 +139,7 @@ typeof jQuery.ui != 'undefined' &&
 			});
 		},
 		
-		_updateCover: function(selectedIndex, index, image) {
+		_updateCover: function (selectedIndex, index, image) {
 			var coverOptions = this._coverConfig(selectedIndex, index);
 			var cover = $ (image).data("cover");
 			for (var option in coverOptions) {
@@ -120,26 +154,16 @@ typeof jQuery.ui != 'undefined' &&
 				this._gotoCover(ui.value);
 		},
 		
-		_clickCover: function(e, data) {
+		_clickCover: function (e, data) {
 			this.gotoCover(data.image.data("coverFlow").index);
 		},
 		
-		/**
-		 * Wrapper for setting the "selectedIndex" option.
-		 */
-		gotoCover: function(selectedIndex) {
-			if (this.options.slider.enabled) {
-				this._$slider.slider("value", selectedIndex);
-			}
-			this._setOption("selectedIndex", selectedIndex);
-		},
-		
-		_gotoCover: function(selectedIndex) {
+		_gotoCover: function (selectedIndex) {
 			this._currentIndex = selectedIndex;
 			this._$images.each($.curry(this, "_updateCover", selectedIndex));
 		},
 		
-		_coverConfig: function(selectedIndex, index, options) {
+		_coverConfig: function (selectedIndex, index, options) {
 			options = options || {};
 			var centerOffset = 0;
 			var perspective = "center";
@@ -192,7 +216,7 @@ typeof jQuery.ui != 'undefined' &&
 			return coverOptions;
 		},
 		
-		_coverLeft: function(centerOffset, coverWidth) {
+		_coverLeft: function (centerOffset, coverWidth) {
 			var left = (this.options.width / 2) - (coverWidth / 2) + (coverWidth * centerOffset);
 			var overlap;
 			if (Math.abs(centerOffset) > 1) { // outer
@@ -215,7 +239,7 @@ typeof jQuery.ui != 'undefined' &&
 			return left;
 		},
 		
-		_coverTop: function(centerOffset, coverHeight, scalePercentage) {
+		_coverTop: function (centerOffset, coverHeight, scalePercentage) {
 			var top = 0;
 			if (centerOffset != 0) {
 				top += coverHeight * (scalePercentage / 2);
@@ -223,12 +247,16 @@ typeof jQuery.ui != 'undefined' &&
 			return top;
 		},
 		
-		_loadSlider: function() {
+		_coverCount: function () {
+			return this._$images.length - 1;
+		},
+		
+		_loadSlider: function () {
 			if (!this.options.slider.enabled) {
 				return;
 			}
 			
-			var coverCount = this._$images.length - 1;
+			var coverCount = this._coverCount();
 			var sliderWidth = this.options.width - (1 - (this.options.slider.width / 100)) * this.options.width;
 			var handleSize = sliderWidth / coverCount;
 

@@ -16,22 +16,30 @@
 
 	<script type="text/javascript">
 		$(function () {
-			$("#coverflow").coverflow();
+			var coverflow1 = $("#coverflow").coverflow();
 			$("#coverflow-2").coverflow({ images: [ 
 				{ src: "images/muse-the-resistance.jpg", subtitle: "Muse", title: "The Resistance" },
 				{ src: "images/radiohead-the-king-of-limbs.jpg", subtitle: "Radiohead", title: "The King of Limbs" },
 				{ src: "images/gorillaz-plasticbeach.jpg", subtitle: "Gorillaz", title: "Plastic Beach" }
 			]});
+			
+			$("#demo1 .prev").click(function () {
+				coverflow1.coverflow("prevCover");
+			});
+			$("#demo1 .next").click(function () {
+				coverflow1.coverflow("nextCover");
+			})
 		});
 	</script>
 </head>
 <body>
 <div class="pageWrapper">
 	<h1>Planet Telex Coverflow</h1>
-	<div class="demo">
+	<div id="demo1" class="demo">
 		<h2>Demo 1</h2>
 		<div class="wrapper">
 			<div id="coverflow" class="coverflow">
+				<a class="prev">&lsaquo;</a><a class="next">&rsaquo;</a>
 				<img src="images/muse-the-resistance.jpg" alt="Muse, The Resistance" data-subtitle="Muse" data-title="The Resistance"/>
 				<img src="images/radiohead-the-king-of-limbs.jpg" alt="Radiohead, The King of Limbs" data-subtitle="Radiohead" data-title="The King of Limbs" />
 	            <img src="images/gorillaz-plasticbeach.jpg" alt="Gorillaz, Plastic Beach" data-subtitle="Gorillaz" data-title="Plastic Beach"/>
