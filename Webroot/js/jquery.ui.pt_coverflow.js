@@ -10,6 +10,10 @@ typeof jQuery.ui != 'undefined' &&
 			width: null,
 			height: null,
 			selectedIndex: 1,
+			autoplay: {
+				enabled: false,
+				interval: 5				// seconds
+			},
 			cover: {
 				angle : 12,				// degrees
 				height: 300,
@@ -73,6 +77,10 @@ typeof jQuery.ui != 'undefined' &&
 			this._$images.each($.proxy(this, "_createCover"));
 					
 			this._loadSlider();
+			
+			if (this.options.autoplay.enabled) {
+				this._play(true);
+			}
 		},
 		
 		_setOption: function (key, value) {
@@ -95,6 +103,40 @@ typeof jQuery.ui != 'undefined' &&
 		_$slider: null,
 		_$sliderHandleHelper: null,
 		_currentIndex: 0,
+		_playIntervalId: null,
+		
+		isPlaying: function () {
+			return (this._playIntervalId != null);
+		},
+		
+		play: function () {
+			this._play(false);
+		},
+		
+		_play: function (calledOnLoad) {
+			if (!this.isPlaying()) {
+				if (!calledOnLoad) {
+					this.nextCover();
+				}
+				this._playIntervalId = setInterval($.proxy(this, "nextCover"), this.options.autoplay.interval * 1000);
+			}
+		},
+		
+		pause: function () {
+			if (this.isPlaying()) {
+				clearInterval(this._playIntervalId);
+				this._playIntervalId = null;
+			}
+		},
+		
+		togglePlay: function () {
+			if (this.isPlaying()) {
+				this.pause();
+			}
+			else {
+				this.play();
+			}
+		},
 		
 		nextCover: function () {
 			var selectedIndex;
@@ -285,7 +327,7 @@ typeof jQuery.ui != 'undefined' &&
 					.css({ 
 						position: "relative",
 						height: "100%",
-						margin: "0 auto"
+						margin: "auto"
 					})
 				)
 				.parent();

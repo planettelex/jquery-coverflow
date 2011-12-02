@@ -95,7 +95,7 @@ div.cover-title {
 	font-weight: bold;
 	position: relative;
 	color: white;
-	margin: 310px auto;
+	margin: 210px auto;
 	z-index: 100;
 	width: 400px;
 }
@@ -117,7 +117,7 @@ div.wrapper {
 }
 
 .coverflow-slider {
-	top: 60%;
+	top: 365px;
 	opacity: 0.8;
 }
 
@@ -125,10 +125,14 @@ div.wrapper {
 	background-color: black;
 }
 
-.next, .prev {
+.play, .next, .prev {
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 100px;
 	cursor: pointer;
 	color: white;
 	opacity: 0.5;
+}
+
+#demo1 .wrapper {
+	height: 400px;
 }
