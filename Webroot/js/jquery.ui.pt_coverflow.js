@@ -9,7 +9,7 @@ typeof jQuery.ui != 'undefined' &&
 		options: {
 			width: null,
 			height: null,
-			selectedIndex: 1,
+			selectedIndex: 0,
 			autoplay: {
 				enabled: false,
 				interval: 5				// seconds
@@ -111,18 +111,24 @@ typeof jQuery.ui != 'undefined' &&
 		
 		play: function () {
 			this._play(false);
+			this._trigger("play", null, { selectedIndex: this._currentIndex });
 		},
 		
 		_play: function (calledOnLoad) {
 			if (!this.isPlaying()) {
 				if (!calledOnLoad) {
-					this.nextCover();
+					this._nextCover();
 				}
 				this._playIntervalId = setInterval($.proxy(this, "nextCover"), this.options.autoplay.interval * 1000);
 			}
 		},
 		
 		pause: function () {
+			this._pause();
+			this._trigger("pause", null, { selectedIndex: this._currentIndex });
+		},
+		
+		_pause: function () {
 			if (this.isPlaying()) {
 				clearInterval(this._playIntervalId);
 				this._playIntervalId = null;
@@ -131,14 +137,20 @@ typeof jQuery.ui != 'undefined' &&
 		
 		togglePlay: function () {
 			if (this.isPlaying()) {
-				this.pause();
+				this._pause();
 			}
 			else {
-				this.play();
+				this._play();
 			}
+			this._trigger("togglePlay", null, { selectedIndex: this._currentIndex });
 		},
 		
 		nextCover: function () {
+			this._nextCover();
+			this._trigger("nextCover", null, { selectedIndex: this._currentIndex });
+		},
+		
+		_nextCover: function () {
 			var selectedIndex;
 			if (this._currentIndex == this._coverCount()) {
 				selectedIndex = 0;
@@ -147,10 +159,15 @@ typeof jQuery.ui != 'undefined' &&
 				selectedIndex = this._currentIndex + 1;
 			}
 			
-			this.gotoCover(selectedIndex);
+			this._gotoCover(selectedIndex);
 		},
 		
 		prevCover: function () {
+			this._prevCover();
+			this._trigger("prevCover", null, { selectedIndex: this._currentIndex });
+		},
+		
+		_prevCover: function () {
 			var selectedIndex;
 			if (this._currentIndex == 0) {
 				selectedIndex = this._coverCount();
@@ -159,21 +176,32 @@ typeof jQuery.ui != 'undefined' &&
 				selectedIndex = this._currentIndex - 1;
 			}
 			
-			this.gotoCover(selectedIndex);
+			this._gotoCover(selectedIndex);
 		},
 		
 		/**
 		 * Wrapper for setting the "selectedIndex" option.
 		 */
 		gotoCover: function (selectedIndex) {
-			if (this.options.slider.enabled) {
+			this._setOption("selectedIndex", selectedIndex);
+			this._trigger("gotoCover", null, { selectedIndex: this._currentIndex });
+		},
+		
+		_gotoCover: function (selectedIndex, isSliding) {
+			isSliding = isSliding || false;
+			if (this.options.slider.enabled && !isSliding) {
 				this._$slider.slider("value", selectedIndex);
 			}
-			this._setOption("selectedIndex", selectedIndex);
+			this._$images.each($.curry(this, "_updateCover", isSliding, selectedIndex));
+			this._currentIndex = selectedIndex;
+			
+			if (this._currentIndex == this._coverCount()) {
+				this._trigger("lastCover", null, { selectedIndex: this._currentIndex });
+			}
 		},
 
 		_createCover: function (index, image) {
-			var options = this._coverConfig(this.options.selectedIndex, index, {
+			var options = this._coverConfig(false, this.options.selectedIndex, index, {
 				click: $.proxy(this, "_clickCover")
 			});
 			$(image).cover(options).data("coverFlow", {
@@ -181,8 +209,8 @@ typeof jQuery.ui != 'undefined' &&
 			});
 		},
 		
-		_updateCover: function (selectedIndex, index, image) {
-			var coverOptions = this._coverConfig(selectedIndex, index);
+		_updateCover: function (isSliding, selectedIndex, index, image) {
+			var coverOptions = this._coverConfig(isSliding, selectedIndex, index);
 			var cover = $ (image).data("cover");
 			for (var option in coverOptions) {
 				cover.option(option, coverOptions [option]);
@@ -192,20 +220,17 @@ typeof jQuery.ui != 'undefined' &&
 		},
 		
 		_sliderChange: function (event, ui) {
-			if (ui.value != this._currentIndex)
-				this._gotoCover(ui.value);
+			if (ui.value != this._currentIndex) {
+				this._gotoCover(ui.value, true);
+				this._trigger("slide", null, { selectedIndex: this._currentIndex });
+			}
 		},
 		
 		_clickCover: function (e, data) {
-			this.gotoCover(data.image.data("coverFlow").index);
+			this._gotoCover(data.image.data("coverFlow").index);
 		},
 		
-		_gotoCover: function (selectedIndex) {
-			this._currentIndex = selectedIndex;
-			this._$images.each($.curry(this, "_updateCover", selectedIndex));
-		},
-		
-		_coverConfig: function (selectedIndex, index, options) {
+		_coverConfig: function (isSliding, selectedIndex, index, options) {
 			options = options || {};
 			var centerOffset = 0;
 			var perspective = "center";
@@ -225,7 +250,7 @@ typeof jQuery.ui != 'undefined' &&
 			}
 			
 			var perspectiveDuration = this.options.cover.animation.perspective.duration;
-			if (Math.abs(this._currentIndex - selectedIndex) == 1) {
+			if (!isSliding && Math.abs(this._currentIndex - selectedIndex) == 1) {
 				perspectiveDuration += perspectiveDuration * (this.options.cover.animation.perspective.inner / 100);
 			}
 

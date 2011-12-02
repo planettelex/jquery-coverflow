@@ -16,24 +16,33 @@
 
 	<script type="text/javascript">
 		$(function () {
-			var coverflow1 = $("#coverflow").coverflow();
-			var coverflow2 = $("#coverflow-2").coverflow({ images: [ 
+			var $coverflow1 = $("#coverflow").coverflow();
+			var $coverflow2 = $("#coverflow-2").coverflow({ images: [ 
 				{ src: "images/muse-the-resistance.jpg", subtitle: "Muse", title: "The Resistance" },
 				{ src: "images/radiohead-the-king-of-limbs.jpg", subtitle: "Radiohead", title: "The King of Limbs" },
 				{ src: "images/gorillaz-plasticbeach.jpg", subtitle: "Gorillaz", title: "Plastic Beach" }
 			]});
 			
-			$("#demo1 .play").click(function () {
-				coverflow1.coverflow("togglePlay");
+			// Example: hook up first coverflow buttons
+			var $playButton = $("#demo1 .play").click(function () {
+				$coverflow1.coverflow("togglePlay");
 			});
 			$("#demo1 .prev").click(function () {
-				coverflow1.coverflow("prevCover");
+				$coverflow1.coverflow("prevCover");
 			});
 			$("#demo1 .next").click(function () {
-				coverflow1.coverflow("nextCover");
+				$coverflow1.coverflow("nextCover");
 			})
 			
-			coverflow2.coverflow("pause");
+			// Example: pause the second coverflow
+			$coverflow2.coverflow("pause");
+			
+			// Example: hook up to the togglePlay event on the first coverflow
+			$("#coverflow").bind('pt.coverflowtoggleplay', function(event) {
+				$playButton.fadeOut(function () {
+					$(this).fadeIn();
+				})
+			});
 		});
 	</script>
 </head>
