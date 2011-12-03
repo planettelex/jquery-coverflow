@@ -212,7 +212,9 @@ typeof jQuery.ui != 'undefined' &&
 					position: "absolute",
 					cursor: "pointer"
 				})
-				.click($.proxy(this, "_click"));
+				.click($.proxy(this, "_click"))
+				.mouseenter($.proxy(this, "_mouseenter"))
+				.mouseleave($.proxy(this, "_mouseleave"));
 				
 			if (this.supportsCanvas) {
 				this.element.css({ top: -1000, left: -1000, position: "absolute" }).after(this._$cover);
@@ -243,6 +245,14 @@ typeof jQuery.ui != 'undefined' &&
 		
 		_click: function (e) {
 			this._trigger("click", e, { image: this.element }); 
+		},
+		
+		_mouseenter: function (e) {
+			this._trigger("mouseenter", e, { image: this.element } );
+		},
+		
+		_mouseleave: function (e) {
+			this._trigger("mouseleave", e, { image: this.element } );
 		},
 		
 		_draw: function (points) {

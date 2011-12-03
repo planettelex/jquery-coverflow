@@ -12,7 +12,8 @@ typeof jQuery.ui != 'undefined' &&
 			selectedIndex: 0,
 			autoplay: {
 				enabled: false,
-				interval: 5				// seconds
+				interval: 5,			// seconds
+				pauseOnMouseenter: true
 			},
 			cover: {
 				angle : 12,				// degrees
@@ -77,7 +78,7 @@ typeof jQuery.ui != 'undefined' &&
 			this._$images.each($.proxy(this, "_createCover"));
 					
 			this._loadSlider();
-			
+
 			if (this.options.autoplay.enabled) {
 				this._play(true);
 			}
@@ -202,7 +203,9 @@ typeof jQuery.ui != 'undefined' &&
 
 		_createCover: function (index, image) {
 			var options = this._coverConfig(false, this.options.selectedIndex, index, {
-				click: $.proxy(this, "_clickCover")
+				click: $.proxy(this, "_clickCover"),
+				mouseenter: $.proxy(this, "_mouseenterCover"),
+				mouseleave: $.proxy(this, "_mouseleaveCover")
 			});
 			$(image).cover(options).data("coverFlow", {
 				index: index
@@ -228,6 +231,21 @@ typeof jQuery.ui != 'undefined' &&
 		
 		_clickCover: function (e, data) {
 			this._gotoCover(data.image.data("coverFlow").index);
+		},
+		
+		_mouseenterCover: function (e, data) {
+			if (this.options.autoplay.pauseOnMouseenter) {
+				this._pause();
+				this._trigger("mouseenter", null, { selectedIndex: this._currentIndex });
+			}
+		},
+		
+		_mouseleaveCover: function (e, data) {
+			if (this.options.autoplay.pauseOnMouseenter) {
+				//TODO Handle the case were the coverflow wasn't playing before the cover was entered and therefore should start on leave.
+				this._play();
+				this._trigger("mouseleave", null, { selectedIndex: this._currentIndex });
+			}
 		},
 		
 		_coverConfig: function (isSliding, selectedIndex, index, options) {
