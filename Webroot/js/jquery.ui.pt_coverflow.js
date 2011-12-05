@@ -80,7 +80,7 @@ typeof jQuery.ui != 'undefined' &&
 			this._loadSlider();
 
 			if (this.options.autoplay.enabled) {
-				this._play(true);
+				this._play();
 			}
 		},
 		
@@ -89,6 +89,16 @@ typeof jQuery.ui != 'undefined' &&
 				case "selectedIndex":
 					this._gotoCover(value);
 					break;
+					
+				case "autoplay": {
+					if (value.enabled) {
+						this._play();
+					}
+					else {
+						this._pause();
+					}
+					break;
+				}
 			}
 
 			$.Widget.prototype._setOption.apply(this, arguments);
@@ -111,15 +121,14 @@ typeof jQuery.ui != 'undefined' &&
 		},
 		
 		play: function () {
-			this._play(false);
+			var autoplay = $.extend(true, {}, this.options.autoplay);
+			autoplay.enabled = true;
+			this._setOption("autoplay", autoplay);
 			this._trigger("play", null, { selectedIndex: this._currentIndex });
 		},
 		
-		_play: function (calledOnLoad) {
+		_play: function () {
 			if (!this.isPlaying()) {
-				if (!calledOnLoad) {
-					this._nextCover();
-				}
 				this._playIntervalId = setInterval($.proxy(this, "nextCover"), this.options.autoplay.interval * 1000);
 			}
 		},
@@ -141,7 +150,9 @@ typeof jQuery.ui != 'undefined' &&
 				this._pause();
 			}
 			else {
-				this._play();
+				var autoplay = $.extend(true, {}, this.options.autoplay);
+				autoplay.enabled = true;
+				this._setOption("autoplay", autoplay);
 			}
 			this._trigger("togglePlay", null, { selectedIndex: this._currentIndex });
 		},
@@ -242,8 +253,9 @@ typeof jQuery.ui != 'undefined' &&
 		
 		_mouseleaveCover: function (e, data) {
 			if (this.options.autoplay.pauseOnMouseenter) {
-				//TODO Handle the case were the coverflow wasn't playing before the cover was entered and therefore should start on leave.
-				this._play();
+				if (this.options.autoplay.enabled) {
+					this._play();
+				}
 				this._trigger("mouseleave", null, { selectedIndex: this._currentIndex });
 			}
 		},
