@@ -71,6 +71,12 @@ typeof jQuery.ui != 'undefined' &&
 		},
 
 		destroy: function () {
+			if (this.supportsCanvas) {
+				this._$cover.remove();
+			}
+			else {
+				//TODO Restore image to original state.
+			}
 			$.Widget.prototype.destroy.call(this);
 		},
 
@@ -84,6 +90,7 @@ typeof jQuery.ui != 'undefined' &&
 
 		supportsCanvas: (function () {
 			var elem = document.createElement('canvas');
+			//
 			return !!(elem.getContext && elem.getContext('2d'));
 		})(),
 		
@@ -162,6 +169,16 @@ typeof jQuery.ui != 'undefined' &&
 					complete: $.proxy(this, "_animationComplete")
 				});
 			}
+		},
+
+		raiseZ: function () {
+			++this.options.canvas.zIndex;
+			this._$cover.css({ zIndex: this.options.canvas.zIndex });
+		},
+		
+		lowerZ: function () {
+			--this.options.canvas.zIndex;
+			this._$cover.css({ zIndex: this.options.canvas.zIndex });		
 		},
 		
 		_animationStep: function (now, fx) {

@@ -15,6 +15,9 @@ typeof jQuery.ui != 'undefined' &&
 				interval: 5,			// seconds
 				pauseOnMouseenter: true
 			},
+			categories: {
+				enabled: true
+			},
 			cover: {
 				angle : 12,				// degrees
 				height: 300,
@@ -73,23 +76,22 @@ typeof jQuery.ui != 'undefined' &&
 				 	);
 				 }
 			}
-			
-			this._$images = this.element.find("img");	
-			this._$images.each($.proxy(this, "_createCover"));
-					
+
+			this._$images = this.element.find("img");
+			this._loadImages();
 			this._loadSlider();
 
 			if (this.options.autoplay.enabled) {
 				this._play();
 			}
 		},
-		
+
 		_setOption: function (key, value) {
 			switch (key) {
 				case "selectedIndex":
 					this._gotoCover(value);
 					break;
-					
+
 				case "autoplay": {
 					if (value.enabled) {
 						this._play();
@@ -103,48 +105,98 @@ typeof jQuery.ui != 'undefined' &&
 
 			$.Widget.prototype._setOption.apply(this, arguments);
 		},
-		
+
 		destroy: function () {
 			$.Widget.prototype.destroy.call(this);
 		},
-		
+
 		/* End Widget Overrides */
 
+		_$activeImages: [],
+		_categories: [],
 		_$images: [],
+		_imagesByCategory: {},
+
 		_$slider: null,
 		_$sliderHandleHelper: null,
 		_currentIndex: 0,
 		_playIntervalId: null,
 		
+		addImage: function($image) {
+			// Allow array index to just continually go up?
+			// Maybe implement destruct on coverflow and have covers recreated when adding after removing.
+			
+			if (!$image.data("cover")) {
+				//TODO Just increase all of the container's elements zIndex?
+				this._$activeImages.each(function (i, img) {
+					$(img).cover("raiseZ");
+				});
+				
+				$image.remove();
+				this.element.append($image);
+				this._$activeImages.push($image[0]);
+				this._loadImage($image[0]);
+				this._createCover(this._coverCount() - 1, $image[0]);
+				this._syncSlider();
+			}
+		},
+		
+		removeImage: function () {
+			var image = null;
+			
+			//Removes the first image on the left
+			if (this._coverCount() > 1) {
+				var removeIndex = 0;
+				image = this._$activeImages.splice(removeIndex, 1);
+				$(image).cover("destroy");
+				
+				this._$activeImages.each(function (index, img) {
+					$(img).cover("lowerZ");
+					$(img).data("coverflow").index = index;
+				});
+				
+				if (removeIndex == this._currentIndex) {
+					this.gotoCover(this._currentIndex);
+				}
+				else {
+					this.gotoCover(this._currentIndex - 1);
+				}
+				
+				this._syncSlider();
+			}
+			
+			return image;
+		},
+
 		isPlaying: function () {
 			return (this._playIntervalId != null);
 		},
-		
+
 		play: function () {
 			var autoplay = $.extend(true, {}, this.options.autoplay);
 			autoplay.enabled = true;
 			this._setOption("autoplay", autoplay);
 			this._trigger("play", null, { selectedIndex: this._currentIndex });
 		},
-		
+
 		_play: function () {
 			if (!this.isPlaying()) {
 				this._playIntervalId = setInterval($.proxy(this, "nextCover"), this.options.autoplay.interval * 1000);
 			}
 		},
-		
+
 		pause: function () {
 			this._pause();
 			this._trigger("pause", null, { selectedIndex: this._currentIndex });
 		},
-		
+
 		_pause: function () {
 			if (this.isPlaying()) {
 				clearInterval(this._playIntervalId);
 				this._playIntervalId = null;
 			}
 		},
-		
+
 		togglePlay: function () {
 			if (this.isPlaying()) {
 				this._pause();
@@ -156,12 +208,12 @@ typeof jQuery.ui != 'undefined' &&
 			}
 			this._trigger("togglePlay", null, { selectedIndex: this._currentIndex });
 		},
-		
+
 		nextCover: function () {
 			this._nextCover();
 			this._trigger("nextCover", null, { selectedIndex: this._currentIndex });
 		},
-		
+
 		_nextCover: function () {
 			var selectedIndex;
 			if (this._currentIndex == this._coverCount()) {
@@ -170,15 +222,15 @@ typeof jQuery.ui != 'undefined' &&
 			else {
 				selectedIndex = this._currentIndex + 1;
 			}
-			
+
 			this._gotoCover(selectedIndex);
 		},
-		
+
 		prevCover: function () {
 			this._prevCover();
 			this._trigger("prevCover", null, { selectedIndex: this._currentIndex });
 		},
-		
+
 		_prevCover: function () {
 			var selectedIndex;
 			if (this._currentIndex == 0) {
@@ -187,10 +239,10 @@ typeof jQuery.ui != 'undefined' &&
 			else {
 				selectedIndex = this._currentIndex - 1;
 			}
-			
+
 			this._gotoCover(selectedIndex);
 		},
-		
+
 		/**
 		 * Wrapper for setting the "selectedIndex" option.
 		 */
@@ -198,59 +250,95 @@ typeof jQuery.ui != 'undefined' &&
 			this._setOption("selectedIndex", selectedIndex);
 			this._trigger("gotoCover", null, { selectedIndex: this._currentIndex });
 		},
-		
+
 		_gotoCover: function (selectedIndex, isSliding) {
 			isSliding = isSliding || false;
 			if (this.options.slider.enabled && !isSliding) {
 				this._$slider.slider("value", selectedIndex);
 			}
-			this._$images.each($.curry(this, "_updateCover", isSliding, selectedIndex));
+			this._$activeImages.each($.curry(this, "_updateCover", isSliding, selectedIndex));
 			this._currentIndex = selectedIndex;
-			
+
 			if (this._currentIndex == this._coverCount()) {
 				this._trigger("lastCover", null, { selectedIndex: this._currentIndex });
 			}
 		},
 
 		_createCover: function (index, image) {
-			var options = this._coverConfig(false, this.options.selectedIndex, index, {
+			var options = this._coverConfig(false, this._currentIndex, index, {
 				click: $.proxy(this, "_clickCover"),
 				mouseenter: $.proxy(this, "_mouseenterCover"),
 				mouseleave: $.proxy(this, "_mouseleaveCover")
 			});
-			$(image).cover(options).data("coverFlow", {
+			$(image).show().cover(options).data("coverflow", {
 				index: index
 			});
 		},
+
+		_loadImages: function () {
+			var activeImages = [];
+			var firstCategory = null;
+			for (var i = 0; i < this._$images.length; i++) {
+				var category = this._loadImage(this._$images[i]);
+				
+				if (!firstCategory) {
+					firstCategory = category;
+				}
+				
+				if (!this.options.categories.enabled || category == firstCategory) {
+					activeImages.push(this._$images[i]);
+				}
+			}
+
+			this._$activeImages = $(activeImages);
+			this._$activeImages.each($.proxy(this, "_createCover"));
+		},
 		
+		_loadImage: function (image) {
+			var $image = $(image).hide();
+			var category = $image.data("category");
+			if (!category) {
+				category = "Unknown";
+			}
+
+			if (!this._imagesByCategory[category]) {
+				this._imagesByCategory[category] = [];
+				this._categories.push(category);
+			}
+
+			this._imagesByCategory[category].push(image);
+			
+			return category;
+		},
+
 		_updateCover: function (isSliding, selectedIndex, index, image) {
 			var coverOptions = this._coverConfig(isSliding, selectedIndex, index);
-			var cover = $ (image).data("cover");
+			var cover = $(image).data("cover");
 			for (var option in coverOptions) {
 				cover.option(option, coverOptions [option]);
 			}
 
 			cover.refresh(true);
 		},
-		
+
 		_sliderChange: function (event, ui) {
 			if (ui.value != this._currentIndex) {
 				this._gotoCover(ui.value, true);
 				this._trigger("slide", null, { selectedIndex: this._currentIndex });
 			}
 		},
-		
+
 		_clickCover: function (e, data) {
-			this._gotoCover(data.image.data("coverFlow").index);
+			this._gotoCover(data.image.data("coverflow").index);
 		},
-		
+
 		_mouseenterCover: function (e, data) {
 			if (this.options.autoplay.pauseOnMouseenter) {
 				this._pause();
 				this._trigger("mouseenter", null, { selectedIndex: this._currentIndex });
 			}
 		},
-		
+
 		_mouseleaveCover: function (e, data) {
 			if (this.options.autoplay.pauseOnMouseenter) {
 				if (this.options.autoplay.enabled) {
@@ -259,7 +347,7 @@ typeof jQuery.ui != 'undefined' &&
 				this._trigger("mouseleave", null, { selectedIndex: this._currentIndex });
 			}
 		},
-		
+
 		_coverConfig: function (isSliding, selectedIndex, index, options) {
 			options = options || {};
 			var centerOffset = 0;
@@ -274,11 +362,11 @@ typeof jQuery.ui != 'undefined' &&
 				centerOffset = index - selectedIndex;
 				perspective = "right";
 			}
-			
+
 			if (index != selectedIndex) {
 				scale = 1 - (this.options.cover.background.size / 100);
 			}
-			
+
 			var perspectiveDuration = this.options.cover.animation.perspective.duration;
 			if (!isSliding && Math.abs(this._currentIndex - selectedIndex) == 1) {
 				perspectiveDuration += perspectiveDuration * (this.options.cover.animation.perspective.inner / 100);
@@ -296,7 +384,7 @@ typeof jQuery.ui != 'undefined' &&
 				canvas: {
 					left: this._coverLeft(centerOffset, coverWidth),
 					top: this._coverTop(centerOffset, coverHeight, scale),
-					zIndex: this._$images.length - Math.abs(centerOffset)
+					zIndex: this._$activeImages.length - Math.abs(centerOffset)
 				},
 				animation: {
 					slide: {
@@ -305,14 +393,14 @@ typeof jQuery.ui != 'undefined' &&
 					},
 					perspective: {
 						duration: perspectiveDuration,
-						easing: "jswing" 
+						easing: "jswing"
 					}
 				}
 			});
 
 			return coverOptions;
 		},
-		
+
 		_coverLeft: function (centerOffset, coverWidth) {
 			var left = (this.options.width / 2) - (coverWidth / 2) + (coverWidth * centerOffset);
 			var overlap;
@@ -325,7 +413,7 @@ typeof jQuery.ui != 'undefined' &&
 				overlap = (this.options.cover.overlap.inner / 100) * coverWidth;
 				overlap *= Math.abs(centerOffset);
 			}
-			
+
 			if (centerOffset < 0) {
 				left += overlap;
 			}
@@ -335,7 +423,7 @@ typeof jQuery.ui != 'undefined' &&
 
 			return left;
 		},
-		
+
 		_coverTop: function (centerOffset, coverHeight, scalePercentage) {
 			var top = 0;
 			if (centerOffset != 0) {
@@ -343,16 +431,16 @@ typeof jQuery.ui != 'undefined' &&
 			}
 			return top;
 		},
-		
+
 		_coverCount: function () {
-			return this._$images.length - 1;
+			return this._$activeImages.length;
 		},
-		
+
 		_loadSlider: function () {
 			if (!this.options.slider.enabled) {
 				return;
 			}
-			
+
 			var coverCount = this._coverCount();
 			var sliderWidth = this.options.width - (1 - (this.options.slider.width / 100)) * this.options.width;
 			var handleSize = sliderWidth / coverCount;
@@ -366,12 +454,13 @@ typeof jQuery.ui != 'undefined' &&
 				})
 				.addClass("coverflow-slider")
 				.slider({
+					animate: true,
 					value: this._currentIndex,
-					max: coverCount,
+					max: coverCount - 1,
 					slide: $.proxy(this, "_sliderChange")
 				});
-				
-			
+
+
 			this._$sliderHandleHelper = this._$slider.find(".ui-slider-handle")
 				.css({
 					width: handleSize,
@@ -379,15 +468,38 @@ typeof jQuery.ui != 'undefined' &&
 				})
 				.wrap($("<div class='ui-handle-helper-parent'></div>")
 					.width(sliderWidth - handleSize)
-					.css({ 
+					.css({
 						position: "relative",
 						height: "100%",
 						margin: "auto"
 					})
 				)
 				.parent();
-				
+
 			this.element.append(this._$slider);
+		},
+	
+		_syncSlider: function () {
+			if (!this.options.slider.enabled) {
+				return;
+			}
+			
+			var coverCount = this._coverCount();
+			this._$slider
+				.css({ zIndex: coverCount + 1 })
+				.slider("option", "max", coverCount - 1)
+				.slider("value", this._currentIndex);
+			
+			var sliderWidth = this.options.width - (1 - (this.options.slider.width / 100)) * this.options.width;
+			var handleSize = sliderWidth / coverCount;
+		
+			this._$sliderHandleHelper
+				.width(sliderWidth - handleSize)
+				.find("a")
+					.css({
+						width: handleSize,
+						marginLeft: -handleSize / 2 - 2
+					});
 		}
 	});
 

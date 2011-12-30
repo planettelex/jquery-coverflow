@@ -2,14 +2,14 @@
 <html>
 <head>
 	<title>Planet Telex Coverflow</title>
-	
-	<link type="text/css" href="css/ui-darkness/jquery-ui-1.8.16.custom.css" rel="Stylesheet" />	
+
+	<link type="text/css" href="css/ui-darkness/jquery-ui-1.8.16.custom.css" rel="Stylesheet" />
 	<link type="text/css" href="css/site.css" rel="Stylesheet" />
 
 	<!-- Include jQuery and UI -->
 	<script type="text/javascript" src="js/jquery-1.6.2.min.js"></script>
     <script type="text/javascript" src="js/jquery-ui-1.8.16.custom.min.js"></script>
-    
+
 	<!-- Include jQuery CoverFlow widgets -->
 	<script type="text/javascript" src="js/jquery.ui.pt_cover.js"></script>
 	<script type="text/javascript" src="js/jquery.ui.pt_coverflow.js"></script>
@@ -17,12 +17,12 @@
 	<script type="text/javascript">
 		$(function () {
 			var $coverflow1 = $("#coverflow").coverflow();
-			var $coverflow2 = $("#coverflow-2").coverflow({ images: [ 
-				{ src: "images/muse-the-resistance.jpg", subtitle: "Muse", title: "The Resistance" },
-				{ src: "images/radiohead-the-king-of-limbs.jpg", subtitle: "Radiohead", title: "The King of Limbs" },
-				{ src: "images/gorillaz-plasticbeach.jpg", subtitle: "Gorillaz", title: "Plastic Beach" }
+			var $coverflow2 = $("#coverflow-2").coverflow({ images: [
+				{ src: "images/muse-the-resistance.jpg", subtitle: "Muse", title: "The Resistance", category: "Rock" },
+				{ src: "images/radiohead-the-king-of-limbs.jpg", subtitle: "Radiohead", title: "The King of Limbs", category: "Rock" },
+				{ src: "images/gorillaz-plasticbeach.jpg", subtitle: "Gorillaz", title: "Plastic Beach", category: "Hip Hop" }
 			]});
-			
+
 			// Example: hook up first coverflow buttons
 			var $playButton = $("#demo1 .play").click(function () {
 				$coverflow1.coverflow("togglePlay");
@@ -33,15 +33,23 @@
 			$("#demo1 .next").click(function () {
 				$coverflow1.coverflow("nextCover");
 			})
-			
+
 			// Example: pause the second coverflow
 			$coverflow2.coverflow("pause");
-			
+
 			// Example: hook up to the togglePlay event on the first coverflow
 			$("#coverflow").bind('pt.coverflowtoggleplay', function(event) {
 				$playButton.fadeOut(function () {
 					$(this).fadeIn();
 				})
+			});
+			
+			$("#addImage").click(function() {
+				$coverflow1.coverflow("addImage", $("#extraImage"));
+			});
+			
+			$("#removeImage").click(function () {
+				$coverflow1.coverflow("removeImage");
 			});
 		});
 	</script>
@@ -53,17 +61,17 @@
 		<h2>Demo 1</h2>
 		<div class="wrapper">
 			<div id="coverflow" class="coverflow">
-				<a class="prev">&lsaquo;</a><a class="play">&ge;</a><a class="next">&rsaquo;</a>
-				<img src="images/muse-the-resistance.jpg" alt="Muse, The Resistance" data-subtitle="Muse" data-title="The Resistance"/>
-				<img src="images/radiohead-the-king-of-limbs.jpg" alt="Radiohead, The King of Limbs" data-subtitle="Radiohead" data-title="The King of Limbs" />
-	            <img src="images/gorillaz-plasticbeach.jpg" alt="Gorillaz, Plastic Beach" data-subtitle="Gorillaz" data-title="Plastic Beach"/>
-				<img src="images/kingsofleon-comearoundsunshine.jpg" alt="Kings of Leon, Come Around Sunshine" data-subtitle="Kings Of Leon" data-title="Come Around Sunshine"/>
-				<img src="images/ironmaiden-thefinalfrontier.jpg"alt="Iron Maiden, The Final Frontier" data-subtitle="Iron Maiden" data-title="The Final Frontier"/>
-				<img src="images/bonobo-blacksands.jpg" alt="Bonobo, Blacksands" data-subtitle="Bonobo" data-title="Blacksands" />
-				<img src="images/portugaltheman-inthemountaininthecloud.jpg" alt="Portugal the Man, In the mountain in the cloud" data-subtitle="Portugal the Man" data-title="In the Mountain in the Cloud" />
+				<a class="prev">&lsaquo;</a><a class="play">&ge;</a><a class="next">&rsaquo;</a>&nbsp;<a id="addImage" class="addImage">a</a>&nbsp;<a id="removeImage" class="addImage">r</a>
+				<img src="images/muse-the-resistance.jpg" alt="Muse, The Resistance" data-subtitle="Muse" data-title="The Resistance" data-category="Rock" />
+				<img src="images/radiohead-the-king-of-limbs.jpg" alt="Radiohead, The King of Limbs" data-subtitle="Radiohead" data-title="The King of Limbs" data-category="Rock" />
+	            <img src="images/gorillaz-plasticbeach.jpg" alt="Gorillaz, Plastic Beach" data-subtitle="Gorillaz" data-title="Plastic Beach" data-category="Hip Hop" />
+				<img src="images/kingsofleon-comearoundsunshine.jpg" alt="Kings of Leon, Come Around Sunshine" data-subtitle="Kings Of Leon" data-title="Come Around Sunshine" data-category="Pop" />
+				<img src="images/ironmaiden-thefinalfrontier.jpg"alt="Iron Maiden, The Final Frontier" data-subtitle="Iron Maiden" data-title="The Final Frontier" data-category="Rock" />
+				<img src="images/bonobo-blacksands.jpg" alt="Bonobo, Blacksands" data-subtitle="Bonobo" data-title="Blacksands" data-category="Alternative" />
 			</div>
 		</div>
 	</div>
+	<img id="extraImage" src="images/portugaltheman-inthemountaininthecloud.jpg" alt="Portugal the Man, In the mountain in the cloud" data-subtitle="Portugal the Man" data-title="In the Mountain in the Cloud" data-category="Alternative" />
 	<div class="demo">
 		<h2>Demo 2</h2>
 		<div class="wrapper">
