@@ -332,14 +332,14 @@ typeof jQuery.ui != 'undefined' &&
 			this._gotoCover(data.image.data("coverflow").index);
 		},
 
-		_mouseenterCover: function (e, data) {
+		_mouseenterCover: function () {
 			if (this.options.autoplay.pauseOnMouseenter) {
 				this._pause();
 				this._trigger("mouseenter", null, { selectedIndex: this._currentIndex });
 			}
 		},
 
-		_mouseleaveCover: function (e, data) {
+		_mouseleaveCover: function () {
 			if (this.options.autoplay.pauseOnMouseenter) {
 				if (this.options.autoplay.enabled) {
 					this._play();
