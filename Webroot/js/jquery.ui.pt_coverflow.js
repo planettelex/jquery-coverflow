@@ -20,7 +20,7 @@ typeof jQuery.ui != 'undefined' &&
                 enabled: false,
                 interval: 5, 		    // seconds between covers
                 pauseOnMouseenter: true,
-                playsPerCategory: 2
+                playsPerCategory: 1
             },
             categories: {
                 enabled: true,
@@ -64,6 +64,9 @@ typeof jQuery.ui != 'undefined' &&
         },
 
         _create: function () {
+            ///<summary>Creates a new instance of the Coverflow.</summary>
+            ///<returns type="Undefined" />
+
             this._categories = [];
             this._imagesByCategory = {};
             this.options.width = this.options.width || this.element.width();
@@ -98,6 +101,11 @@ typeof jQuery.ui != 'undefined' &&
         },
 
         _setOption: function (key, value) {
+            ///<summary>Sets an option.</summary>
+            ///<param name="key" type="String">The option name (key in the options object).</param>
+            ///<param name="value" type="Object">The is a mixed type value of the option.</param>
+            ///<returns type="Undefined" />
+
             switch (key) {
                 case "selectedIndex":
                     this._gotoCover(value);
@@ -123,6 +131,9 @@ typeof jQuery.ui != 'undefined' &&
         },
 
         destroy: function () {
+            ///<summary>Destroys the Coverflow instance and restores the DOM to its original state prior to the Coverflow creation.</summary>
+            ///<returns type="Undefined" />
+
             $.Widget.prototype.destroy.call(this);
         },
 
@@ -142,19 +153,30 @@ typeof jQuery.ui != 'undefined' &&
 
         addImage: function ($image) {
             /// <summary>
-            /// Add a new image to the end of the Coverflow.
+            /// Adds a new image to the end of the Coverflow on the right.
+            /// If categories are active then the image may not immediately
+            /// be displayed if its category doesn't match the currently active one.
             /// </summary> 
             /// <param name="$image" type="jQuery">The image to be added.</param>
+            ///<returns type="Undefined" />
 
             this._addImage($image, false);
+
         },
 
         _addImage: function ($image, isChangingCategory) {
             /// <summary>
-            /// Add a new image to the end of the Coverflow.
+            /// Adds a new image to the end of the Coverflow on the right.
             /// </summary> 
             /// <param name="$image" type="jQuery">The image to be added.</param>
+            /// <param name="isChangingCategory" type="Boolean">
+            /// Determines if the category is being changed or not.
+            /// This way during a category change images are allowed to be added to the previously active category.
+            /// Defaults to false.
+            /// </param>
+            ///<returns type="Undefined" />
 
+            isChangingCategory = isChangingCategory || false;
             if (!$image.data("cover")) {
                 this._$activeImages.each(function (i, img) {
                     $(img).cover("raiseZ");
@@ -174,13 +196,20 @@ typeof jQuery.ui != 'undefined' &&
         },
 
         removeImage: function () {
+            ///<summary>
+            /// Removes the first image on the left of the Coverflow.
+            ///</summary>
+            ///<returns type="Undefined" />
+
             if (this._imagesCount() > 1) {
                 this._removeImage();
             }
         },
 
         _removeImage: function () {
-            ///<summary>Removes the first image on the left</summary>
+            ///<summary>Removes the first image on the left of the Coverflow.</summary>
+            ///<returns type="Undefined" />
+
             var removeIndex = 0;
             var image = this._$activeImages.splice(removeIndex, 1);
             this._updateCover(true, this._currentIndex, removeIndex, image, position.left);
@@ -206,10 +235,20 @@ typeof jQuery.ui != 'undefined' &&
         },
 
         isPlaying: function () {
+            ///<summary>
+            /// Determines if the Coverflow is currently playing.
+            ///</summary>
+            ///<returns type="Boolean"><c>true</c> if play mode is active.</returns>
+
             return (this._playIntervalId != null);
         },
 
         play: function () {
+            ///<summary>
+            /// Turns on autoplay mode.
+            ///</summary>
+            ///<returns type="Undefined" />
+
             var autoplay = $.extend(true, {}, this.options.autoplay);
             autoplay.enabled = true;
             this._setOption("autoplay", autoplay);
@@ -217,12 +256,23 @@ typeof jQuery.ui != 'undefined' &&
         },
 
         _play: function () {
+            ///<summary>
+            /// Turns on autoplay mode, but does not trigger any events.
+            ///</summary>
+            ///<returns type="Undefined" />
+
             if (!this.isPlaying()) {
                 this._playIntervalId = setInterval($.proxy(this, "_playNext"), this.options.autoplay.interval * 1000);
             }
         },
 
         _playNext: function () {
+            ///<summary>
+            /// Controls what gets played next during each interval while autoplay mode is enabled.
+            /// If categories are enabled then the next one might be shown instead of the next cover.
+            ///</summary>
+            ///<returns type="Undefined" />
+
             if (this.options.categories.enabled) {
                 if (this._playCountInCategory >= this._imagesCount() || this._playCountInCategory >= this.options.autoplay.playsPerCategory) {
                     this._nextCategory();
@@ -282,7 +332,9 @@ typeof jQuery.ui != 'undefined' &&
                 selectedIndex = this._currentCategoryIndex + 1;
             }
 
-            this._gotoCategory(this._categories[selectedIndex]);
+            if (selectedIndex != this._currentCategoryIndex) {
+                this._gotoCategory(this._categories[selectedIndex]);
+            }
         },
 
         prevCategory: function () {
@@ -389,7 +441,7 @@ typeof jQuery.ui != 'undefined' &&
         _createCover: function (index, image, initialPosition) {
             ///<summary>Creates the cover for an image and places it in the coverflow.</summary>
             ///<param name="index" type="Numeric" integer="true">The images index in the coverflow.</param>
-            ///<param name="image" type="Object" elementDomElement="true">The image element from the DOM.</param>
+            ///<param name="image" domElement="true">The image element from the DOM.</param>
             ///<param name="initialPosition" type="String">The initial placement of the cover relative to the coverflow container.</param>
 
             initialPosition = initialPosition || position.center;

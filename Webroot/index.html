@@ -12,8 +12,12 @@
     <script type="text/javascript" src="js/jquery.ui.pt_coverflow.js"></script>
     <script type="text/javascript">
         $(function () {
+            var extraImage = $("#extraImage").hide();
             var $coverflow1 = $("#coverflow").coverflow();
             var $coverflow2 = $("#coverflow-2").coverflow({
+                autoplay: {
+                    enabled: true
+                },
                 images: [
                     { src: "images/muse-the-resistance.jpg", subtitle: "Muse", title: "The Resistance", category: "Rock" },
                     { src: "images/radiohead-the-king-of-limbs.jpg", subtitle: "Radiohead", title: "The King of Limbs", category: "Rock" },
@@ -38,7 +42,7 @@
                 $coverflow1.coverflow("nextCover");
             });
             $("#addImage").click(function () {
-                $coverflow1.coverflow("addImage", $("#extraImage"));
+                $coverflow1.coverflow("addImage", extraImage);
             });
             $("#removeImage").click(function () {
                 $coverflow1.coverflow("removeImage");
@@ -53,6 +57,15 @@
 
             // Example: Force a pause on the second coverflow.
             $coverflow2.coverflow("pause");
+            $("#playPause2").click(function () {
+                $coverflow2.coverflow("togglePlay");
+            });
+            $("#prevCover2").click(function () {
+                $coverflow2.coverflow("prevCover");
+            });
+            $("#nextCover2").click(function () {
+                $coverflow2.coverflow("nextCover");
+            });
         });
     </script>
 </head>
@@ -85,7 +98,7 @@
             <h2>Demo 2</h2>
             <div class="wrapper">
                 <div id="coverflow-2" class="coverflow controls">
-                    <a>&lsaquo;</a><a>&ge;</a><a>&rsaquo;</a>
+                    <a id="prevCover2">&lsaquo;</a><a id="playPause2">&ge;</a><a id="nextCover2">&rsaquo;</a>
                 </div>
             </div>
         </div>
