@@ -12,6 +12,7 @@ typeof jQuery.ui != 'undefined' &&
         widgetEventPrefix: 'pt.cover',
 
         options: {
+            id: (new Date()).getTime(),
             angle: 0,
             width: 300,
             height: 300,
@@ -34,7 +35,8 @@ typeof jQuery.ui != 'undefined' &&
             canvas: {
                 left: 0,
                 top: 0,
-                zIndex: 0
+                zIndex: 0,
+                opacity: 1
             },
             reflection: {
                 enabled: true,
@@ -73,6 +75,9 @@ typeof jQuery.ui != 'undefined' &&
         destroy: function () {
             if (this.supportsCanvas) {
                 this._$cover.remove();
+                if (this.options.title.enabled) {
+                    this._$titleContainer.remove();
+                }
             }
             else {
                 //TODO Restore image to original state.
@@ -144,6 +149,7 @@ typeof jQuery.ui != 'undefined' &&
             if (!animate) {
                 this._oldOptions = $.extend(true, {}, this.options);
                 this._perspective();
+                this._trigger("refreshed-" + this.options.id, null, { image: this.element });                
             }
             else {
                 // Animation CSS
@@ -153,11 +159,13 @@ typeof jQuery.ui != 'undefined' &&
 				    top: this.options.canvas.top
 				})
 				.animate({
-				    left: this.options.canvas.left
+				    left: this.options.canvas.left,
+				    opacity: this.options.canvas.opacity
 				}, {
 				    queue: false,
 				    duration: this.options.animation.slide.duration,
-				    easing: this.options.animation.slide.easing
+				    easing: this.options.animation.slide.easing,
+				    complete: $.proxy(this, "_animateLeftComplete")
 				})
 				.animate({
 				    textIndent: this.options.perspective.position == "center" ? 0 : this.options.angle
@@ -165,8 +173,8 @@ typeof jQuery.ui != 'undefined' &&
 				    queue: false,
 				    duration: this.options.animation.perspective.duration,
 				    easing: this.options.animation.perspective.easing,
-				    step: $.proxy(this, "_animationStep"),
-				    complete: $.proxy(this, "_animationComplete")
+				    step: $.proxy(this, "_animateAngleStep"),
+				    complete: $.proxy(this, "_animateAngleComplete")
 				});
             }
         },
@@ -181,7 +189,7 @@ typeof jQuery.ui != 'undefined' &&
             this._$cover.css({ zIndex: this.options.canvas.zIndex });
         },
 
-        _animationStep: function (now, fx) {
+        _animateAngleStep: function (now, fx) {
             if (fx.prop == "textIndent") {
                 var position = this._oldOptions.perspective.position;
                 if (position == "center") {
@@ -193,9 +201,13 @@ typeof jQuery.ui != 'undefined' &&
             }
         },
 
-        _animationComplete: function () {
+        _animateAngleComplete: function () {
             this._oldOptions = $.extend(true, {}, this.options);
             this._perspective();
+        },
+        
+        _animateLeftComplete: function () {
+            this._trigger("refreshed-" + this.options.id, null, { image: this.element });             
         },
 
         _height: function () {

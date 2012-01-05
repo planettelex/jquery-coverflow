@@ -1,6 +1,12 @@
 typeof jQuery != 'undefined' &&
 typeof jQuery.ui != 'undefined' &&
 (function ($) {
+    var position = {
+        left: 1,
+        center: 2,
+        right: 3
+    };
+
     $.widget('pt.coverflow', {
         /* Begin Widget Overrides */
 
@@ -71,9 +77,9 @@ typeof jQuery.ui != 'undefined' &&
                     this.element.append(
                        $("<img>")
                            .attr({
-                                src: image.src,
-                                alt: image.title + (!image.subtitle ? "" : ", " + image.subtitle)
-                            })
+                               src: image.src,
+                               alt: image.title + (!image.subtitle ? "" : ", " + image.subtitle)
+                           })
                             .data({
                                 title: image.title,
                                 subtitle: image.subtitle
@@ -149,9 +155,6 @@ typeof jQuery.ui != 'undefined' &&
             /// </summary> 
             /// <param name="$image" type="jQuery">The image to be added.</param>
 
-            // Allow array index to just continually go up?
-            // Maybe implement destruct on coverflow and have covers recreated when adding after removing.
-
             if (!$image.data("cover")) {
                 this._$activeImages.each(function (i, img) {
                     $(img).cover("raiseZ");
@@ -163,8 +166,9 @@ typeof jQuery.ui != 'undefined' &&
                 // Only display the image as active when it matches the current category if enabled.
                 if (isChangingCategory || (!this.options.categories.enabled || this._getCurrentCategory() == category)) {
                     this._$activeImages.push($image[0]);
-                    this._createCover(this._imagesCount() - 1, $image[0]);
                     this._syncSlider();
+                    this._createCover(this._imagesCount() - 1, $image[0], position.right);
+                    this._updateCover(true, this._currentIndex, this._imagesCount() - 1, $image[0], position.center);
                 }
             }
         },
@@ -179,7 +183,10 @@ typeof jQuery.ui != 'undefined' &&
             ///<summary>Removes the first image on the left</summary>
             var removeIndex = 0;
             var image = this._$activeImages.splice(removeIndex, 1);
-            $(image).cover("destroy");
+            this._updateCover(true, this._currentIndex, removeIndex, image, position.left);
+            $("#coverflow").one("pt.coverrefreshed-" + $(image).data("coverflow").id, function (e, data) {
+                $(data.image).cover("destroy");
+            });
 
             this._$activeImages.each(function (index, img) {
                 $(img).cover("lowerZ");
@@ -379,14 +386,22 @@ typeof jQuery.ui != 'undefined' &&
             }
         },
 
-        _createCover: function (index, image) {
-            var options = this._coverConfig(false, this._currentIndex, index, {
+        _createCover: function (index, image, initialPosition) {
+            ///<summary>Creates the cover for an image and places it in the coverflow.</summary>
+            ///<param name="index" type="Numeric" integer="true">The images index in the coverflow.</param>
+            ///<param name="image" type="Object" elementDomElement="true">The image element from the DOM.</param>
+            ///<param name="initialPosition" type="String">The initial placement of the cover relative to the coverflow container.</param>
+
+            initialPosition = initialPosition || position.center;
+            var options = this._coverConfig(initialPosition, false, this._currentIndex, index, {
+                id: (new Date()).getTime(),
                 click: $.proxy(this, "_clickCover"),
                 mouseenter: $.proxy(this, "_mouseenterCover"),
                 mouseleave: $.proxy(this, "_mouseleaveCover")
             });
             $(image).show().cover(options).data("coverflow", {
-                index: index
+                index: index,
+                id: options.id
             });
         },
 
@@ -430,8 +445,14 @@ typeof jQuery.ui != 'undefined' &&
             return category;
         },
 
-        _updateCover: function (isSliding, selectedIndex, index, image) {
-            var coverOptions = this._coverConfig(isSliding, selectedIndex, index);
+        _updateCover: function (isSliding, selectedIndex, index, image, targetPosition) {
+            targetPosition = targetPosition || position.center;
+            var coverOptions = this._coverConfig(targetPosition, isSliding, selectedIndex, index);
+            //TODO Find another solution to using the positioning for settings these? For example, when going to previous category we might want to reverse this.
+            if (targetPosition == position.left) {
+                coverOptions.canvas.opacity = 0;
+                coverOptions.animation.slide.easing = "jswing";
+            }
             var cover = $(image).data("cover");
             for (var option in coverOptions) {
                 cover.option(option, coverOptions[option]);
@@ -467,7 +488,8 @@ typeof jQuery.ui != 'undefined' &&
             }
         },
 
-        _coverConfig: function (isSliding, selectedIndex, index, options) {
+        _coverConfig: function (initialPosition, isSliding, selectedIndex, index, options) {
+            initialPosition = initialPosition || position.center;
             options = options || {};
             var centerOffset = 0;
             var perspective = "center";
@@ -501,7 +523,7 @@ typeof jQuery.ui != 'undefined' &&
                 width: coverWidth,
                 height: coverHeight,
                 canvas: {
-                    left: this._coverLeft(centerOffset, coverWidth),
+                    left: this._coverLeft(centerOffset, coverWidth, initialPosition),
                     top: this._coverTop(centerOffset, coverHeight, scale),
                     zIndex: this._$activeImages.length - Math.abs(centerOffset)
                 },
@@ -520,24 +542,33 @@ typeof jQuery.ui != 'undefined' &&
             return coverOptions;
         },
 
-        _coverLeft: function (centerOffset, coverWidth) {
-            var left = (this.options.width / 2) - (coverWidth / 2) + (coverWidth * centerOffset);
-            var overlap;
-            if (Math.abs(centerOffset) > 1) { // outer
-                overlap = (this.options.cover.overlap.outer / 100) * coverWidth;
-                overlap *= Math.abs(centerOffset) - 1;
-                overlap += (this.options.cover.overlap.inner / 100) * coverWidth;
-            }
-            else { // inner
-                overlap = (this.options.cover.overlap.inner / 100) * coverWidth;
-                overlap *= Math.abs(centerOffset);
-            }
+        _coverLeft: function (centerOffset, coverWidth, initialPosition) {
+            var left = 0;
+            switch (initialPosition) {
+                case position.center:
+                    left = (this.options.width / 2) - (coverWidth / 2) + (coverWidth * centerOffset);
+                    var overlap;
+                    if (Math.abs(centerOffset) > 1) { // outer
+                        overlap = (this.options.cover.overlap.outer / 100) * coverWidth;
+                        overlap *= Math.abs(centerOffset) - 1;
+                        overlap += (this.options.cover.overlap.inner / 100) * coverWidth;
+                    }
+                    else { // inner
+                        overlap = (this.options.cover.overlap.inner / 100) * coverWidth;
+                        overlap *= Math.abs(centerOffset);
+                    }
 
-            if (centerOffset < 0) {
-                left += overlap;
-            }
-            else if (centerOffset > 0) {
-                left -= overlap;
+                    if (centerOffset < 0) {
+                        left += overlap;
+                    }
+                    else if (centerOffset > 0) {
+                        left -= overlap;
+                    }
+                    break;
+
+                case position.right:
+                    left = this.options.width - coverWidth;
+                    break;
             }
 
             return left;
