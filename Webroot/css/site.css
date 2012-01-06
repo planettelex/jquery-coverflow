@@ -65,7 +65,7 @@ table {
 /* JQueryUI */
 .ui-slider .ui-slider-handle {
 	top: 0;
-	height: .7em;
+	height: 12px;
 	cursor: pointer;
 }
 
