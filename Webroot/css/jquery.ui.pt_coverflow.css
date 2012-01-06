@@ -1,0 +1,31 @@
+﻿.ui-slider .ui-slider-handle {
+	top: 0;
+	height: 12px;
+	cursor: pointer;
+}
+
+.coverflow-slider {
+	top: 365px;
+	opacity: 0.8;
+}
+
+.cover-title h1 {
+	font-size: 14px;
+	text-align: center;
+	padding-bottom: 6px;
+}
+
+.cover-title h2 {
+	font-size: 14px;
+	text-align: center;
+}
+
+.cover-title {
+	font-family: Arial, Helvetica, sans-serif;
+	font-weight: bold;
+	position: relative;
+	color: white;
+	margin: 210px auto;
+	z-index: 100;
+	width: 400px;
+}

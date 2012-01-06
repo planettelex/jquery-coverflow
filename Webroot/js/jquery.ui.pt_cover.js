@@ -33,6 +33,7 @@ typeof jQuery.ui != 'undefined' &&
                 }
             },
             canvas: {
+                backgroundColor: "white",
                 left: 0,
                 top: 0,
                 zIndex: 0,
@@ -79,9 +80,7 @@ typeof jQuery.ui != 'undefined' &&
                     this._$titleContainer.remove();
                 }
             }
-            else {
-                //TODO Restore image to original state.
-            }
+
             $.Widget.prototype.destroy.call(this);
         },
 
@@ -149,7 +148,7 @@ typeof jQuery.ui != 'undefined' &&
             if (!animate) {
                 this._oldOptions = $.extend(true, {}, this.options);
                 this._perspective();
-                this._trigger("refreshed-" + this.options.id, null, { image: this.element });                
+                this._trigger("refreshed-" + this.options.id, null, { image: this.element });
             }
             else {
                 // Animation CSS
@@ -205,9 +204,9 @@ typeof jQuery.ui != 'undefined' &&
             this._oldOptions = $.extend(true, {}, this.options);
             this._perspective();
         },
-        
+
         _animateLeftComplete: function () {
-            this._trigger("refreshed-" + this.options.id, null, { image: this.element });             
+            this._trigger("refreshed-" + this.options.id, null, { image: this.element });
         },
 
         _height: function () {
@@ -234,6 +233,7 @@ typeof jQuery.ui != 'undefined' &&
                 height: this.options.height
             })
 				.css({
+				    backgroundColor: this.options.canvas.backgroundColor,
 				    top: this.options.canvas.top,
 				    left: this.options.canvas.left,
 				    zIndex: this.options.canvas.zIndex,

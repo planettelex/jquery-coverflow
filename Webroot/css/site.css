@@ -62,13 +62,6 @@ table {
 }
 /* End reset */
 
-/* JQueryUI */
-.ui-slider .ui-slider-handle {
-	top: 0;
-	height: 12px;
-	cursor: pointer;
-}
-
 /* Elements */
 h1 {
 	font-size: 24px;
@@ -78,38 +71,17 @@ h2 {
 	font-size: 20px;
 }
 
-/* Coverflow */
-div.cover-title h1 {
-	font-size: 14px;
-	text-align: center;
-	padding-bottom: 6px;
-}
-
-div.cover-title h2 {
-	font-size: 14px;
-	text-align: center;
-}
-
-div.cover-title {
-	font-family: Arial, Helvetica, sans-serif;
-	font-weight: bold;
-	position: relative;
-	color: white;
-	margin: 210px auto;
-	z-index: 100;
-	width: 400px;
-}
-
-div.pageWrapper {
-    
-}
-
 div.wrapper {
 	height: 600px;
 	width: 100%;
 	overflow: hidden;
 	position: relative;
 	margin: 0 auto;
+}
+
+div.controls {
+    position: absolute;
+    top: 0px;
 }
 
 div.controls a {
@@ -124,29 +96,18 @@ div.controls a.small {
     font-size: 75px; 
 }
 
-/* IDs */
+div.cover-title {
+    top: 10%;
+}
+
+/* Named Elements */
 #demo1 .wrapper {
 	height: 400px;
 }
 
 /* Classes */
-.demo {
-    
-}
-
 .coverflow {
     width: 100%;
     height: 100%;
-    position: relative;
-    overflow: hidden;
     background-color: black;
-}
-
-.coverflow-slider {
-	top: 365px;
-	opacity: 0.8;
-}
-
-.coverflow canvas {
-	background-color: black;
 }

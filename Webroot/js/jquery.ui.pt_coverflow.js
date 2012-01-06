@@ -25,7 +25,8 @@ typeof jQuery.ui != 'undefined' &&
             categories: {
                 enabled: true,
                 defaultCategory: "Unknown",
-                selectedCategory: null
+                selectedCategory: null,
+                renderTitles: true
             },
             cover: {
                 angle: 12, 			    // degrees
@@ -91,9 +92,18 @@ typeof jQuery.ui != 'undefined' &&
                 }
             }
 
+            // CSS that is required for Coverflow to function correctly.
+            this.element.css({
+                position: "relative",
+                overflow: "hidden"
+            });
             this._$images = this.element.find("img");
             this._loadImages();
             this._loadSlider();
+
+            if (this.options.categories.renderTitles) {
+                this._loadCategoryTitles();
+            }
 
             if (this.options.autoplay.enabled) {
                 this._play();
@@ -134,6 +144,17 @@ typeof jQuery.ui != 'undefined' &&
             ///<summary>Destroys the Coverflow instance and restores the DOM to its original state prior to the Coverflow creation.</summary>
             ///<returns type="Undefined" />
 
+            this._$images.each(function (i, img) {
+                $(img).cover("destroy");
+            });
+            this._$categoryContainer.remove();
+            this._$slider.slider("destroy").remove();
+
+            this.element.unbind().css({
+                position: "",
+                overflow: ""
+            });
+
             $.Widget.prototype.destroy.call(this);
         },
 
@@ -141,6 +162,7 @@ typeof jQuery.ui != 'undefined' &&
 
         _$activeImages: [],
         _categories: [],
+        _$categoryContainer: null,
         _$images: [],
         _imagesByCategory: {},
 
@@ -213,7 +235,7 @@ typeof jQuery.ui != 'undefined' &&
             var removeIndex = 0;
             var image = this._$activeImages.splice(removeIndex, 1);
             this._updateCover(true, this._currentIndex, removeIndex, image, position.left);
-            $("#coverflow").one("pt.coverrefreshed-" + $(image).data("coverflow").id, function (e, data) {
+            this.element.one("pt.coverrefreshed-" + $(image).data("coverflow").id, function (e, data) {
                 $(data.image).cover("destroy");
             });
 
@@ -289,7 +311,9 @@ typeof jQuery.ui != 'undefined' &&
         },
 
         pause: function () {
-            this._pause();
+            var autoplay = $.extend(true, {}, this.options.autoplay);
+            autoplay.enabled = false;
+            this._setOption("autoplay", autoplay);
             this._trigger("pause", null, { selectedIndex: this._currentIndex });
         },
 
@@ -381,6 +405,9 @@ typeof jQuery.ui != 'undefined' &&
                     }
                 }
             }
+
+            this._$categoryContainer.remove();
+            this._loadCategoryTitles();
         },
 
         nextCover: function () {
@@ -500,7 +527,8 @@ typeof jQuery.ui != 'undefined' &&
         _updateCover: function (isSliding, selectedIndex, index, image, targetPosition) {
             targetPosition = targetPosition || position.center;
             var coverOptions = this._coverConfig(targetPosition, isSliding, selectedIndex, index);
-            //TODO Find another solution to using the positioning for settings these? For example, when going to previous category we might want to reverse this.
+            //TODO Find another solution to using the positioning for settings these? 
+            //TODO For example, when going to previous category we might want to reverse this.
             if (targetPosition == position.left) {
                 coverOptions.canvas.opacity = 0;
                 coverOptions.animation.slide.easing = "jswing";
@@ -575,6 +603,7 @@ typeof jQuery.ui != 'undefined' &&
                 width: coverWidth,
                 height: coverHeight,
                 canvas: {
+                    backgroundColor: this.element.css("background-color"),
                     left: this._coverLeft(centerOffset, coverWidth, initialPosition),
                     top: this._coverTop(centerOffset, coverHeight, scale),
                     zIndex: this._$activeImages.length - Math.abs(centerOffset)
@@ -638,6 +667,19 @@ typeof jQuery.ui != 'undefined' &&
             return this._$activeImages.length;
         },
 
+        _loadCategoryTitles: function () {
+            this._$categoryContainer = $("<ul />").addClass("coverflow-categories");
+            for (var i in this._categories) {
+                var title = this._categories[i];
+                var $cat = $("<li />").text(title);
+                if (title == this._getCurrentCategory()) {
+                    $cat.addClass("coverflow-selected-category");
+                }
+                this._$categoryContainer.append($cat);
+            }
+            this.element.prepend(this._$categoryContainer);
+        },
+
         _loadSlider: function () {
             if (!this.options.slider.enabled) {
                 return;
@@ -647,7 +689,7 @@ typeof jQuery.ui != 'undefined' &&
             var sliderWidth = this.options.width - (1 - (this.options.slider.width / 100)) * this.options.width;
             var handleSize = sliderWidth / coverCount;
 
-            this._$slider = $("<div/>")
+            this._$slider = $("<div />")
                 .css({
                     width: sliderWidth,
                     position: "absolute",
