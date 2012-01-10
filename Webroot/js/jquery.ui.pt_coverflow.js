@@ -23,7 +23,7 @@ typeof jQuery.ui != 'undefined' &&
                 playsPerCategory: 1
             },
             categories: {
-                enabled: true,
+                enabled: false,
                 defaultCategory: "Unknown",
                 selectedCategory: null,
                 renderTitles: true
@@ -210,9 +210,9 @@ typeof jQuery.ui != 'undefined' &&
                 // Only display the image as active when it matches the current category if enabled.
                 if (isChangingCategory || (!this.options.categories.enabled || this._getCurrentCategory() == category)) {
                     this._$activeImages.push($image[0]);
-                    this._syncSlider();
                     this._createCover(this._imagesCount() - 1, $image[0], position.right);
                     this._updateCover(true, this._currentIndex, this._imagesCount() - 1, $image[0], position.center);
+                    //this._syncSlider();
                 }
             }
         },
@@ -604,7 +604,7 @@ typeof jQuery.ui != 'undefined' &&
                 width: coverWidth,
                 height: coverHeight,
                 canvas: {
-                    backgroundColor: this.element.css("background-color"),
+                    background: this.element.css("background-color"),
                     left: this._coverLeft(centerOffset, coverWidth, initialPosition),
                     top: this._coverTop(centerOffset, coverHeight, scale),
                     zIndex: this._$activeImages.length - Math.abs(centerOffset)

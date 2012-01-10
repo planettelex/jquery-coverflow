@@ -33,7 +33,7 @@ typeof jQuery.ui != 'undefined' &&
                 }
             },
             canvas: {
-                backgroundColor: "white",
+                background: "white",
                 left: 0,
                 top: 0,
                 zIndex: 0,
@@ -233,7 +233,8 @@ typeof jQuery.ui != 'undefined' &&
                 height: this.options.height
             })
 				.css({
-				    backgroundColor: this.options.canvas.backgroundColor,
+				    opacity: this.options.canvas.opacity,
+				    background: this.options.canvas.background,
 				    top: this.options.canvas.top,
 				    left: this.options.canvas.left,
 				    zIndex: this.options.canvas.zIndex,
