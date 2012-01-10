@@ -13,6 +13,27 @@
 	opacity: 0.8;
 }
 
+.coverflow-categories {
+    list-style: none;
+    color: white;
+    z-index: 999;
+    margin: 0 auto;
+    width: 285px;
+    margin-top: 10px;
+    color: gray;
+    position: relative;
+    background: black;
+    padding: 10px;
+    opacity: .8;
+    cursor: pointer;
+}
+.coverflow-categories li 
+{
+    display: inline;  
+    padding: 0 10px;
+    font: normal bold 1em/1em Arial, Helvetica, sans-serif;  
+}
+
 .cover-title h1 {
 	font-size: 14px;
 	text-align: center;
