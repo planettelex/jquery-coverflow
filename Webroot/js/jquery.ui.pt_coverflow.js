@@ -212,7 +212,7 @@ typeof jQuery.ui != 'undefined' &&
                     this._$activeImages.push($image[0]);
                     this._createCover(this._imagesCount() - 1, $image[0], position.right);
                     this._updateCover(true, this._currentIndex, this._imagesCount() - 1, $image[0], position.center);
-                    //this._syncSlider();
+                    this._syncSlider();
                 }
             }
         },
