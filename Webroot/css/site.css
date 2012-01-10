@@ -82,6 +82,7 @@ div.wrapper {
 div.controls {
     position: absolute;
     top: 0px;
+    z-index: 100;
 }
 
 div.controls a {

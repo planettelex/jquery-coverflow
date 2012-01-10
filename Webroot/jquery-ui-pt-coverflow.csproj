@@ -33,6 +33,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Folder Include="demos\" />
     <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
