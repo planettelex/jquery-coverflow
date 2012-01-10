@@ -259,6 +259,9 @@ typeof jQuery.ui != 'undefined' &&
                 // Keep a cached copy of the canvas to be used as a source later when applying a perspective.
                 this._srcCanvas = this._drawing.cloneCanvas();
             }
+            else {
+                this.element.css({ visibility: "visible" });
+            }
 
             if (this.options.title.enabled) {
                 this._$titleContainer = $("<div/>")

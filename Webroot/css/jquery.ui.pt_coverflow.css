@@ -4,6 +4,10 @@
 	cursor: pointer;
 }
 
+.coverflow img {
+    visibility: hidden;    
+}
+
 .coverflow-slider {
 	top: 365px;
 	opacity: 0.8;
