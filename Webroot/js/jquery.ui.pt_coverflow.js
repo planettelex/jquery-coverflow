@@ -679,9 +679,11 @@ typeof jQuery.ui != 'undefined' &&
 
             this._$categoryContainer = $("<ul />").addClass("coverflow-categories");
             for (var i in this._categories) {
-                var title = this._categories[i];
-                var $cat = $("<li />").text(title);
-                if (title == this._getCurrentCategory()) {
+                var category = this._categories[i];
+                var $cat = $("<li />")
+                    .text(category)
+                    .click($.curry(this, "gotoCategory", category));
+                if (category == this._getCurrentCategory()) {
                     $cat.addClass("coverflow-selected-category");
                 }
                 this._$categoryContainer.append($cat);
