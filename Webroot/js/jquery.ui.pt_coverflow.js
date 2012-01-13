@@ -147,7 +147,7 @@ typeof jQuery.ui != 'undefined' &&
             this._$images.each(function (i, img) {
                 $(img).cover("destroy");
             });
-            this._$categoryContainer.remove();
+            this._$categories.remove();
             this._$slider.slider("destroy").remove();
 
             this.element.unbind().css({
@@ -162,7 +162,7 @@ typeof jQuery.ui != 'undefined' &&
 
         _$activeImages: [],
         _categories: [],
-        _$categoryContainer: null,
+        _$categories: null,
         _$images: [],
         _imagesByCategory: {},
 
@@ -673,11 +673,11 @@ typeof jQuery.ui != 'undefined' &&
                 return;
             }
 
-            if (this._$categoryContainer) {
-                this._$categoryContainer.remove();
+            if (this._$categories) {
+                this._$categories.remove();
             }
 
-            this._$categoryContainer = $("<ul />").addClass("coverflow-categories");
+            this._$categories = $("<ul />").addClass("coverflow-categories");
             for (var i in this._categories) {
                 var category = this._categories[i];
                 var $cat = $("<li />")
@@ -686,9 +686,9 @@ typeof jQuery.ui != 'undefined' &&
                 if (category == this._getCurrentCategory()) {
                     $cat.addClass("coverflow-selected-category");
                 }
-                this._$categoryContainer.append($cat);
+                this._$categories.append($cat);
             }
-            this.element.prepend(this._$categoryContainer);
+            this.element.before(this._$categories);
         },
 
         _loadSlider: function () {
