@@ -475,7 +475,7 @@ typeof jQuery.ui != 'undefined' &&
 
             initialPosition = initialPosition || position.center;
             var options = this._coverConfig(initialPosition, false, this._currentIndex, index, {
-                id: (new Date()).getTime(),
+                id: (new Date()).getTime() * Math.random(),
                 click: $.proxy(this, "_clickCover"),
                 mouseenter: $.proxy(this, "_mouseenterCover"),
                 mouseleave: $.proxy(this, "_mouseleaveCover")
