@@ -5,7 +5,7 @@
 }
 
 .coverflow img {
-    visibility: ; /* prevents initial flash of images when page loads */
+    visibility: hidden; /* prevents initial flash of images when page loads */
 }
 
 .coverflow-slider {
