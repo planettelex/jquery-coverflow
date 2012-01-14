@@ -12,7 +12,7 @@ typeof jQuery.ui != 'undefined' &&
         widgetEventPrefix: 'pt.cover',
 
         options: {
-            id: (new Date()).getTime(),
+            id: (new Date()).getTime() * Math.random(),
             angle: 0,
             width: 300,
             height: 300,
@@ -76,9 +76,24 @@ typeof jQuery.ui != 'undefined' &&
         destroy: function () {
             if (this.supportsCanvas) {
                 this._$cover.remove();
-                if (this.options.title.enabled) {
-                    this._$titleContainer.remove();
-                }
+            }
+            else {
+                this.element.unbind()
+                    .css({
+                        visibility: this._previousVisibility,
+                        opacity: "",
+                        background: "",
+                        top: "",
+                        left: "",
+                        zIndex: "",
+                        textIndent: "",  //textIndent is a placeholder for animation
+                        position: "",
+                        cursor: ""
+                    });
+            }
+
+            if (this.options.title.enabled) {
+                this._$titleContainer.remove();
             }
 
             $.Widget.prototype.destroy.call(this);
@@ -90,11 +105,11 @@ typeof jQuery.ui != 'undefined' &&
         _oldOptions: null,
         _srcCanvas: null,
         _drawing: null,
+        _previousVisibility: null,
         _$titleContainer: null,
 
         supportsCanvas: (function () {
             var elem = document.createElement('canvas');
-            //
             return !!(elem.getContext && elem.getContext('2d'));
         })(),
 
@@ -238,7 +253,7 @@ typeof jQuery.ui != 'undefined' &&
 				    top: this.options.canvas.top,
 				    left: this.options.canvas.left,
 				    zIndex: this.options.canvas.zIndex,
-				    textIndent: this.options.angle,
+				    textIndent: this.options.angle,  //textIndent is a placeholder for animation
 				    position: "absolute",
 				    cursor: "pointer"
 				})
@@ -258,6 +273,10 @@ typeof jQuery.ui != 'undefined' &&
 
                 // Keep a cached copy of the canvas to be used as a source later when applying a perspective.
                 this._srcCanvas = this._drawing.cloneCanvas();
+            }
+            else {
+                this._previousVisibility = this.element.css("visibility");
+                this.element.css({ visibility: "visible" });
             }
 
             if (this.options.title.enabled) {
