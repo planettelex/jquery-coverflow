@@ -12,7 +12,7 @@ typeof jQuery.ui != 'undefined' &&
         widgetEventPrefix: 'pt.cover',
 
         options: {
-            id: (new Date()).getTime(),
+            id: (new Date()).getTime() * Math.random(),
             angle: 0,
             width: 300,
             height: 300,
