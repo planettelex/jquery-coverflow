@@ -62,7 +62,7 @@ table {
 }
 /* End reset */
 
-/* Global */
+/* Global Page Style */
 body 
 {
     background: #c7732a;
@@ -82,6 +82,8 @@ div.wrapper {
 	position: relative;
 	margin: 100px auto 0;
 }
+
+
 
 /* Start Coverflow Styling
 ----------------------------------------*/
@@ -201,7 +203,7 @@ div.slider-controls a#nextCover:hover
     background-position: right -206px;
 }
 
-/* Play/Pause and add images Control */
+/* Play/Pause, add/remove images buttons */
 .add-remove-play-control
 {
     width: 450px;

@@ -62,7 +62,7 @@ table {
 }
 /* End reset */
 
-/* Global */
+/* Global Page Styles */
 body 
 {
     background: black;
@@ -83,6 +83,9 @@ div.wrapper {
 	margin: 100px auto 0;
 }
 
+
+
+
 /* Start Coverflow Styling
 ----------------------------------------*/
 .coverflow {
@@ -93,6 +96,7 @@ div.wrapper {
 div.cover-title {
     top: 20%;  /* Cover Title Styling  */
 }
+
 /*Slider and Arrows*/
 .ui-slider, .ui-slider .ui-slider-handle, .ui-slider .ui-slider-handle:hover {
     border: 1px solid #ccc;

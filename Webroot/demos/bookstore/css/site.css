@@ -62,7 +62,7 @@ table {
 }
 /* End reset */
 
-/* Global */
+/* Global Page Styles */
 body 
 {
     background: white;
@@ -82,6 +82,8 @@ div.wrapper {
 	position: relative;
 	margin: 100px auto 0;
 }
+
+
 
 /* Start Coverflow Styling
 ----------------------------------------*/

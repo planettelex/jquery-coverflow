@@ -1,7 +1,6 @@
 <!DOCTYPE HTML>
-<html>
 <head>
-    <title>Bookstore Demo</title>
+    <title>Legacy Demo</title>
     <link type="text/css" href="css/ui-darkness/jquery-ui-1.8.16.custom.css" rel="Stylesheet" />
     <link type="text/css" href="css/jquery.ui.pt_coverflow.css" rel="stylesheet" />
     <link type="text/css" href="css/site.css" rel="Stylesheet" />
@@ -13,7 +12,7 @@
     <script type="text/javascript" src="../../js/jquery.ui.pt_coverflow.js"></script>
     <script type="text/javascript">
         $(function () {
-            var extraImage = $("#extraImage").hide();
+            var extraImage = $("#extraImage").hide(); //to show extra image addition when clicking the "plus" button
             var $coverflow = $("#coverflow").coverflow({
                 categories: {
                     enabled: true
@@ -57,7 +56,7 @@
             // Example: hook up to the togglePlay event on the coverflow
             $("#coverflow").bind('pt.coverflowtoggleplay', function () {
                 $playButton.fadeOut(function () {
-                    $(this).toggleClass("pause").fadeIn();
+                    $(this).toggleClass("pause").fadeIn(); // To switch between play and pause button images 
                 });
             });
         });
@@ -65,18 +64,23 @@
 </head>
 <body>
     <div class="wrapper">
+        <!-- added to click between categories using >> arrows images -->
         <div class="category-arrow-control">
             <a id="prevCategory">&lsaquo;</a>
             <a id="nextCategory">&rsaquo;</a>
         </div>
+        <!-- Add image, remove image, and play/pause controls -->
         <div class="add-remove-play-control">
             <a id="removeImage" class="remove-image">&ge;</a>
             <a id="addImage" class="add-image">&ge;</a>
             <a id="playPause" class="play">&ge;</a>
         </div>
+        <!-- Adding arrows to slider -->
         <div class="slider-controls">
-            <a id="prevCover">&lsaquo;</a><a id="nextCover">&rsaquo;</a>
+            <a id="prevCover">&lsaquo;</a>
+            <a id="nextCover">&rsaquo;</a>
         </div>
+        <!-- Begin Coverflow -->
         <div id="coverflow" class="coverflow">
             <img src="images/muse-the-resistance.jpg" alt="Muse, The Resistance" data-subtitle="Muse" data-title="The Resistance" data-category="Rock" />
             <img src="images/alberta-cross.jpg" alt="Alberta Cross" data-subtitle="Alberta Cross" data-title="Broken Side of Time" data-category="Rock" />
@@ -97,7 +101,8 @@
             <img src="images/iron-butterfly.jpg" alt="Iron Butterfly" data-subtitle="Iron Butterfly" data-title="In A Gadda Da Vida" data-category="Jazz" />
             <img src="images/john-coltrane.jpg" alt="john-coltrane" data-subtitle="John Coltrane" data-title="Blue Note 91721" data-category="Jazz" />       
         </div>
+        <!-- End Coverflow -->
         <img id="extraImage" src="images/animalcollective-merriweatherpostpavilion.jpg" alt="Animal Collective" data-subtitle="Animal Collective" data-title="Merriweather Post Pavilion" data-category="Rock" />
     </div>
-</body>M
+</body>
 </html>

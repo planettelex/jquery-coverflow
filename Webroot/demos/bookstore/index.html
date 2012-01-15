@@ -16,9 +16,9 @@
             var extraImage = $("#extraImage").hide();
             var $coverflow = $("#coverflow").coverflow({
                 categories: {
-                    enabled: true
+                    enabled: true //enable categories
                 },
-                cover: {
+                cover: { //Set cover image hight and opacity options
                     height: 500,
                     reflection: {
                     initialOpacity: 40,
@@ -30,7 +30,7 @@
                 }
             });
 
-            // Example: hook up first coverflow control buttons
+            // Example: hook up coverflow control buttons
             var $playButton = $("#playPause").click(function () {
                 $coverflow.coverflow("togglePlay");
             });
@@ -56,7 +56,7 @@
             // Example: hook up to the togglePlay event on the coverflow
             $("#coverflow").bind('pt.coverflowtoggleplay', function () {
                 $playButton.fadeOut(function () {
-                    $(this).toggleClass("pause").fadeIn();
+                $(this).toggleClass("pause").fadeIn(); //toggle between play and pause image
                 });
             });
         });
@@ -64,16 +64,20 @@
 </head>
 <body>
     <div class="wrapper">
+        <!-- Arrow images to click through categories -->
         <div class="category-arrow-control">
             <a id="prevCategory">&lsaquo;</a>
             <a id="nextCategory">&rsaquo;</a>
         </div>
+        <!-- Play and Pause Button -->
         <div class="play-pause-control">
             <a id="playPause" class="play">&ge;</a>
         </div>
+        <!-- Add arrows to ends of slider -->
         <div class="slider-controls">
             <a id="prevCover">&lsaquo;</a><a id="nextCover">&rsaquo;</a>
         </div>
+        <!-- Begin coverflow images -->
         <div id="coverflow" class="coverflow">
             <img src="images/adland.large.jpg" alt="Ad Land" data-subtitle="James P. Othmer" data-title="Ad Land" data-category="Fiction" />
             <img src="images/and_then_theres_this.large.jpg" alt="And hen There's This" data-subtitle="Bill Wasik" data-title="And hen There's This" data-category="Fiction" />
