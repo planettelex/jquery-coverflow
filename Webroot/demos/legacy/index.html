@@ -64,22 +64,28 @@
 </head>
 <body>
     <div class="wrapper">
+
         <!-- added to click between categories using >> arrows images -->
         <div class="category-arrow-control">
-            <a id="prevCategory">&lsaquo;</a>
-            <a id="nextCategory">&rsaquo;</a>
+            <a id="prevCategory" title="Pevious category">&lsaquo;</a>
+            <a id="nextCategory" title="Next category">&rsaquo;</a>
         </div>
+
         <!-- Add image, remove image, and play/pause controls -->
         <div class="add-remove-play-control">
-            <a id="removeImage" class="remove-image">&ge;</a>
-            <a id="addImage" class="add-image">&ge;</a>
-            <a id="playPause" class="play">&ge;</a>
+            <a id="removeImage" class="remove-image" title="Remove cover image from DOM">&ge;</a>
+            <a id="addImage" class="add-image" title="Add cover image to DOM">&ge;</a>
+            <a id="playPause" class="play" title="Play or pause on current cover">&ge;</a>
         </div>
+
         <!-- Adding arrows to slider -->
         <div class="slider-controls">
             <a id="prevCover">&lsaquo;</a>
             <a id="nextCover">&rsaquo;</a>
         </div>
+
+        <!--Categories Navigation will render here if option is set -->
+
         <!-- Begin Coverflow -->
         <div id="coverflow" class="coverflow">
             <img src="images/muse-the-resistance.jpg" alt="Muse, The Resistance" data-subtitle="Muse" data-title="The Resistance" data-category="Rock" />
@@ -102,6 +108,8 @@
             <img src="images/john-coltrane.jpg" alt="john-coltrane" data-subtitle="John Coltrane" data-title="Blue Note 91721" data-category="Jazz" />       
         </div>
         <!-- End Coverflow -->
+
+        <!-- Image used to demonstrate the add image (plus button) feature -->
         <img id="extraImage" src="images/animalcollective-merriweatherpostpavilion.jpg" alt="Animal Collective" data-subtitle="Animal Collective" data-title="Merriweather Post Pavilion" data-category="Rock" />
     </div>
 </body>

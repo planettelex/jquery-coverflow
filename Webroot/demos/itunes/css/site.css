@@ -63,15 +63,13 @@ table {
 /* End reset */
 
 /* Global Page Styles */
-body 
-{
+body {
     background: black;
     font-size: 100%;
 }
 h1 {
 	font-size: 24px;
 }
-
 h2 {
 	font-size: 20px;
 }
@@ -84,9 +82,7 @@ div.wrapper {
 }
 
 
-
-
-/* Start Coverflow Styling
+/* Override/Add to Default Coverflow Styling
 ----------------------------------------*/
 .coverflow {
     width: 100%;
@@ -122,9 +118,7 @@ div.slider-controls {
     width: 82.6%;
     margin: 0 auto;
 }
-
-div.slider-controls a 
-{
+div.slider-controls a {
     width: 26px;
     height: 19px;
     display: block;
@@ -135,21 +129,17 @@ div.slider-controls a
 	position: relative;
 	z-index: 100;
 }
-div.slider-controls a#prevCover
-{
+div.slider-controls a#prevCover {
     background-position: left top;
     margin-left: 2px;
 }
-div.slider-controls a#nextCover
-{
+div.slider-controls a#nextCover {
     background-position: right top;
     float: right;
 }
-div.slider-controls a#prevCover:hover
-{
+div.slider-controls a#prevCover:hover {
     background-position: left -21px;
 }
-div.slider-controls a#nextCover:hover
-{
+div.slider-controls a#nextCover:hover {
     background-position: right -21px;
 }

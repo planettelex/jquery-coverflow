@@ -63,15 +63,13 @@ table {
 /* End reset */
 
 /* Global Page Style */
-body 
-{
+body {
     background: #c7732a;
     font-size: 100%;
 }
 h1 {
 	font-size: 24px;
 }
-
 h2 {
 	font-size: 20px;
 }
@@ -85,7 +83,7 @@ div.wrapper {
 
 
 
-/* Start Coverflow Styling
+/* Override/Add to Default Coverflow Styling
 ----------------------------------------*/
 .coverflow {
     width: 100%;
@@ -100,8 +98,7 @@ div.wrapper {
     z-index: 100;
     margin-bottom: 50px;
 }
-.coverflow-categories li
-{
+.coverflow-categories li {
     padding: 8px;
     margin: 0 9px 0 0;
     color: #9E5C20;
@@ -109,21 +106,18 @@ div.wrapper {
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
 }
-.coverflow-categories .coverflow-selected-category
-{
+.coverflow-categories .coverflow-selected-category {
     color: #EF9B51;
 }
 
 /* Catagory Navigation Arrows */
-.category-arrow-control
-{
+.category-arrow-control {
     width: 90%;
     margin: 0 auto;
     position: relative;
     top: 214px;
 }
-.category-arrow-control a
-{
+.category-arrow-control a {
     width: 34px;
     height: 71px;
     display: block;
@@ -133,17 +127,14 @@ div.wrapper {
     z-index: 999;
     float: left;    
 }
-.category-arrow-control a#nextCategory
-{
+.category-arrow-control a#nextCategory {
     background-position: -50px -99px;
     float: right;
 }
-
 div.cover-title {
     top: 13%;  /* Cover Title Styling  */
     color: #ffc796;
 }
-
 
 /*Slider and Arrows*/
 .ui-slider, .ui-slider .ui-slider-handle, .ui-slider .ui-slider-handle:hover {
@@ -171,9 +162,7 @@ div.slider-controls {
     width: 82.6%;
     margin: 0 auto;
 }
-
-div.slider-controls a 
-{
+div.slider-controls a {
     width: 24px;
     height: 19px;
     display: block;
@@ -184,34 +173,28 @@ div.slider-controls a
 	position: relative;
 	z-index: 100;
 }
-div.slider-controls a#prevCover
-{
+div.slider-controls a#prevCover {
     background-position: left -185px;
     margin-left: 2px;
 }
-div.slider-controls a#nextCover
-{
+div.slider-controls a#nextCover {
     background-position: right -185px;
     float: right;
 }
-div.slider-controls a#prevCover:hover
-{
+div.slider-controls a#prevCover:hover {
     background-position: left -206px;
 }
-div.slider-controls a#nextCover:hover
-{
+div.slider-controls a#nextCover:hover {
     background-position: right -206px;
 }
 
 /* Play/Pause, add/remove images buttons */
-.add-remove-play-control
-{
+.add-remove-play-control {
     width: 450px;
     margin: 0 auto;
     position: relative;
 }
-.play, .remove-image, .add-image
-{
+.play, .remove-image, .add-image {
     width: 36px;
     height: 36px;
     display: block;
@@ -222,17 +205,14 @@ div.slider-controls a#nextCover:hover
     right: 0;
     z-index: 200;
 }
-.pause
-{
+.pause {
     background-position: -49px -49px;
 }
-.remove-image
-{
+.remove-image {
     background-position: 0 0;
     right: 101px;
 }
-.add-image
-{
+.add-image {
     background-position: -49px 0;
     right: 51px;
 }
