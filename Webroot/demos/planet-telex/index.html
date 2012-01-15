@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-    <title>iTunes Coverflow Demo</title>
+    <title>Bookstore Demo</title>
     <link type="text/css" href="css/ui-darkness/jquery-ui-1.8.16.custom.css" rel="Stylesheet" />
     <link type="text/css" href="css/jquery.ui.pt_coverflow.css" rel="stylesheet" />
     <link type="text/css" href="css/site.css" rel="Stylesheet" />
@@ -13,52 +13,75 @@
     <script type="text/javascript" src="../../js/jquery.ui.pt_coverflow.js"></script>
     <script type="text/javascript">
         $(function () {
-            var $coverflow1 = $("#coverflow").coverflow({
-                categories: {
-                    enabled: false  
-                }
+         
+            var $coverflow = $("#coverflow").coverflow({
+                autoplay: {
+                    enabled: true
+                },
+                images: [
+                    { src: "images/muse-the-resistance.jpg", subtitle: "Muse", title: "The Resistance", category: "Rock" },
+                    { src: "images/radiohead-the-king-of-limbs.jpg", subtitle: "Radiohead", title: "The King of Limbs", category: "Rock" },
+                    { src: "images/gorillaz-plasticbeach.jpg", subtitle: "Gorillaz", title: "Plastic Beach", category: "Hip Hop" }
+                ]
+            });
+
+            // Example: hook up first coverflow control buttons
+            var $playButton = $("#playPause").click(function () {
+                $coverflow.coverflow("togglePlay");
+            });
+            $("#prevCategory").click(function () {
+                $coverflow.coverflow("prevCategory");
+            });
+            $("#nextCategory").click(function () {
+                $coverflow.coverflow("nextCategory");
             });
             $("#prevCover").click(function () {
-                $coverflow1.coverflow("prevCover");
+                $coverflow.coverflow("prevCover");
             });
             $("#nextCover").click(function () {
-                $coverflow1.coverflow("nextCover");
+                $coverflow.coverflow("nextCover");
             });
+            $("#addImage").click(function () {
+                $coverflow.coverflow("addImage", extraImage);
+            });
+            $("#removeImage").click(function () {
+                $coverflow.coverflow("removeImage");
+            });
+
             // Example: hook up to the togglePlay event on the first coverflow
             $("#coverflow").bind('pt.coverflowtoggleplay', function () {
                 $playButton.fadeOut(function () {
                     $(this).fadeIn();
                 });
             });
-
         });
     </script>
 </head>
 <body>
     <div class="wrapper">
-        <div id="coverflow" class="coverflow">
-            <div class="controls">
-                <a id="prevCover" title="Previous Cover">&lsaquo;</a>
-                <a id="nextCover" title="Next Cover">&rsaquo;</a>
-            </div>
+        <div id="coverflow2" class="coverflow2">
+
             <img src="images/muse-the-resistance.jpg" alt="Muse, The Resistance" data-subtitle="Muse" data-title="The Resistance" data-category="Rock" />
-            <img src="images/muse-the-resistance.jpg" alt="Muse, The Resistance" data-subtitle="Muse" data-title="The Resistance" data-category="Rock" />
-            <img src="images/muse-the-resistance.jpg" alt="Muse, The Resistance" data-subtitle="Muse" data-title="The Resistance" data-category="Rock" />
-            <img src="images/radiohead-the-king-of-limbs.jpg" alt="Radiohead, The King of Limbs" data-subtitle="Radiohead" data-title="The King of Limbs" data-category="Rock" />
-            <img src="images/radiohead-the-king-of-limbs.jpg" alt="Radiohead, The King of Limbs" data-subtitle="Radiohead" data-title="The King of Limbs" data-category="Rock" />
+            <img src="images/alberta-cross.jpg" alt="Alberta Cross" data-subtitle="Alberta Cross" data-title="Broken Side of Time" data-category="Rock" />
+            <img src="images/bat-for-lashes.jpg" alt="Bat For Lashes" data-subtitle="Bat For Lashes" data-title="Two Suns" data-category="Rock" />
+            <img src="images/bjork-post.jpg" alt="Bjork" data-subtitle="Bjork" data-title="Bjork" data-category="Rock" />
+            <img src="images/bob-marley.jpg" alt="Bob Marley" data-subtitle="Bob Marley" data-title="Natty Dread" data-category="Rock" />
             <img src="images/gorillaz-plasticbeach.jpg" alt="Gorillaz, Plastic Beach" data-subtitle="Gorillaz" data-title="Plastic Beach" data-category="Hip Hop" />
-            <img src="images/gorillaz-plasticbeach.jpg" alt="Gorillaz, Plastic Beach" data-subtitle="Gorillaz" data-title="Plastic Beach" data-category="Hip Hop" />
-            <img src="images/gorillaz-plasticbeach.jpg" alt="Gorillaz, Plastic Beach" data-subtitle="Gorillaz" data-title="Plastic Beach" data-category="Hip Hop" />
-            <img src="images/gorillaz-plasticbeach.jpg" alt="Gorillaz, Plastic Beach" data-subtitle="Gorillaz" data-title="Plastic Beach" data-category="Hip Hop" />
-            <img src="images/gorillaz-plasticbeach.jpg" alt="Gorillaz, Plastic Beach" data-subtitle="Gorillaz" data-title="Plastic Beach" data-category="Hip Hop" />
-            <img src="images/kingsofleon-comearoundsunshine.jpg" alt="Kings of Leon, Come Around Sunshine" data-subtitle="Kings Of Leon" data-title="Come Around Sunshine" data-category="Pop" />
-            <img src="images/kingsofleon-comearoundsunshine.jpg" alt="Kings of Leon, Come Around Sunshine" data-subtitle="Kings Of Leon" data-title="Come Around Sunshine" data-category="Pop" />
-            <img src="images/kingsofleon-comearoundsunshine.jpg" alt="Kings of Leon, Come Around Sunshine" data-subtitle="Kings Of Leon" data-title="Come Around Sunshine" data-category="Pop" />
+            <img src="images/chembros.jpg" alt="Chemical Brothers" data-subtitle="Chemical Brothers" data-title="Dig Your Own Hole" data-category="Hip Hop" />
+            <img src="images/cibo-matto.jpg" alt="Cibo Matto" data-subtitle="Cibo Matto" data-title="Viva La Woman" data-category="Hip Hop" />
+            <img src="images/cornershop.jpg" alt="Cornershop" data-subtitle="Cornershop" data-title="When I Was Born for the 7th Time" data-category="Hip Hop" />
+            <img src="images/cream.jpg" alt="Cream" data-subtitle="Cream" data-title="Disraeli Gears" data-category="Hip Hop" />
+            <img src="images/kingsofleon-comearoundsunshine.jpg" alt="Kings of Leon, Come Around Sundown" data-subtitle="Kings Of Leon" data-title="Come Around Sunshine" data-category="Pop" />
+            <img src="images/cut-copy.jpg" alt="Cut Copy" data-subtitle="Cut Copy" data-title="Zonoscope" data-category="Pop" />
+            <img src="images/delerium.jpg" alt="Delerium" data-subtitle="Delerium" data-title="Nuages Du Monde" data-category="Pop" />
             <img src="images/ironmaiden-thefinalfrontier.jpg" alt="Iron Maiden, The Final Frontier" data-subtitle="Iron Maiden" data-title="The Final Frontier" data-category="Rock" />
             <img src="images/bonobo-blacksands.jpg" alt="Bonobo, Blacksands" data-subtitle="Bonobo" data-title="Blacksands" data-category="Alternative" />
-            <img src="images/bonobo-blacksands.jpg" alt="Bonobo, Blacksands" data-subtitle="Bonobo" data-title="Blacksands" data-category="Alternative" />
-            <img src="images/bonobo-blacksands.jpg" alt="Bonobo, Blacksands" data-subtitle="Bonobo" data-title="Blacksands" data-category="Alternative" />
-            <img src="images/bonobo-blacksands.jpg" alt="Bonobo, Blacksands" data-subtitle="Bonobo" data-title="Blacksands" data-category="Alternative" />
+            <img src="images/elbow.jpg" alt="Elbow" data-subtitle="Elbow" data-title="Asleep in the Back" data-category="Alternative" />
+            <img src="images/iron-butterfly.jpg" alt="Iron Butterfly" data-subtitle="Iron Butterfly" data-title="In A Gadda Da Vida" data-category="Alternative" />
+            <img src="images/john-coltrane.jpg" alt="john-coltrane" data-subtitle="John Coltrane" data-title="Blue Note 91721" data-category="Alternative" />
+        </div>
+        <div id="coverflow" class="coverflow controls">
+              <a id="prevCover">&lsaquo;</a><a id="playPause">&ge;</a><a id="nextCover">&rsaquo;</a>
         </div>
     </div>
 </body>
