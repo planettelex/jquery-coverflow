@@ -65,7 +65,7 @@ table {
 /* Global */
 body 
 {
-    background: black;
+    background: white;
     font-size: 100%;
 }
 h1 {
@@ -76,7 +76,7 @@ h2 {
 	font-size: 20px;
 }
 div.wrapper {
-	height: 570px;
+	height: 1000px;
 	width: 100%;
 	overflow: hidden;
 	position: relative;
@@ -88,64 +88,147 @@ div.wrapper {
 .coverflow {
     width: 100%;
     height: 100%;
-    background: black;
+    background: #fff;
 }
+
+/* Categories List */
+.coverflow-categories {
+    width: 443px;
+    color: #666;
+    background: #eee;
+    padding: 18px 8px;
+    z-index: 100;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border: 1px solid #b9b9b9;
+    margin-bottom: 50px;
+}
+.coverflow-categories li
+{
+    padding: 8px;
+    margin: 0 9px 0 0;
+    color: #666;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+}
+.coverflow-categories .coverflow-selected-category
+{
+    color: #fff;
+    background: #666;
+    border: 1px solid #555;
+}
+
+/* Catagory Navigation Arrows */
+.category-arrow-control
+{
+    width: 90%;
+    margin: 0 auto;
+    position: relative;
+    top: 302px;
+}
+.category-arrow-control a
+{
+    width: 34px;
+    height: 71px;
+    display: block;
+    text-indent: -9999px;
+    background: url(../images/ui/controls-light.png) no-repeat 0 -99px;
+    position: relative;
+    z-index: 999;
+    float: left;    
+}
+.category-arrow-control a#nextCategory
+{
+    background-position: -50px -99px;
+    float: right;
+}
+
 div.cover-title {
-    top: 20%;  /* Cover Title Styling  */
+    top: 32%;  /* Cover Title Styling  */
+    color: #333;
 }
+
+
 /*Slider and Arrows*/
+.ui-slider {margin-top: 213px;}
 .ui-slider, .ui-slider .ui-slider-handle, .ui-slider .ui-slider-handle:hover {
-    border: 1px solid #ccc;
+    border: 1px solid #b9b9b9;
 }
 .ui-slider .ui-slider-handle {
 background-color: #000;
-background-image: linear-gradient(bottom, #000000 60%, #3B3B3B 60%);
-background-image: -o-linear-gradient(bottom, #000000 60%, #3B3B3B 60%);
-background-image: -moz-linear-gradient(bottom, #000000 60%, #3B3B3B 60%);
-background-image: -webkit-linear-gradient(bottom, #000000 60%, #3B3B3B 60%);
-background-image: -ms-linear-gradient(bottom, #000000 60%, #3B3B3B 60%);
+background-image: linear-gradient(bottom, #b9b9b9 60%, #ddd 60%);
+background-image: -o-linear-gradient(bottom, #b9b9b9 60%, #ddd 60%);
+background-image: -moz-linear-gradient(bottom, #b9b9b9 60%, #ddd 60%);
+background-image: -webkit-linear-gradient(bottom, #b9b9b9 60%, #ddd 60%);
+background-image: -ms-linear-gradient(bottom, #b9b9b9 60%, #ddd 60%);
 background-image: -webkit-gradient(
 	linear,
 	left bottom,
 	left top,
-	color-stop(0.60, #000000),
-	color-stop(0.60, #3B3B3B)
+	color-stop(0.60, #b9b9b9),
+	color-stop(0.60, #ddd)
 );
 }
-div.controls {
+div.slider-controls {
     position: relative;
-    top: 365px;
+    top: 682px;
     width: 82.6%;
     margin: 0 auto;
 }
 
-div.controls a 
+div.slider-controls a 
 {
-    width: 26px;
+    width: 24px;
     height: 19px;
     display: block;
     float: left;
 	cursor: pointer;
-	background: transparent url(../images/ui/arrows.png) no-repeat 0 0;
+	background: transparent url(../images/ui/controls-light.png) no-repeat 0 0;
 	text-indent: -9999px;
 	position: relative;
 	z-index: 100;
 }
-div.controls a#prevCover
+div.slider-controls a#prevCover
 {
-    background-position: left top;
+    background-position: left -185px;
     margin-left: 2px;
 }
-div.controls a#nextCover
+div.slider-controls a#nextCover
 {
-    background-position: right top;
+    background-position: right -185px;
     float: right;
 }
-div.controls a#prevCover:hover
+div.slider-controls a#prevCover:hover
 {
-    background-position: left -21px;
+    background-position: left -206px;
 }
-div.controls a#nextCover:hover
+div.slider-controls a#nextCover:hover
 {
-    background-position: right -21px;
+    background-position: right -206px;
+}
+
+/* Play and Pause Control */
+.play-pause-control
+{
+    width: 450px;
+    margin: 0 auto;
+    position: relative;
+}
+.play
+{
+    width: 36px;
+    height: 36px;
+    display: block;
+    text-indent: -9999px;
+    background: url(../images/ui/controls-light.png) no-repeat 0 -49px;
+    position: absolute;
+    top: 10px;
+    right: 0;
+    z-index: 200;
+}
+.pause
+{
+    background: url(../images/ui/controls-light.png) no-repeat -49px -49px;
 }
