@@ -3,18 +3,12 @@
    NOTE: WORK IN PROGRESS
    USE WITH CAUTION AND TEST WITH ABANDON */
 
-html, body, div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-a, abbr, acronym, address, big, cite, code,
-del, dfn, em, img, ins, kbd, q, s, samp,
-small, strike, strong, sub, sup, tt, var,
-b, u, i, center,
-dl, dt, dd, ol, ul, li,
-fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, figcaption, figure, 
-footer, header, hgroup, menu, nav, section, summary,
-time, mark, audio, video {
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, figcaption, figure, footer, header, hgroup, menu, 
+nav, section, summary, time, mark, audio, video {
 	margin: 0;
 	padding: 0;
 	border: 0;
@@ -30,6 +24,7 @@ footer, header, hgroup, menu, nav, section {
 }
 body {
 	line-height: 1;
+	background: black;
 }
 ol, ul {
 	list-style: none;
@@ -42,12 +37,6 @@ q:before, q:after {
 	content: '';
 	content: none;
 }
-
-/* remember to define visible focus styles! 
-:focus {
-	outline: ?????;
-} */
-
 /* remember to highlight inserts somehow! */
 ins {
 	text-decoration: none;
@@ -55,7 +44,6 @@ ins {
 del {
 	text-decoration: line-through;
 }
-
 table {
 	border-collapse: collapse;
 	border-spacing: 0;
@@ -65,50 +53,98 @@ table {
 /* Elements */
 h1 {
 	font-size: 24px;
+	text-align: center;
 }
-
 h2 {
 	font-size: 20px;
 }
-
-div.wrapper {
-	height: 600px;
-	width: 100%;
-	overflow: hidden;
-	position: relative;
-	margin: 0 auto;
+header {
+    position: relative;
+    width: 500px;
+    margin: 20px auto;
 }
 
-div.controls {
+/* IDs */
+#coverflow {
+    width: 100%;
+    height: 600px;
+    background: black;
+    margin-top: 50px;
+}
+#add, #remove {
     position: absolute;
-    top: 0px;
-    z-index: 100;
+    display: block;
+    font-weight: bold;
+    font-size: 1.5em;
+    color: gray;
 }
-
-div.controls a {
-    font-family: Arial, Helvetica, sans-serif;
-	font-size: 100px;
-	cursor: pointer;
-	color: white;
-	opacity: 0.5;
+#add
+{
+    top: 2px;
+    right: 15px;
 }
-
-div.controls a.small {
-    font-size: 75px; 
+#remove
+{
+    top: -2px;
+    right: 5px;
 }
-
-div.cover-title {
-    top: 25%;
+#play, #pause {
+    position: absolute;
+    top: 45px;
+    right: 25px;
+    width: 25px;
+    height: 25px;
 }
-
-/* Named Elements */
-#demo1 .wrapper {
-	height: 450px;
+#play:hover, #pause:hover, #add:hover, #remove:hover {
+    cursor: pointer;
+}
+#add:hover, #remove:hover {
+    color: White;
+}
+#pause {
+    display: none;
 }
 
 /* Classes */
-.coverflow {
-    width: 100%;
-    height: 100%;
-    background: black;
+.coverflow-categories {
+    list-style: none;
+    color: white;
+    margin: -52px auto 0;
+    width: 300px;
+    color: gray;
+    position: relative;
+    padding: 10px;
+    cursor: pointer;
+    padding-left: 275px;
 }
+.coverflow-categories li {
+    display: inline;  
+    padding: 0 6px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
+}
+.coverflow-categories li:hover {
+    text-decoration: underline;
+}
+.coverflow-selected-category {
+    color: White;
+}
+.cover-title {
+	font-family: Arial, Helvetica, sans-serif;
+	font-weight: bold;
+	position: relative;
+	color: white;
+	margin: 310px auto;
+	z-index: 100;
+	width: 400px;
+}
+.cover-title h1 {
+	font-size: 14px;
+	text-align: center;
+	padding-bottom: 6px;
+}
+.cover-title h2 {
+	font-size: 14px;
+	text-align: center;
+}
+

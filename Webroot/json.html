@@ -1,0 +1,125 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Planet Telex Coverflow</title>
+    <link type="text/css" href="css/ui-darkness/jquery-ui-1.8.16.custom.css" rel="Stylesheet" />
+    <link type="text/css" href="css/jquery.ui.pt_coverflow.css" rel="stylesheet" />
+    <link type="text/css" href="css/site.css" rel="Stylesheet" />
+    <!-- Include jQuery and UI -->
+    <script type="text/javascript" src="js/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" src="js/jquery-ui-1.8.16.custom.min.js"></script>
+    <!-- Include jQuery CoverFlow widgets -->
+    <script type="text/javascript" src="js/jquery.ui.pt_cover.js"></script>
+    <script type="text/javascript" src="js/jquery.ui.pt_coverflow.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            var extraImage = $("#extraImage").hide();
+            var $coverflow = $("#coverflow").coverflow({
+                categories: {
+                    enabled: true
+                }
+            });
+            var $coverflow2 = $("#coverflow-2").coverflow({
+                autoplay: {
+                    enabled: true
+                },
+                images: [
+                    { src: "images/muse-the-resistance.jpg", subtitle: "Muse", title: "The Resistance", category: "Rock" },
+                    { src: "images/radiohead-the-king-of-limbs.jpg", subtitle: "Radiohead", title: "The King of Limbs", category: "Rock" },
+                    { src: "images/gorillaz-plasticbeach.jpg", subtitle: "Gorillaz", title: "Plastic Beach", category: "Hip Hop" }
+                ]
+            });
+
+            // Example: hook up first coverflow control buttons
+            var $playButton = $("#playPause").click(function () {
+                $coverflow.coverflow("togglePlay");
+            });
+            $("#prevCategory").click(function () {
+                $coverflow.coverflow("prevCategory");
+            });
+            $("#nextCategory").click(function () {
+                $coverflow.coverflow("nextCategory");
+            });
+            $("#prevCover").click(function () {
+                $coverflow.coverflow("prevCover");
+            });
+            $("#nextCover").click(function () {
+                $coverflow.coverflow("nextCover");
+            });
+            $("#addImage").click(function () {
+                $coverflow.coverflow("addImage", extraImage);
+            });
+            $("#removeImage").click(function () {
+                $coverflow.coverflow("removeImage");
+            });
+
+            // Example: hook up to the togglePlay event on the first coverflow
+            $("#coverflow").bind('pt.coverflowtoggleplay', function () {
+                $playButton.fadeOut(function () {
+                    $(this).fadeIn();
+                });
+            });
+
+            // Example: Force a pause on the second coverflow.
+            $coverflow2.coverflow("pause");
+            $("#playPause2").click(function () {
+                $coverflow2.coverflow("togglePlay");
+            });
+            $("#prevCover2").click(function () {
+                $coverflow2.coverflow("prevCover");
+            });
+            $("#nextCover2").click(function () {
+                $coverflow2.coverflow("nextCover");
+            });
+        });
+    </script>
+</head>
+<body>
+    <div>
+        <h1>Planet Telex Coverflow</h1>
+        <div id="demo1">
+            <h2>Demo 1</h2>
+            <div class="wrapper">
+                <div id="coverflow" class="coverflow">
+                    <div class="controls">
+                        <a id="prevCategory" class="small" title="Previous Category">&lsaquo;&lsaquo;</a>
+                        <a id="prevCover" title="Previous Cover">&lsaquo;</a>
+                        <a id="playPause" title="Play/Pause">&ge;</a>
+                        <a id="nextCover" title="Next Cover">&rsaquo;</a>
+                        <a id="nextCategory" title="Next Category" class="small">&rsaquo;&rsaquo;</a>&nbsp;
+                        <a id="addImage" title="Add Image" class="small">+</a>&nbsp;
+                        <a id="removeImage" title="Remove Image" class="small">-</a>
+                    </div>
+                    <img src="images/muse-the-resistance.jpg" alt="Muse, The Resistance" data-subtitle="Muse" data-title="The Resistance" data-category="Rock" />
+                    <img src="images/alberta-cross.jpg" alt="Alberta Cross" data-subtitle="Alberta Cross" data-title="Alberta Cross" data-category="Rock" />
+                    <img src="images/bat-for-lashes.jpg" alt="Bat For Lashes" data-subtitle="Bat For Lashes" data-title="Bat For Lashes" data-category="Rock" />
+                    <img src="images/bjork-post.jpg" alt="Bjork" data-subtitle="Bjork" data-title="Bjork" data-category="Rock" />
+                    <img src="images/bob-marley.jpg" alt="Bob Marley" data-subtitle="Bob Marley" data-title="Bob Marley" data-category="Rock" />
+                    <img src="images/gorillaz-plasticbeach.jpg" alt="Gorillaz, Plastic Beach" data-subtitle="Gorillaz" data-title="Plastic Beach" data-category="Hip Hop" />
+                    <img src="images/chembros.jpg" alt="Chemical Brothers" data-subtitle="Chemical Brothers" data-title="Chemical Brothers" data-category="Hip Hop" />
+                    <img src="images/cibo-matto.jpg" alt="Cibo Matto" data-subtitle="Cibo Matto" data-title="Cibo Matto" data-category="Hip Hop" />
+                    <img src="images/cornershop.jpg" alt="Cornershop" data-subtitle="Cornershop" data-title="Cornershop" data-category="Hip Hop" />
+                    <img src="images/cream.jpg" alt="Cream" data-subtitle="Cream" data-title="Cream" data-category="Hip Hop" />
+                    <img src="images/kingsofleon-comearoundsunshine.jpg" alt="Kings of Leon, Come Around Sunshine" data-subtitle="Kings Of Leon" data-title="Come Around Sunshine" data-category="Pop" />
+                    <img src="images/cut-copy.jpg" alt="Cut Copy" data-subtitle="Cut Copy" data-title="Cut Copy" data-category="Pop" />
+                    <img src="images/delerium.jpg" alt="Delerium" data-subtitle="Delerium" data-title="Delerium" data-category="Pop" />
+                    <img src="images/ironmaiden-thefinalfrontier.jpg" alt="Iron Maiden, The Final Frontier" data-subtitle="Iron Maiden" data-title="The Final Frontier" data-category="Rock" />
+                    <img src="images/bonobo-blacksands.jpg" alt="Bonobo, Blacksands" data-subtitle="Bonobo" data-title="Blacksands" data-category="Alternative" />
+                    <img src="images/elbow.jpg" alt="Elbow" data-subtitle="Elbow" data-title="Elbow" data-category="Alternative" />
+                    <img src="images/iron-butterfly.jpg" alt="Iron Butterfly" data-subtitle="Iron Butterfly" data-title="Iron Butterfly" data-category="Alternative" />
+                    <img src="images/john-coltrane.jpg" alt="john-coltrane" data-subtitle="john-coltrane" data-title="john-coltrane" data-category="Alternative" />
+                </div>
+            </div>
+        </div>
+        <div>
+            <h2>Demo 2</h2>
+            <div class="wrapper">
+                <div id="coverflow-2" class="coverflow controls">
+                    <a id="prevCover2">&lsaquo;</a><a id="playPause2">&ge;</a><a id="nextCover2">&rsaquo;</a>
+                </div>
+            </div>
+        </div>
+        <img id="extraImage" src="images/portugaltheman-inthemountaininthecloud.jpg" alt="Portugal the Man, In the mountain in the cloud" data-subtitle="Portugal the Man" data-title="In the Mountain in the Cloud" data-category="Alternative" />
+    </div>
+</body>
+</html>

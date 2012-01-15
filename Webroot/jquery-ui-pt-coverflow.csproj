@@ -62,6 +62,7 @@
     <Content Include="images\portugaltheman-inthemountaininthecloud.jpg" />
     <Content Include="images\radiohead-the-king-of-limbs.jpg" />
     <Content Include="index.html" />
+    <Content Include="json.html" />
     <Content Include="js\jquery-1.7.1-vsdoc.js" />
     <Content Include="js\jquery-1.7.1.min.js" />
     <Content Include="js\jquery-ui-1.8.16.custom.min.js" />

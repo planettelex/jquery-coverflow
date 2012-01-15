@@ -14,112 +14,88 @@
     <script type="text/javascript">
         $(function () {
             var extraImage = $("#extraImage").hide();
-            var $coverflow1 = $("#coverflow").coverflow({
+            var $coverflow = $("#coverflow").coverflow({
+                autoplay: {
+                    interval: 3,
+                    playsPerCategory: 100
+                },
                 categories: {
                     enabled: true
                 }
             });
-            var $coverflow2 = $("#coverflow-2").coverflow({
-                autoplay: {
-                    enabled: true
-                },
-                images: [
-                    { src: "images/muse-the-resistance.jpg", subtitle: "Muse", title: "The Resistance", category: "Rock" },
-                    { src: "images/radiohead-the-king-of-limbs.jpg", subtitle: "Radiohead", title: "The King of Limbs", category: "Rock" },
-                    { src: "images/gorillaz-plasticbeach.jpg", subtitle: "Gorillaz", title: "Plastic Beach", category: "Hip Hop" }
-                ]
+            $("#play").click(function () {
+                $coverflow.coverflow("togglePlay");
+                $(this).hide();
+                $("#pause").show();
             });
-
-            // Example: hook up first coverflow control buttons
-            var $playButton = $("#playPause").click(function () {
-                $coverflow1.coverflow("togglePlay");
+            $("#pause").click(function () {
+                $coverflow.coverflow("togglePlay");
+                $(this).hide();
+                $("#play").show();
             });
-            $("#prevCategory").click(function () {
-                $coverflow1.coverflow("prevCategory");
+            $("#add").click(function () {
+                $coverflow.coverflow("addImage", extraImage);
             });
-            $("#nextCategory").click(function () {
-                $coverflow1.coverflow("nextCategory");
-            });
-            $("#prevCover").click(function () {
-                $coverflow1.coverflow("prevCover");
-            });
-            $("#nextCover").click(function () {
-                $coverflow1.coverflow("nextCover");
-            });
-            $("#addImage").click(function () {
-                $coverflow1.coverflow("addImage", extraImage);
-            });
-            $("#removeImage").click(function () {
-                $coverflow1.coverflow("removeImage");
-            });
-
-            // Example: hook up to the togglePlay event on the first coverflow
-            $("#coverflow").bind('pt.coverflowtoggleplay', function () {
-                $playButton.fadeOut(function () {
-                    $(this).fadeIn();
-                });
-            });
-
-            // Example: Force a pause on the second coverflow.
-            $coverflow2.coverflow("pause");
-            $("#playPause2").click(function () {
-                $coverflow2.coverflow("togglePlay");
-            });
-            $("#prevCover2").click(function () {
-                $coverflow2.coverflow("prevCover");
-            });
-            $("#nextCover2").click(function () {
-                $coverflow2.coverflow("nextCover");
+            $("#remove").click(function () {
+                $coverflow.coverflow("removeImage");
             });
         });
     </script>
 </head>
 <body>
-    <div>
-        <h1>Planet Telex Coverflow</h1>
-        <div id="demo1">
-            <h2>Demo 1</h2>
-            <div class="wrapper">
-                <div id="coverflow" class="coverflow">
-                    <div class="controls">
-                        <a id="prevCategory" class="small" title="Previous Category">&lsaquo;&lsaquo;</a>
-                        <a id="prevCover" title="Previous Cover">&lsaquo;</a>
-                        <a id="playPause" title="Play/Pause">&ge;</a>
-                        <a id="nextCover" title="Next Cover">&rsaquo;</a>
-                        <a id="nextCategory" title="Next Category" class="small">&rsaquo;&rsaquo;</a>&nbsp;
-                        <a id="addImage" title="Add Image" class="small">+</a>&nbsp;
-                        <a id="removeImage" title="Remove Image" class="small">-</a>
-                    </div>
-                    <img src="images/muse-the-resistance.jpg" alt="Muse, The Resistance" data-subtitle="Muse" data-title="The Resistance" data-category="Rock" />
-                    <img src="images/alberta-cross.jpg" alt="Alberta Cross" data-subtitle="Alberta Cross" data-title="Alberta Cross" data-category="Rock" />
-                    <img src="images/bat-for-lashes.jpg" alt="Bat For Lashes" data-subtitle="Bat For Lashes" data-title="Bat For Lashes" data-category="Rock" />
-                    <img src="images/bjork-post.jpg" alt="Bjork" data-subtitle="Bjork" data-title="Bjork" data-category="Rock" />
-                    <img src="images/bob-marley.jpg" alt="Bob Marley" data-subtitle="Bob Marley" data-title="Bob Marley" data-category="Rock" />
-                    <img src="images/gorillaz-plasticbeach.jpg" alt="Gorillaz, Plastic Beach" data-subtitle="Gorillaz" data-title="Plastic Beach" data-category="Hip Hop" />
-                    <img src="images/chembros.jpg" alt="Chemical Brothers" data-subtitle="Chemical Brothers" data-title="Chemical Brothers" data-category="Hip Hop" />
-                    <img src="images/cibo-matto.jpg" alt="Cibo Matto" data-subtitle="Cibo Matto" data-title="Cibo Matto" data-category="Hip Hop" />
-                    <img src="images/cornershop.jpg" alt="Cornershop" data-subtitle="Cornershop" data-title="Cornershop" data-category="Hip Hop" />
-                    <img src="images/cream.jpg" alt="Cream" data-subtitle="Cream" data-title="Cream" data-category="Hip Hop" />
-                    <img src="images/kingsofleon-comearoundsunshine.jpg" alt="Kings of Leon, Come Around Sunshine" data-subtitle="Kings Of Leon" data-title="Come Around Sunshine" data-category="Pop" />
-                    <img src="images/cut-copy.jpg" alt="Cut Copy" data-subtitle="Cut Copy" data-title="Cut Copy" data-category="Pop" />
-                    <img src="images/delerium.jpg" alt="Delerium" data-subtitle="Delerium" data-title="Delerium" data-category="Pop" />
-                    <img src="images/ironmaiden-thefinalfrontier.jpg" alt="Iron Maiden, The Final Frontier" data-subtitle="Iron Maiden" data-title="The Final Frontier" data-category="Rock" />
-                    <img src="images/bonobo-blacksands.jpg" alt="Bonobo, Blacksands" data-subtitle="Bonobo" data-title="Blacksands" data-category="Alternative" />
-                    <img src="images/elbow.jpg" alt="Elbow" data-subtitle="Elbow" data-title="Elbow" data-category="Alternative" />
-                    <img src="images/iron-butterfly.jpg" alt="Iron Butterfly" data-subtitle="Iron Butterfly" data-title="Iron Butterfly" data-category="Alternative" />
-                    <img src="images/john-coltrane.jpg" alt="john-coltrane" data-subtitle="john-coltrane" data-title="john-coltrane" data-category="Alternative" />
-                </div>
-            </div>
-        </div>
-        <div>
-            <h2>Demo 2</h2>
-            <div class="wrapper">
-                <div id="coverflow-2" class="coverflow controls">
-                    <a id="prevCover2">&lsaquo;</a><a id="playPause2">&ge;</a><a id="nextCover2">&rsaquo;</a>
-                </div>
-            </div>
-        </div>
-        <img id="extraImage" src="images/portugaltheman-inthemountaininthecloud.jpg" alt="Portugal the Man, In the mountain in the cloud" data-subtitle="Portugal the Man" data-title="In the Mountain in the Cloud" data-category="Alternative" />
+    <a id="add" title="Add Image">+</a>
+    <a id="remove" title="Remove Image">-</a>
+    <header>
+        <img id="header" alt="Planet Telex Coverflow" src="images/_header.png" />
+        <img id="play" alt="Play" src="images/controls/play.png" title="Play" />
+        <img id="pause" alt="Pause" src="images/controls/pause.png" title="Pause" />
+    </header>
+    <div id="coverflow" class="coverflow">
+        <img src="images/albertacross-thebrokensideoftime.jpg" alt="Alberta Cross, Broken Side of Time" data-subtitle="Alberta Cross" data-title="Broken Side of Time" data-category="Rock" />
+        <img src="images/beatles-revolver.jpg" alt="The Beatles, Revolver" data-subtitle="The Beatles" data-title="Revolver" data-category="Rock" />
+        <img src="images/cream-disraeligears.jpg" alt="Cream, Disraeli Gears" data-subtitle="Cream" data-title="Disraeli Gears" data-category="Rock" />
+        <img src="images/ironbutterfly-in-a-gadda-da-vida.jpg" alt="Iron Butterfly, In-a-Gadda-Da-Vida" data-subtitle="Iron Butterfly" data-title="In-a-Gadda-Da-Vida" data-category="Rock" />
+        <img src="images/ironmaiden-thefinalfrontier.jpg" alt="Iron Maiden, The Final Frontier" data-subtitle="Iron Maiden" data-title="The Final Frontier" data-category="Rock" />
+        <img src="images/kasabian-empire.jpg" alt="Kasabian, Empire" data-subtitle="Kasabian" data-title="Empire" data-category="Rock" />
+        <img src="images/kingcrimson-inthecourtofthecrimsonking.jpg" alt="King Crimson, In the Court of the Crimson King" data-subtitle="King Crimson" data-title="In the Court of the Crimson King" data-category="Rock" />
+        <img src="images/kulashaker-strangefolk.jpg" alt="Kula Shaker, Strangefolk" data-subtitle="Kula Shaker" data-title="Strangefolk" data-category="Rock" />
+        <img src="images/ledzeppelin-ledzeppelin.jpg" alt="Led Zeppelin, Led Zeppelin" data-subtitle="Led Zeppelin" data-title="Led Zeppelin" data-category="Rock" />
+        <img src="images/muse-the-resistance.jpg" alt="Muse, The Resistance" data-subtitle="Muse" data-title="The Resistance" data-category="Rock" />
+        <img src="images/nirvana-inutero.jpg" alt="Nirvana, In Utero" data-subtitle="Nirvana" data-title="In Utero" data-category="Rock" />
+        <img src="images/queen-newsoftheworld.jpg" alt="Queen, News of the World" data-subtitle="Queen" data-title="News of the World" data-category="Rock" />
+        <img src="images/smashingpumpkins-melloncallieandtheinfinitesadness.jpg" alt="The Smashing Pumpkins, Mellon Collie and the Infinite Sadness" data-subtitle="The Smashing Pumpkins" data-title="Mellon Collie and the Infinite Sadness" data-category="Rock" />
+        <img src="images/weezer-maladroit.jpg" alt="Weezer, Maladroit" data-subtitle="Weezer" data-title="Maladroit" data-category="Rock" />
+        <img src="images/beastieboys-illcommunication.jpg" alt="Beastie Boys, Ill Communication" data-subtitle="Beastie Boys" data-title="Ill Communication" data-category="Hip-Hop" />
+        <img src="images/blackalicious-blazingarrow.jpg" alt="Blackalicious, Blazing Arrow" data-subtitle="Blackalicious" data-title="Blazing Arrow" data-category="Hip-Hop" />
+        <img src="images/cypresshill-iv.jpg" alt="Cypress Hill, IV" data-subtitle="Cypress Hill" data-title="IV" data-category="Hip-Hop" />
+        <img src="images/kanyewest-graduation.jpg" alt="Kanye West, Graduation" data-subtitle="Kanye West" data-title="Graduation" data-category="Hip-Hop" />
+        <img src="images/outkast-atliens.jpg" alt="Outkast, ATLiens" data-subtitle="Outkast" data-title="ATLiens" data-category="Hip-Hop" />
+        <img src="images/theroots-thingsfallapart.jpg" alt="The Roots, Things Fall Apart" data-subtitle="The Roots" data-title="Things Fall Apart" data-category="Hip-Hop" />
+        <img src="images/animalcollective-merriweatherpostpavilion.jpg" alt="Animal Collective, Merriweather Post Pavillion" data-subtitle="Animal Collective" data-title="Merriweather Post Pavillion" data-category="Alternative" />
+        <img src="images/astallaslions-astallaslions.jpg" alt="As Tall As Lions, As Tall As Lions" data-subtitle="As Tall As Lions" data-title="As Tall As Lions" data-category="Alternative" />
+        <img src="images/batforlashes-twosuns.jpg" alt="Bat For Lashes, Two Suns" data-subtitle="Bat For Lashes" data-title="Two Suns" data-category="Alternative" />
+        <img src="images/beck-midnightvultures.jpg" alt="Beck, Midnight Vultures" data-subtitle="Beck" data-title="Midnight Vultures" data-category="Alternative" />
+        <img src="images/bjork-post.jpg" alt="Bjork, Post" data-subtitle="Bjork" data-title="Post" data-category="Alternative" />
+        <img src="images/cibomatto-vivalawoman.jpg" alt="Cibo Matto, Viva la Woman" data-subtitle="Cibo Matto" data-title="Viva la Woman" data-category="Alternative" />
+        <img src="images/cornershop-wheniwasbornfortheseventhtime.jpg" alt="Cornershop, When I Was Born for the Seventh Time" data-subtitle="Cornershop" data-title="When I Was Born for the Seventh Time" data-category="Alternative" />
+        <img src="images/depechemmode-violator.jpg" alt="Depeche Mode, Violator" data-subtitle="Depeche Mode" data-title="Violator" data-category="Alternative" />
+        <img src="images/elbow-asleepintheback.jpg" alt="Elbow, Asleep in the Back" data-subtitle="Elbow" data-title="Asleep in the Back" data-category="Alternative" />
+        <img src="images/thefllaminglips-thesoftbulletin.jpg" alt="The Flaming Lips, The Soft Bulletin" data-subtitle="The Flaming Lips" data-title="The Soft Bulletin" data-category="Alternative" />
+        <img src="images/gorillaz-plasticbeach.jpg" alt="Gorillaz, Plastic Beach" data-subtitle="Gorillaz" data-title="Plastic Beach" data-category="Alternative" />
+        <img src="images/keane-undertheironsea.jpg" alt="Keane, Under the Iron Sea" data-subtitle="Keane" data-title="Under the Iron Sea" data-category="Alternative" />
+        <img src="images/portugaltheman-inthemountaininthecloud.jpg" alt="Portugal.The Man, In the Mountain in the Cloud" data-subtitle="Portugal.The Man" data-title="In the Mountain in the Cloud" data-category="Alternative" />
+        <img src="images/radiohead-the-king-of-limbs.jpg" alt="Radiohead, The King of Limbs" data-subtitle="Radiohead" data-title="The King of Limbs" data-category="Alternative" />
+        <img src="images/vast-visualaudiosensorytheater.jpg" alt="Vast, Visual Audio Sensory Theater" data-subtitle="Vast" data-title="Visual Audio Sensory Theater" data-category="Alternative" />
+        <img src="images/ween-quebec.jpg" alt="Ween, Quebec" data-subtitle="Ween" data-title="Quebec" data-category="Alternative" />
+        <img src="images/air-thevirginsuisides.jpg" alt="Air, The Virgin Suicides" data-subtitle="Air" data-title="The Virgin Suicides" data-category="Electronica" />
+        <img src="images/aphextwin-richardjamesalbum.jpg" alt="Aphex Twin, The Virgin Suicides" data-subtitle="Aphex Twin" data-title="Richard D. James Album" data-category="Electronica" />
+        <img src="images/bonobo-blacksands.jpg" alt="Bonobo, Black Sands" data-subtitle="Bonobo" data-title="Black Sands" data-category="Electronica" />
+        <img src="images/chemicalbrothers-digyourownhole.jpg" alt="Chemical Brothers, Dig Your Own Hole" data-subtitle="Chemical Brothers" data-title="Dig Your Own Hole" data-category="Electronica" />
+        <img src="images/cut-copy-zonoscope.jpg" alt="Cut Copy, Zonoscope" data-subtitle="Cut Copy" data-title="Zonoscope" data-category="Electronica" />
+        <img src="images/delerium-nuagesdumonde.jpg" alt="Delerium, Nuages du Monde" data-subtitle="Delerium" data-title="Nuages du Monde" data-category="Electronica" />
+        <img src="images/prodigy-fatoftheland.jpg" alt="Prodigy, The Fat of the Land" data-subtitle="Prodigy" data-title="The Fat of the Land" data-category="Electronica" />
+        <img src="images/propellerheads-desksanddrumsandrockandroll.jpg" alt="Propellerheads, Desksanddrumsandrockandroll" data-subtitle="Propellerheads" data-title="Desksanddrumsandrockandroll" data-category="Electronica" />
     </div>
+    <img id="extraImage" src="images/apparat-walls.jpg" alt="Apparat, Walls" data-subtitle="Apparat" data-title="Walls" data-category="Electronica" />
 </body>
 </html>
