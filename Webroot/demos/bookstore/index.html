@@ -1,0 +1,99 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Bookstore Demo</title>
+    <link type="text/css" href="css/ui-overcast/jquery-ui-1.8.17.custom.css" rel="Stylesheet" />
+    <link type="text/css" href="css/jquery.ui.pt_coverflow.css" rel="stylesheet" />
+    <link type="text/css" href="css/site.css" rel="Stylesheet" />
+    <!-- Include jQuery and UI -->
+    <script type="text/javascript" src="../../js/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" src="../../js/jquery-ui-1.8.16.custom.min.js"></script>
+    <!-- Include jQuery CoverFlow widgets -->
+    <script type="text/javascript" src="../../js/jquery.ui.pt_cover.js"></script>
+    <script type="text/javascript" src="../../js/jquery.ui.pt_coverflow.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            var extraImage = $("#extraImage").hide();
+            var $coverflow = $("#coverflow").coverflow({
+                categories: {
+                    enabled: true
+                },
+                cover: {
+                    height: 500,
+                    reflection: {
+                    initialOpacity: 40,
+                    length: 20
+                }
+                },
+                autoplay: {
+                    enabled: false
+                }
+            });
+
+            // Example: hook up first coverflow control buttons
+            var $playButton = $("#playPause").click(function () {
+                $coverflow.coverflow("togglePlay");
+            });
+            $("#prevCategory").click(function () {
+                $coverflow.coverflow("prevCategory");
+            });
+            $("#nextCategory").click(function () {
+                $coverflow.coverflow("nextCategory");
+            });
+            $("#prevCover").click(function () {
+                $coverflow.coverflow("prevCover");
+            });
+            $("#nextCover").click(function () {
+                $coverflow.coverflow("nextCover");
+            });
+            $("#addImage").click(function () {
+                $coverflow.coverflow("addImage", extraImage);
+            });
+            $("#removeImage").click(function () {
+                $coverflow.coverflow("removeImage");
+            });
+
+            // Example: hook up to the togglePlay event on the coverflow
+            $("#coverflow").bind('pt.coverflowtoggleplay', function () {
+                $playButton.fadeOut(function () {
+                    $(this).toggleClass("pause").fadeIn();
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="category-arrow-control">
+            <a id="prevCategory">&lsaquo;</a>
+            <a id="nextCategory">&rsaquo;</a>
+        </div>
+        <div class="play-pause-control">
+            <a id="playPause" class="play">&ge;</a>
+        </div>
+        <div class="slider-controls">
+            <a id="prevCover">&lsaquo;</a><a id="nextCover">&rsaquo;</a>
+        </div>
+        <div id="coverflow" class="coverflow">
+            <img src="images/adland.large.jpg" alt="Ad Land" data-subtitle="James P. Othmer" data-title="Ad Land" data-category="Fiction" />
+            <img src="images/and_then_theres_this.large.jpg" alt="And hen There's This" data-subtitle="Bill Wasik" data-title="And hen There's This" data-category="Fiction" />
+            <img src="images/even_silence_has_an_end.large.jpg" alt="Even Silence Has An End" data-subtitle="Ingrid Betancourt" data-title="Even Silence Has An End" data-category="Fiction" />
+            <img src="images/how_to_live_or_a_life_of_montaigne_in_one_question_and_twenty_attempts_at_an_answer.large.jpg" alt="How To Live" data-subtitle="Sarah Bakewell" data-title="How To Live" data-category="Fiction" />
+            <img src="images/in_the_year_of_the_long_division.large.jpg" alt="In The Year of Long Division" data-subtitle="Dawn Raefel" data-title="In The Year of Long Division" data-category="Fiction" />
+            <img src="images/lost_decades.large.jpg" alt="Stolen World" data-subtitle="Jennie Erin Smith" data-title="Stolen World" data-category="Non Fiction"/>
+            <img src="images/milk.large.jpg" alt="Lost Decades" data-subtitle="Menzie D. Chinn" data-title="Lost Decades" data-category="Non Fiction"/>
+            <img src="images/palo_alto.large.jpg" alt="Milk" data-subtitle="Anne Mendeleson" data-title="Milk" data-category="Non Fiction"/>
+            <img src="images/parrot_and_olivier_in_america.large.jpg" alt="Palo Alto Stories" data-subtitle="James Fanco" data-title="Palo Alto Stories" data-category="Non Fiction"/>
+            <img src="images/stolen_world.large.jpg" alt="Parrot & Oliver in America" data-subtitle="Peter Carey" data-title="Parrot & Oliver in America" data-category="Fiction" />
+            <img src="images/the_fractalist.large.jpg" alt="The Fractalist" data-subtitle="Benoit Mandelbrot" data-title="The Fractalist" data-category="Non Fiction" />
+            <img src="images/the_pale_king.large.jpg" alt="The Pale King" data-subtitle="David Foster Wallace" data-title="The Pale King" data-category="Non Fiction" />
+            <img src="images/the_pale_king_1.large.jpg" alt="The Pale King" data-subtitle="David Foster Wallace" data-title="The Pale King" data-category="Biography" />
+            <img src="images/the_revolution_of_little_girls.large.jpg" alt="The Revolution of Little Girls" data-subtitle="Blanche McCrary Boyd" data-title="The Revolution of Little Girls" data-category="Biography" />
+            <img src="images/three_delays.large.jpg" alt="Three Delays" data-subtitle="Charlie Smith" data-title="Three Delays" data-category="Biography" />
+            <img src="images/wall_street.large.jpg" alt="Wall Street" data-subtitle="Steve Fraser" data-title="Wall Street" data-category="Biography" />
+            <img src="images/who_will_run_the_frog_hospital.large.jpg" alt="Who Will Run the Frog Hospital?" data-subtitle="Lorrie Moore" data-title="Who Will Run the Frog Hospital?" data-category="Phylosophy" />
+            <img src="images/winchell.large.jpg" alt="Winchell" data-subtitle="Neal Gabler" data-title="Winchell" data-category="Phylosophy" />       
+        </div>
+    </div>
+</body>
+</html>
