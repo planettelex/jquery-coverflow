@@ -5,7 +5,7 @@
 }
 
 .coverflow img {
-    visibility: hidden;    
+    visibility: hidden; /* prevents initial flash of images when page loads */
 }
 
 .coverflow-slider {
@@ -15,14 +15,11 @@
 
 .coverflow-categories {
     list-style: none;
-    color: white;
     z-index: 999;
-    margin: 0 auto;
-    width: 285px;
-    margin-top: 10px;
+    margin: 0 auto 15px;
+    width: auto;
     color: gray;
     position: relative;
-    background: black;
     padding: 10px;
     opacity: .8;
     cursor: pointer;

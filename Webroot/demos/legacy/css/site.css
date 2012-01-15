@@ -48,7 +48,7 @@ q:before, q:after {
 	outline: ?????;
 } */
 
-/* remember to highlight inserts somehow! */
+/* remember to highorange inserts somehow! */
 ins {
 	text-decoration: none;
 }
@@ -62,7 +62,12 @@ table {
 }
 /* End reset */
 
-/* Elements */
+/* Global */
+body 
+{
+    background: #c7732a;
+    font-size: 100%;
+}
 h1 {
 	font-size: 24px;
 }
@@ -70,45 +75,163 @@ h1 {
 h2 {
 	font-size: 20px;
 }
-
 div.wrapper {
-	height: 600px;
+	height: 800px;
 	width: 100%;
 	overflow: hidden;
 	position: relative;
-	margin: 0 auto;
+	margin: 100px auto 0;
 }
 
-div.controls {
-    position: absolute;
-    top: 0px;
-    z-index: 100;
-}
-
-div.controls a {
-    font-family: Arial, Helvetica, sans-serif;
-	font-size: 100px;
-	cursor: pointer;
-	color: white;
-	opacity: 0.5;
-}
-
-div.controls a.small {
-    font-size: 75px; 
-}
-
-div.cover-title {
-    top: 14%;
-}
-
-/* Named Elements */
-#demo1 .wrapper {
-	height: 400px;
-}
-
-/* Classes */
+/* Start Coverflow Styling
+----------------------------------------*/
 .coverflow {
     width: 100%;
     height: 100%;
-    background: black;
+    background: #c7732a;
 }
+
+/* Categories List */
+.coverflow-categories {
+    width: 443px;
+    padding: 18px 8px;
+    z-index: 100;
+    margin-bottom: 50px;
+}
+.coverflow-categories li
+{
+    padding: 8px;
+    margin: 0 9px 0 0;
+    color: #9E5C20;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+}
+.coverflow-categories .coverflow-selected-category
+{
+    color: #EF9B51;
+}
+
+/* Catagory Navigation Arrows */
+.category-arrow-control
+{
+    width: 90%;
+    margin: 0 auto;
+    position: relative;
+    top: 214px;
+}
+.category-arrow-control a
+{
+    width: 34px;
+    height: 71px;
+    display: block;
+    text-indent: -9999px;
+    background: url(../images/ui/controls-orange.png) no-repeat 0 -99px;
+    position: relative;
+    z-index: 999;
+    float: left;    
+}
+.category-arrow-control a#nextCategory
+{
+    background-position: -50px -99px;
+    float: right;
+}
+
+div.cover-title {
+    top: 13%;  /* Cover Title Styling  */
+    color: #ffc796;
+}
+
+
+/*Slider and Arrows*/
+.ui-slider, .ui-slider .ui-slider-handle, .ui-slider .ui-slider-handle:hover {
+    border: 1px solid #EF9B51;
+    background: #9e5c20;
+}
+.ui-slider .ui-slider-handle, .ui-slider .ui-slider-handle:hover {
+background-color: #9e5c20;
+background-image: linear-gradient(bottom, #EF9B51 60%, #ffbf87 60%);
+background-image: -o-linear-gradient(bottom, #EF9B51 60%, #ffbf87 60%);
+background-image: -moz-linear-gradient(bottom, #EF9B51 60%, #ffbf87 60%);
+background-image: -webkit-linear-gradient(bottom, #EF9B51 60%, #ffbf87 60%);
+background-image: -ms-linear-gradient(bottom, #EF9B51 60%, #ffbf87 60%);
+background-image: -webkit-gradient(
+	linear,
+	left bottom,
+	left top,
+	color-stop(0.60, #EF9B51),
+	color-stop(0.60, #ffbf87)
+);
+}
+div.slider-controls {
+    position: relative;
+    top: 467px;
+    width: 82.6%;
+    margin: 0 auto;
+}
+
+div.slider-controls a 
+{
+    width: 24px;
+    height: 19px;
+    display: block;
+    float: left;
+	cursor: pointer;
+	background: transparent url(../images/ui/controls-orange.png) no-repeat 0 0;
+	text-indent: -9999px;
+	position: relative;
+	z-index: 100;
+}
+div.slider-controls a#prevCover
+{
+    background-position: left -185px;
+    margin-left: 2px;
+}
+div.slider-controls a#nextCover
+{
+    background-position: right -185px;
+    float: right;
+}
+div.slider-controls a#prevCover:hover
+{
+    background-position: left -206px;
+}
+div.slider-controls a#nextCover:hover
+{
+    background-position: right -206px;
+}
+
+/* Play/Pause and add images Control */
+.add-remove-play-control
+{
+    width: 450px;
+    margin: 0 auto;
+    position: relative;
+}
+.play, .remove-image, .add-image
+{
+    width: 36px;
+    height: 36px;
+    display: block;
+    text-indent: -9999px;
+    background: url(../images/ui/controls-orange.png) no-repeat 0 -49px;
+    position: absolute;
+    top: 10px;
+    right: 0;
+    z-index: 200;
+}
+.pause
+{
+    background-position: -49px -49px;
+}
+.remove-image
+{
+    background-position: 0 0;
+    right: 101px;
+}
+.add-image
+{
+    background-position: -49px 0;
+    right: 51px;
+}
+
