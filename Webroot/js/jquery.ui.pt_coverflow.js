@@ -57,7 +57,7 @@ typeof jQuery.ui != 'undefined' &&
                     enabled: true
                 }
             },
-            images: [],                 // image format = { src: "", title: "", subtitle: "" }
+            images: [],                 // image format = { src: "", title: "", subtitle: "", category: "" }
             slider: {
                 enabled: true,
                 width: 80				// percentage of width
@@ -86,7 +86,8 @@ typeof jQuery.ui != 'undefined' &&
                            })
                             .data({
                                 title: image.title,
-                                subtitle: image.subtitle
+                                subtitle: image.subtitle,
+                                category: image.category
                             })
                     );
                 }
