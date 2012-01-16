@@ -162,8 +162,14 @@ typeof jQuery.ui != 'undefined' &&
 
             if (!animate) {
                 this._oldOptions = $.extend(true, {}, this.options);
+                this._$cover.css({
+                    zIndex: this.options.canvas.zIndex,
+                    top: this.options.canvas.top,
+                    left: this.options.canvas.left,
+                    opacity: this.options.canvas.opacity
+                });
                 this._perspective();
-                this._trigger("refreshed-" + this.options.id, null, { image: this.element });
+                this._triggerRefreshed();
             }
             else {
                 // Animation CSS
@@ -221,7 +227,7 @@ typeof jQuery.ui != 'undefined' &&
         },
 
         _animateLeftComplete: function () {
-            this._trigger("refreshed-" + this.options.id, null, { image: this.element });
+            this._triggerRefreshed();
         },
 
         _height: function () {
@@ -328,6 +334,10 @@ typeof jQuery.ui != 'undefined' &&
             else {
                 this.center();
             }
+        },
+
+        _triggerRefreshed: function () {
+            this._trigger("refreshed-" + this.options.id, null, { image: this.element });
         }
     });
 

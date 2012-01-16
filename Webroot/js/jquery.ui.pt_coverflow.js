@@ -26,7 +26,8 @@ typeof jQuery.ui != 'undefined' &&
                 enabled: false,
                 defaultCategory: "Unknown",
                 selectedCategory: null,
-                renderTitles: true
+                renderTitles: true,
+                animationCount: 2       // Per add/remove of covers (so a value of 2 equals a total of 4 animated covers)
             },
             cover: {
                 angle: 12, 			    // degrees
@@ -174,20 +175,22 @@ typeof jQuery.ui != 'undefined' &&
         _playIntervalId: null,
         _playCountInCategory: 0,
 
-        addImage: function ($image) {
+        addImage: function ($image, isAnimated) {
             /// <summary>
             /// Adds a new image to the end of the Coverflow on the right.
             /// If categories are active then the image may not immediately
             /// be displayed if its category doesn't match the currently active one.
             /// </summary> 
             /// <param name="$image" type="jQuery">The image to be added.</param>
+            /// <param name="isAnimated" type="Boolean">Determines if the image should be animated as its added.</param>
             ///<returns type="Undefined" />
 
-            this._addImage($image, false);
+            isAnimated = typeof isAnimated == "undefined" ? true : isAnimated;
+            this._addImage($image, false, isAnimated);
 
         },
 
-        _addImage: function ($image, isChangingCategory) {
+        _addImage: function ($image, isChangingCategory, isAnimated) {
             /// <summary>
             /// Adds a new image to the end of the Coverflow on the right.
             /// </summary> 
@@ -197,6 +200,7 @@ typeof jQuery.ui != 'undefined' &&
             /// This way during a category change images are allowed to be added to the previously active category.
             /// Defaults to false.
             /// </param>
+            /// <param name="isAnimated" type="Boolean">Determines if the image should be animated as its added.</param>            
             ///<returns type="Undefined" />
 
             isChangingCategory = isChangingCategory || false;
@@ -212,44 +216,57 @@ typeof jQuery.ui != 'undefined' &&
                 if (isChangingCategory || (!this.options.categories.enabled || this._getCurrentCategory() == category)) {
                     this._$activeImages.push($image[0]);
                     this._createCover(this._imagesCount() - 1, $image[0], position.right);
-                    this._updateCover(true, this._currentIndex, this._imagesCount() - 1, $image[0], position.center);
+                    this._updateCover(isAnimated, true, this._currentIndex, this._imagesCount() - 1, $image[0], position.center);
                     this._syncSlider();
                 }
             }
         },
 
-        removeImage: function () {
+        removeImage: function (isAnimated) {
             ///<summary>
             /// Removes the first image on the left of the Coverflow.
             ///</summary>
             ///<returns type="Undefined" />
 
+            isAnimated = typeof isAnimated == "undefined" ? true : isAnimated;
             if (this._imagesCount() > 1) {
-                this._removeImage();
+                this._removeImage(false, isAnimated);
             }
         },
 
-        _removeImage: function () {
-            ///<summary>Removes the first image on the left of the Coverflow.</summary>
+        _removeImage: function (isChangingCategory, isAnimated) {
+            /// <summary>
+            /// Removes one image from the front of the Coverflow on the left.
+            /// </summary> 
+            /// <param name="isChangingCategory" type="Boolean">
+            /// Determines if the category is being changed or not.
+            /// This way during a category change images are allowed to be added to the previously active category.
+            /// Defaults to false.
+            /// </param>
+            /// <param name="isAnimated" type="Boolean">Determines if the image should be animated as its added.</param>            
             ///<returns type="Undefined" />
 
-            var removeIndex = 0;
-            var image = this._$activeImages.splice(removeIndex, 1);
-            this._updateCover(true, this._currentIndex, removeIndex, image, position.left);
+            var removeIndex = 0,
+                image = this._$activeImages.splice(removeIndex, 1);
+
             this.element.one("pt.coverrefreshed-" + $(image).data("coverflow").id, function (e, data) {
                 $(data.image).cover("destroy");
             });
+
+            this._updateCover(isAnimated, true, this._currentIndex, removeIndex, image, position.left);
 
             this._$activeImages.each(function (index, img) {
                 $(img).cover("lowerZ");
                 $(img).data("coverflow").index = index;
             });
 
-            if (removeIndex == this._currentIndex) {
-                this.gotoCover(this._currentIndex);
-            }
-            else {
-                this.gotoCover(this._currentIndex - 1);
+            if (!isChangingCategory) {
+                if (removeIndex == this._currentIndex) {
+                    this.gotoCover(this._currentIndex);
+                }
+                else {
+                    this.gotoCover(this._currentIndex - 1);
+                }
             }
 
             this._syncSlider();
@@ -393,13 +410,20 @@ typeof jQuery.ui != 'undefined' &&
         _gotoCategory: function (selectedCategory) {
             var images = this._imagesByCategory[selectedCategory];
             if (images && images.length > 0) {
-                var prevImagesCount = this._imagesCount();
-                var i;
+                var isChangingCategory = true,
+                    maxAnimations = this.options.categories.animationCount,
+                    isAnimated = true,
+                    prevImagesCount = this._imagesCount(),
+                    i,
+                    animate = function () {
+                        return i + 1 > maxAnimations ? false : isAnimated;
+                    };
+                
                 for (i = 0; i < prevImagesCount; i++) {
-                    this._removeImage();
+                    this._removeImage(isChangingCategory, animate());
                 }
-                for (i in images) {
-                    this._addImage($(images[i]), true);
+                for (i = 0; i < images.length; i++) {
+                    this._addImage($(images[i]), isChangingCategory, animate());
                 }
                 for (i = 0; i < this._categories.length; i++) {
                     if (this._categories[i] == selectedCategory) {
@@ -409,7 +433,7 @@ typeof jQuery.ui != 'undefined' &&
                 }
 
                 this.options.categories.selectedCategory = selectedCategory;
-                this._loadCategoryTitles();                
+                this._loadCategoryTitles();
             }
         },
 
@@ -456,11 +480,12 @@ typeof jQuery.ui != 'undefined' &&
         },
 
         _gotoCover: function (selectedIndex, isSliding) {
+            var isAnimated = true;
             isSliding = isSliding || false;
             if (this.options.slider.enabled && !isSliding) {
                 this._$slider.slider("value", selectedIndex);
             }
-            this._$activeImages.each($.curry(this, "_updateCover", isSliding, selectedIndex));
+            this._$activeImages.each($.curry(this, "_updateCover", isAnimated, isSliding, selectedIndex));
             this._currentIndex = selectedIndex;
 
             if (this._currentIndex == this._imagesCount()) {
@@ -475,11 +500,12 @@ typeof jQuery.ui != 'undefined' &&
             ///<param name="initialPosition" type="String">The initial placement of the cover relative to the coverflow container.</param>
 
             initialPosition = initialPosition || position.center;
-            var options = this._coverConfig(initialPosition, false, this._currentIndex, index, {
-                id: (new Date()).getTime() * Math.random(),
-                click: $.proxy(this, "_clickCover"),
-                mouseenter: $.proxy(this, "_mouseenterCover"),
-                mouseleave: $.proxy(this, "_mouseleaveCover")
+            var isSliding = false,
+                options = this._coverConfig(this._currentIndex, index, initialPosition, isSliding, {
+                    id: (new Date()).getTime() * Math.random(),
+                    click: $.proxy(this, "_clickCover"),
+                    mouseenter: $.proxy(this, "_mouseenterCover"),
+                    mouseleave: $.proxy(this, "_mouseleaveCover")
             });
             $(image).show().cover(options).data("coverflow", {
                 index: index,
@@ -489,7 +515,7 @@ typeof jQuery.ui != 'undefined' &&
 
         _loadImages: function () {
             for (var i = 0; i < this._$images.length; i++) {
-                this._loadImage(this._$images[i]);
+                this._loadImage(this._$images[i], true);
             }
 
             if (this.options.categories.enabled) {
@@ -505,7 +531,8 @@ typeof jQuery.ui != 'undefined' &&
             this._$activeImages.each($.proxy(this, "_createCover"));
         },
 
-        _loadImage: function (image) {
+        _loadImage: function (image, loadCategories) {
+            loadCategories = loadCategories || false;
             var $image = $(image).hide();
 
             var category = null;
@@ -515,20 +542,26 @@ typeof jQuery.ui != 'undefined' &&
                     category = this.options.categories.defaultCategory;
                 }
 
-                if (!this._imagesByCategory[category]) {
-                    this._imagesByCategory[category] = [];
-                    this._categories.push(category);
-                }
+                if (loadCategories) {
+                    if (!this._imagesByCategory[category]) {
+                        this._imagesByCategory[category] = [];
+                        this._categories.push(category);
+                    }
 
-                this._imagesByCategory[category].push(image);
+                    this._imagesByCategory[category].push(image);
+                }
             }
 
             return category;
         },
 
-        _updateCover: function (isSliding, selectedIndex, index, image, targetPosition) {
+        _updateCover: function (isAnimated, isSliding, selectedIndex, index, image, targetPosition) {
+            /// <summary>Updates a cover's state based on the selectedIndex and index.</summary>
+            /// <param name="isAnimated" type="Boolean">Determines if the image should be animated while its being updated.</param>
+            /// <param name="isSliding" type="Boolean">True if the image is being updated while the slider is moving.</param>
+
             targetPosition = targetPosition || position.center;
-            var coverOptions = this._coverConfig(targetPosition, isSliding, selectedIndex, index);
+            var coverOptions = this._coverConfig(selectedIndex, index, targetPosition, isSliding);
             //TODO Find another solution to using the positioning for settings these? 
             //TODO For example, when going to previous category we might want to reverse this.
             if (targetPosition == position.left) {
@@ -540,7 +573,7 @@ typeof jQuery.ui != 'undefined' &&
                 cover.option(option, coverOptions[option]);
             }
 
-            cover.refresh(true);
+            cover.refresh(isAnimated);
         },
 
         _sliderChange: function (event, ui) {
@@ -570,12 +603,12 @@ typeof jQuery.ui != 'undefined' &&
             }
         },
 
-        _coverConfig: function (initialPosition, isSliding, selectedIndex, index, options) {
+        _coverConfig: function (selectedIndex, index, initialPosition, isSliding, options) {
             initialPosition = initialPosition || position.center;
             options = options || {};
-            var centerOffset = 0;
-            var perspective = "center";
-            var scale = 0;
+            var centerOffset = 0,
+                perspective = "center",
+                scale = 0;
 
             if (index < selectedIndex) {
                 centerOffset = (selectedIndex - index) * -1;
@@ -595,31 +628,30 @@ typeof jQuery.ui != 'undefined' &&
                 perspectiveDuration += perspectiveDuration * (this.options.cover.animation.perspective.inner / 100);
             }
 
-            var coverWidth = this.options.cover.width - (scale * this.options.cover.width);
-            var coverHeight = this.options.cover.height - (scale * this.options.cover.height);
-
-            var coverOptions = $.extend(true, {}, this.options.cover, options, {
-                perspective: {
-                    position: perspective
-                },
-                width: coverWidth,
-                height: coverHeight,
-                canvas: {
-                    background: this.element.css("background-color"),
-                    left: this._coverLeft(centerOffset, coverWidth, initialPosition),
-                    top: this._coverTop(centerOffset, coverHeight, scale),
-                    zIndex: this._$activeImages.length - Math.abs(centerOffset)
-                },
-                animation: {
-                    slide: {
-                        duration: 900,
-                        easing: "easeOutCirc"
-                    },
+            var coverWidth = this.options.cover.width - (scale * this.options.cover.width),
+                coverHeight = this.options.cover.height - (scale * this.options.cover.height),
+                coverOptions = $.extend(true, {}, this.options.cover, options, {
                     perspective: {
-                        duration: perspectiveDuration,
-                        easing: "jswing"
+                        position: perspective
+                    },
+                    width: coverWidth,
+                    height: coverHeight,
+                    canvas: {
+                        background: this.element.css("background-color"),
+                        left: this._coverLeft(centerOffset, coverWidth, initialPosition),
+                        top: this._coverTop(centerOffset, coverHeight, scale),
+                        zIndex: this._$activeImages.length - Math.abs(centerOffset)
+                    },
+                    animation: {
+                        slide: {
+                            duration: 900,
+                            easing: "easeOutCirc"
+                        },
+                        perspective: {
+                            duration: perspectiveDuration,
+                            easing: "jswing"
+                        }
                     }
-                }
             });
 
             return coverOptions;
@@ -680,10 +712,10 @@ typeof jQuery.ui != 'undefined' &&
 
             this._$categories = $("<ul />").addClass("coverflow-categories");
             for (var i in this._categories) {
-                var category = this._categories[i];
-                var $cat = $("<li />")
-                    .text(category)
-                    .click($.curry(this, "gotoCategory", category));
+                var category = this._categories[i],
+                    $cat = $("<li />")
+                        .text(category)
+                        .click($.curry(this, "gotoCategory", category));
                 if (category == this._getCurrentCategory()) {
                     $cat.addClass("coverflow-selected-category");
                 }
@@ -697,9 +729,9 @@ typeof jQuery.ui != 'undefined' &&
                 return;
             }
 
-            var coverCount = this._imagesCount();
-            var sliderWidth = this.options.width - (1 - (this.options.slider.width / 100)) * this.options.width;
-            var handleSize = sliderWidth / coverCount;
+            var coverCount = this._imagesCount(),
+                sliderWidth = this.options.width - (1 - (this.options.slider.width / 100)) * this.options.width,
+                handleSize = sliderWidth / coverCount;
 
             this._$slider = $("<div />")
                 .css({
@@ -746,8 +778,8 @@ typeof jQuery.ui != 'undefined' &&
                 .slider("option", "max", coverCount - 1)
                 .slider("value", this._currentIndex);
 
-            var sliderWidth = this.options.width - (1 - (this.options.slider.width / 100)) * this.options.width;
-            var handleSize = sliderWidth / coverCount;
+            var sliderWidth = this.options.width - (1 - (this.options.slider.width / 100)) * this.options.width,
+                handleSize = sliderWidth / coverCount;
 
             this._$sliderHandleHelper
                 .width(sliderWidth - handleSize)
