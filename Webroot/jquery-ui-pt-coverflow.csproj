@@ -33,6 +33,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Folder Include="demos\itunes\js\" />
     <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
@@ -72,11 +73,6 @@
     <Content Include="demos\itunes\css\ui-darkness\jquery-ui-1.8.16.custom.css" />
     <Content Include="demos\itunes\images\ui\arrows.png" />
     <Content Include="demos\itunes\index.html" />
-    <Content Include="demos\itunes\js\jquery-1.7.1-vsdoc.js" />
-    <Content Include="demos\itunes\js\jquery-1.7.1.min.js" />
-    <Content Include="demos\itunes\js\jquery-ui-1.8.16.custom.min.js" />
-    <Content Include="demos\itunes\js\jquery.ui.pt_cover.js" />
-    <Content Include="demos\itunes\js\jquery.ui.pt_coverflow.js" />
     <Content Include="images\air-thevirginsuisides.jpg" />
     <Content Include="images\albertacross-thebrokensideoftime.jpg" />
     <Content Include="images\animalcollective-merriweatherpostpavilion.jpg" />

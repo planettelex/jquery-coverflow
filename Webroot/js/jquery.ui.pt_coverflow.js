@@ -418,7 +418,7 @@ typeof jQuery.ui != 'undefined' &&
                     animate = function () {
                         return i + 1 > maxAnimations ? false : isAnimated;
                     };
-                
+
                 for (i = 0; i < prevImagesCount; i++) {
                     this._removeImage(isChangingCategory, animate());
                 }
@@ -480,12 +480,30 @@ typeof jQuery.ui != 'undefined' &&
         },
 
         _gotoCover: function (selectedIndex, isSliding) {
-            var isAnimated = true;
             isSliding = isSliding || false;
             if (this.options.slider.enabled && !isSliding) {
                 this._$slider.slider("value", selectedIndex);
             }
-            this._$activeImages.each($.curry(this, "_updateCover", isAnimated, isSliding, selectedIndex));
+
+            var index, 
+                range = 10,
+                start = Math.max(0, selectedIndex - range),
+                end = Math.min(this._$activeImages.length, selectedIndex + range);
+
+            this.element.one("pt.coverrefreshed-" + $(this._$activeImages[end - 1]).data("coverflow").id, $.proxy(this, "_gotoCoverFinish"));
+
+            for (index = start; index < end; index++) {
+                this._updateCover(true, isSliding, selectedIndex, index, this._$activeImages[index]);
+            }
+
+            for (index = 0; index < start; index++) {
+                this._updateCover(false, isSliding, selectedIndex, index, this._$activeImages[index]);
+            }
+
+            for (index = end; index < this._$activeImages.length; index++) {
+                this._updateCover(false, isSliding, selectedIndex, index, this._$activeImages[index]);
+            }
+
             this._currentIndex = selectedIndex;
 
             if (this._currentIndex == this._imagesCount()) {
@@ -506,7 +524,7 @@ typeof jQuery.ui != 'undefined' &&
                     click: $.proxy(this, "_clickCover"),
                     mouseenter: $.proxy(this, "_mouseenterCover"),
                     mouseleave: $.proxy(this, "_mouseleaveCover")
-            });
+                });
             $(image).show().cover(options).data("coverflow", {
                 index: index,
                 id: options.id
@@ -652,7 +670,7 @@ typeof jQuery.ui != 'undefined' &&
                             easing: "jswing"
                         }
                     }
-            });
+                });
 
             return coverOptions;
         },
