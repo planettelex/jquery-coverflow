@@ -50,7 +50,7 @@ typeof jQuery.ui != 'undefined' &&
         },
 
         _create: function () {
-            this._oldOptions = $.extend(true, {}, this.options);
+            this.options.refreshState = this._refreshState;
 
             // IE doesn't always invoke the load event properly!
             if (this.element[0].nodeType === 1 && this.element[0].tagName.toLowerCase() === 'img' && this.element[0].src !== '') {
@@ -102,10 +102,11 @@ typeof jQuery.ui != 'undefined' &&
         /* End Widget Overrides */
 
         _$cover: null,
-        _oldOptions: null,
-        _srcCanvas: null,
         _drawing: null,
+        _previousOptions: null,
         _previousVisibility: null,
+        _cachedCanvas: null,
+        _refreshState: 1,        
         _$titleContainer: null,
 
         supportsCanvas: (function () {
@@ -147,7 +148,19 @@ typeof jQuery.ui != 'undefined' &&
         },
 
         refresh: function (animate) {
+            ///<summary>
+            /// Refreshes the display of the cover to match the current state of the options.
+            /// In this way multiple options may be set before updating the display of the canvas.
+            ///</summary>
+            ///<param name="animate" type="Boolean">Use <c>true</c> to enable animation during the display update. Defaults to false.</param>
+            ///<returns type="Undefined" />
+
             animate = animate || false;
+
+            // Multiple options could be set to create a new canvas state
+            // before calling refresh. Therefore, once refresh is called it
+            // is safe to assume all options are set and version should be incremented.
+            ++this.options.refreshState;
 
             if (this.options.title.enabled) {
                 switch (this.options.perspective.position) {
@@ -161,7 +174,6 @@ typeof jQuery.ui != 'undefined' &&
             }
 
             if (!animate) {
-                this._oldOptions = $.extend(true, {}, this.options);
                 this._$cover.css({
                     zIndex: this.options.canvas.zIndex,
                     top: this.options.canvas.top,
@@ -169,6 +181,7 @@ typeof jQuery.ui != 'undefined' &&
                     opacity: this.options.canvas.opacity
                 });
                 this._perspective();
+                this._syncRefreshState();
                 this._triggerRefreshed();
             }
             else {
@@ -211,7 +224,7 @@ typeof jQuery.ui != 'undefined' &&
 
         _animateAngleStep: function (now, fx) {
             if (fx.prop == "textIndent") {
-                var position = this._oldOptions.perspective.position;
+                var position = this._previousOptions.perspective.position;
                 if (position == "center") {
                     position = this.options.perspective.position;
                 }
@@ -222,8 +235,8 @@ typeof jQuery.ui != 'undefined' &&
         },
 
         _animateAngleComplete: function () {
-            this._oldOptions = $.extend(true, {}, this.options);
             this._perspective();
+            this._syncRefreshState();
         },
 
         _animateLeftComplete: function () {
@@ -278,7 +291,7 @@ typeof jQuery.ui != 'undefined' &&
                 }
 
                 // Keep a cached copy of the canvas to be used as a source later when applying a perspective.
-                this._srcCanvas = this._drawing.cloneCanvas();
+                this._cachedCanvas = this._drawing.cloneCanvas();
             }
             else {
                 this._previousVisibility = this.element.css("visibility");
@@ -312,7 +325,7 @@ typeof jQuery.ui != 'undefined' &&
 
         _draw: function (points) {
             if (this.supportsCanvas) {
-                this._drawing.perspective(points, this._srcCanvas, !this.options.reflection.enabled);
+                this._drawing.perspective(points, this._cachedCanvas, !this.options.reflection.enabled);
                 if (this.options.reflection.enabled) {
                     this._drawing.addMirrorReflection();
                 }
@@ -326,17 +339,49 @@ typeof jQuery.ui != 'undefined' &&
         },
 
         _perspective: function (position) {
+            ///<summary>
+            /// Sets the cover's perspective to the supplied position.
+            ///</summary>
+            ///<param name="position" type="String">(left|center|right) - defaults to options.perspective.position</param>
+            ///<returns type="Undefined" />
+
             position = position || this.options.perspective.position;
 
-            if (this.options.perspective.enabled) {
-                this[position]();
-            }
-            else {
-                this.center();
+            if (!this._previousOptions || this._previousOptions.perspective.position != this.options.perspective.position) {
+                if (this.options.perspective.enabled) {
+                    this[position]();
+                }
+                else {
+                    this.center();
+                }
             }
         },
 
+        _syncRefreshState: function () {
+            ///<summary>
+            /// Synchronizes the options of the previous state to the current state and assumes the refresh to the current state is complete.
+            ///</summary>
+            ///<remarks>
+            /// In order to prevent asynchronous animation callbacks from prematurely overriding the previous state of the options,
+            /// a separate version property is being used as a sort of locking mechanism.  This prevents the previous options from being
+            /// overridden by values from a newer refresh state that is more that one "step" away from the previous one.
+            ///</remarks>
+            ///<see cref="refresh"/>
+            ///<returns type="Undefined" />
+            
+            if (this.options.refreshState - this._refreshState <= 1) {
+                this._previousOptions = $.extend(true, {}, this.options);
+            }
+
+            ++this._refreshState;
+        },
+
         _triggerRefreshed: function () {
+            ///<summary>
+            /// Triggers the "refreshed" event specific to this cover instance.
+            ///</summary>
+            ///<returns type="Undefined" />
+
             this._trigger("refreshed-" + this.options.id, null, { image: this.element });
         }
     });

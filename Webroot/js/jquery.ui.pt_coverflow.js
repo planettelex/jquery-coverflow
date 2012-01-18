@@ -37,7 +37,8 @@ typeof jQuery.ui != 'undefined' &&
                     perspective: {
                         duration: 80,   // milliseconds
                         inner: 120		// percentage of duration
-                    }
+                    },
+                    radius: 20          // The number of covers animated on each side of the selected cover
                 },
                 background: {
                     size: 90			// percentage of original image
@@ -80,7 +81,7 @@ typeof jQuery.ui != 'undefined' &&
                 for (var i in this.options.images) {
                     var image = this.options.images[i];
                     this.element.append(
-                       $("<img>")
+                       $("<img/>")
                            .attr({
                                src: image.src,
                                alt: image.title + (!image.subtitle ? "" : ", " + image.subtitle)
@@ -187,7 +188,7 @@ typeof jQuery.ui != 'undefined' &&
 
             isAnimated = typeof isAnimated == "undefined" ? true : isAnimated;
             this._addImage($image, false, isAnimated);
-
+            this._trigger("imageAdded", null, { selectedIndex: this._currentIndex });
         },
 
         _addImage: function ($image, isChangingCategory, isAnimated) {
@@ -231,6 +232,7 @@ typeof jQuery.ui != 'undefined' &&
             isAnimated = typeof isAnimated == "undefined" ? true : isAnimated;
             if (this._imagesCount() > 1) {
                 this._removeImage(false, isAnimated);
+                this._trigger("imageRemoved", null, { selectedIndex: this._currentIndex });
             }
         },
 
@@ -260,13 +262,19 @@ typeof jQuery.ui != 'undefined' &&
                 $(img).data("coverflow").index = index;
             });
 
+            var selectedIndex;
+            if (removeIndex == this._currentIndex) {
+                selectedIndex = this._currentIndex;
+            }
+            else {
+                selectedIndex = this._currentIndex - 1;
+            }
+
             if (!isChangingCategory) {
-                if (removeIndex == this._currentIndex) {
-                    this.gotoCover(this._currentIndex);
-                }
-                else {
-                    this.gotoCover(this._currentIndex - 1);
-                }
+                this._gotoCover(selectedIndex, true);
+            }
+            else {
+                this._currentIndex = selectedIndex;
             }
 
             this._syncSlider();
@@ -472,9 +480,11 @@ typeof jQuery.ui != 'undefined' &&
         },
 
         gotoCover: function (selectedIndex) {
-            /// <summary>
+            ///<summary>
             /// Wrapper for setting the "selectedIndex" option.
-            /// </summary>
+            ///</summary>
+            ///<returns type="Undefined" />
+
             this._setOption("selectedIndex", selectedIndex);
             this._trigger("gotoCover", null, { selectedIndex: this._currentIndex });
         },
@@ -485,23 +495,14 @@ typeof jQuery.ui != 'undefined' &&
                 this._$slider.slider("value", selectedIndex);
             }
 
-            var index, 
-                range = 10,
-                start = Math.max(0, selectedIndex - range),
-                end = Math.min(this._$activeImages.length, selectedIndex + range);
+            var index,
+                isAnimated,
+                start = Math.max(0, selectedIndex - this.options.cover.animation.radius),
+                end = Math.min(this._$activeImages.length, selectedIndex + this.options.cover.animation.radius);
 
-            this.element.one("pt.coverrefreshed-" + $(this._$activeImages[end - 1]).data("coverflow").id, $.proxy(this, "_gotoCoverFinish"));
-
-            for (index = start; index < end; index++) {
-                this._updateCover(true, isSliding, selectedIndex, index, this._$activeImages[index]);
-            }
-
-            for (index = 0; index < start; index++) {
-                this._updateCover(false, isSliding, selectedIndex, index, this._$activeImages[index]);
-            }
-
-            for (index = end; index < this._$activeImages.length; index++) {
-                this._updateCover(false, isSliding, selectedIndex, index, this._$activeImages[index]);
+            for (index = 0; index < this._$activeImages.length; index++) {
+                isAnimated = start <= index && index <= end;
+                this._updateCover(isAnimated, isSliding, selectedIndex, index, this._$activeImages[index]);
             }
 
             this._currentIndex = selectedIndex;
