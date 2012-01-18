@@ -1,115 +1,50 @@
-/* Reset: http://meyerweb.com/eric/tools/css/reset/ */
-html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp,
-small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li,
-fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, figcaption, figure, footer, header, hgroup, menu, 
-nav, section, summary, time, mark, audio, video {
-	margin: 0;
-	padding: 0;
-	border: 0;
-	outline: 0;
-	font-size: 100%;
-	font: inherit;
-	vertical-align: baseline;
-}
-/* HTML5 display-role reset for older browsers */
-article, aside, details, figcaption, figure, 
-footer, header, hgroup, menu, nav, section {
-	display: block;
-}
-body {
-	line-height: 1;
-	background: black;
-}
-ol, ul {
-	list-style: none;
-}
-blockquote, q {
-	quotes: none;
-}
-blockquote:before, blockquote:after,
-q:before, q:after {
-	content: '';
-	content: none;
-}
-ins {
-	text-decoration: none;
-}
-del {
-	text-decoration: line-through;
-}
-table {
-	border-collapse: collapse;
-	border-spacing: 0;
-}
-/* End reset */
-
 /* Elements */
-h1 {
-	font-size: 24px;
-	text-align: center;
-}
-h2 {
-	font-size: 20px;
+body {
+    background-color: Black;
 }
 header {
     position: relative;
     width: 500px;
-    margin: 20px auto;
+    margin: 30px auto 50px;
 }
-footer {
+header a {
     color: gray;
-    font-size: 2em;
-}
-footer a {
-    padding: 5px 10px;
     position: absolute;
-    bottom: 5px;
+    z-index: 1000;
 }
-
-/* IDs */
-#coverflow {
-    width: 100%;
-    height: 600px;
-    background: black;
-    margin-top: 50px;
-}
-#add, #remove {
-    position: absolute;
-    display: block;
-    font-weight: bold;
-    font-size: 1.5em;
-    color: gray;
-}
-#add {
-    top: 2px;
-    right: 15px;
-}
-#remove {
-    top: -2px;
-    right: 5px;
-}
-#play, #pause {
-    position: absolute;
-    top: 45px;
-    right: 25px;
-    width: 25px;
-    height: 25px;
-}
-#nextCategory {
-    right: 0;
-}
-#play:hover, #pause:hover, #add:hover, #remove:hover,
-#previousCategory:hover, #nextCategory:hover {
+header a:hover {
+    color: white;
     cursor: pointer;
 }
-#add:hover, #remove:hover,
-#previousCategory:hover, #nextCategory:hover {
+header h1 a {
     color: white;
+    font-family: Arial, Sans-Serif;
+    font-size: 18px;
+    font-style: italic;
+    position: absolute;
+    bottom: 29px;
+    left: 445px;
+    text-decoration: none;
+}
+header h2 {
+    color: white;
+    font-family: Arial, Sans-Serif;
+    font-size: 16px;
+    font-style: italic;
+    position: absolute;
+    bottom: 6px;
+    left: 240px;
+    width: 300px;
+    font-weight: normal;
 }
 
 /* Classes */
+.hidden {
+    display: none;
+}
+.clear {
+    clear: both;
+}
 .controls {
     position: relative;
     top: 370px;
@@ -126,7 +61,7 @@ footer a {
 	text-indent: -9999px;
 	position: relative;
 	z-index: 100;
-	opacity: .8;
+
 }
 .controls a#previous {
     background-position: left top;
@@ -144,55 +79,62 @@ footer a {
     background-position: right -21px;
 }
 .coverflow-categories {
-    list-style: none;
-    color: white;
-    margin: -52px auto 0;
+    margin: -81px auto 50px;
     width: 300px;
     color: gray;
-    position: relative;
-    padding: 10px;
-    cursor: pointer;
     padding-left: 275px;
-}
-.coverflow-categories li {
-    display: inline;  
-    padding: 0 6px;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 14px;
+    font-size: 12px;
 }
 .coverflow-categories li:hover {
     text-decoration: underline;
 }
-.coverflow-selected-category {
-    color: White;
+.coverflow-selected-category, .cover-title {
+    color: white;
 }
-.cover-title {
-	font-family: Arial, Helvetica, sans-serif;
-	font-weight: bold;
-	position: relative;
-	color: white;
-	margin: 310px auto;
-	z-index: 100;
-	width: 400px;
+
+/* IDs */
+#coverflow {
+    width: 100%;
+    height: 600px;
+    background: black;
 }
-.cover-title h1 {
-	font-size: 14px;
-	text-align: center;
-	padding-bottom: 6px;
+#add, #remove {
+    position: absolute;
+    display: block;
+    font-weight: bold;
+    font-size: 1em;
+    padding: 4px;
+    color: gray;
 }
-.cover-title h2 {
-	font-size: 14px;
-	text-align: center;
+#add {
+    top: 0;
+    right: 15px;
 }
-.hidden {
-    display: none;
+#remove {
+    top: -2px;
+    right: 5px;
 }
-.ui-slider .ui-slider-handle {
-    background-color: #000;
-    background-image: linear-gradient(bottom, #000000 60%, #3B3B3B 60%);
-    background-image: -o-linear-gradient(bottom, #000000 60%, #3B3B3B 60%);
-    background-image: -moz-linear-gradient(bottom, #000000 60%, #3B3B3B 60%);
-    background-image: -webkit-linear-gradient(bottom, #000000 60%, #3B3B3B 60%);
-    background-image: -ms-linear-gradient(bottom, #000000 60%, #3B3B3B 60%);
-    background-image: -webkit-gradient(linear, left bottom,	left top, color-stop(0.60, #000000), color-stop(0.60, #3B3B3B));
+#play, #pause {
+    position: absolute;
+    top: 45px;
+    right: 25px;
+    width: 25px;
+    height: 25px;
+}
+#previousCategory {
+    bottom: 8px;
+    right: 270px;
+}
+#nextCategory {
+    right: 18px;
+    bottom: 8px;
+}
+#play:hover, #pause:hover,
+#add:hover, #remove:hover {
+    cursor: pointer;
+    color: white;
+}
+#demoLinks {
+    width: 500px;
+    margin: 0 auto;
 }
