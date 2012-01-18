@@ -1,219 +1,120 @@
-/* http://meyerweb.com/eric/tools/css/reset/ 
-   v2.0b1 | 201101 
-   NOTE: WORK IN PROGRESS
-   USE WITH CAUTION AND TEST WITH ABANDON */
-
-html, body, div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-a, abbr, acronym, address, big, cite, code,
-del, dfn, em, img, ins, kbd, q, s, samp,
-small, strike, strong, sub, sup, tt, var,
-b, u, i, center,
-dl, dt, dd, ol, ul, li,
-fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, figcaption, figure, 
-footer, header, hgroup, menu, nav, section, summary,
-time, mark, audio, video {
-	margin: 0;
-	padding: 0;
-	border: 0;
-	outline: 0;
-	font-size: 100%;
-	font: inherit;
-	vertical-align: baseline;
-}
-/* HTML5 display-role reset for older browsers */
-article, aside, details, figcaption, figure, 
-footer, header, hgroup, menu, nav, section {
-	display: block;
-}
+/* Elements */
 body {
-	line-height: 1;
+    background-color: #c7732a;
 }
-ol, ul {
-	list-style: none;
-}
-blockquote, q {
-	quotes: none;
-}
-blockquote:before, blockquote:after,
-q:before, q:after {
-	content: '';
-	content: none;
-}
-
-/* remember to define visible focus styles! 
-:focus {
-	outline: ?????;
-} */
-
-/* remember to highorange inserts somehow! */
-ins {
-	text-decoration: none;
-}
-del {
-	text-decoration: line-through;
-}
-
-table {
-	border-collapse: collapse;
-	border-spacing: 0;
-}
-/* End reset */
-
-/* Global Page Style */
-body {
-    background: #c7732a;
-    font-size: 100%;
-}
-h1 {
-	font-size: 24px;
-}
-h2 {
-	font-size: 20px;
-}
-div.wrapper {
-	height: 800px;
-	width: 100%;
-	overflow: hidden;
-	position: relative;
-	margin: 100px auto 0;
-}
-
-
-
-/* Override/Add to Default Coverflow Styling
-----------------------------------------*/
-.coverflow {
-    width: 100%;
-    height: 100%;
-    background: #c7732a;
-}
-
-/* Categories List */
-.coverflow-categories {
-    width: 443px;
-    padding: 18px 8px;
-    z-index: 100;
-    margin-bottom: 50px;
-}
-.coverflow-categories li {
-    padding: 8px;
-    margin: 0 9px 0 0;
-    color: #9E5C20;
-    border-radius: 3px;
-    -moz-border-radius: 3px;
-    -webkit-border-radius: 3px;
-}
-.coverflow-categories .coverflow-selected-category {
-    color: #EF9B51;
-}
-
-/* Catagory Navigation Arrows */
-.category-arrow-control {
-    width: 90%;
-    margin: 0 auto;
+header {
     position: relative;
-    top: 214px;
+    width: 500px;
+    margin: 30px auto 50px;
 }
-.category-arrow-control a {
-    width: 34px;
-    height: 71px;
+header a {
+    color: darkGray;
+    position: absolute;
+    z-index: 1000;
+}
+header a:hover {
+    color: black;
+    cursor: pointer;
+}
+header h1 a {
+    color: black;
+    font-family: Arial, Sans-Serif;
+    font-size: 18px;
+    font-style: italic;
+    position: absolute;
+    bottom: 29px;
+    left: 445px;
+    text-decoration: none;
+}
+header h2 {
+    color: black;
+    font-family: Arial, Sans-Serif;
+    font-size: 16px;
+    font-style: italic;
+    position: absolute;
+    bottom: 6px;
+    left: 240px;
+    width: 300px;
+    font-weight: normal;
+}
+
+/* Classes */
+.button-controls {
+    width: 110px;
+    margin: 0 auto;
+}
+.button-controls a {
     display: block;
+    width: 36px;
+    height: 36px;
     text-indent: -9999px;
-    background: url(../images/ui/controls-orange.png) no-repeat 0 -99px;
+    cursor: pointer;
+    float: left;
+}
+.cover-title {
+	font-family: Arial, Helvetica, sans-serif;
+	margin-top: 290px;
+}
+.cover-title h1 {
+    font-size: 15px;
+}
+.pause {
+    background: url(../../../../images/controls/controls.png) no-repeat 0 -49px;
+}
+.play {
+    background: url(../../../../images/controls/controls.png) no-repeat -49px -49px;
+}
+.coverflow-slider {
+    top: 340px;
+}
+.slider-controls {
     position: relative;
-    z-index: 999;
-    float: left;    
-}
-.category-arrow-control a#nextCategory {
-    background-position: -50px -99px;
-    float: right;
-}
-div.cover-title {
-    top: 13%;  /* Cover Title Styling  */
-    color: #ffc796;
-}
-
-/*Slider and Arrows*/
-.ui-slider, .ui-slider .ui-slider-handle, .ui-slider .ui-slider-handle:hover {
-    border: 1px solid #EF9B51;
-    background: #9e5c20;
-}
-.ui-slider .ui-slider-handle, .ui-slider .ui-slider-handle:hover {
-background-color: #9e5c20;
-background-image: linear-gradient(bottom, #EF9B51 60%, #ffbf87 60%);
-background-image: -o-linear-gradient(bottom, #EF9B51 60%, #ffbf87 60%);
-background-image: -moz-linear-gradient(bottom, #EF9B51 60%, #ffbf87 60%);
-background-image: -webkit-linear-gradient(bottom, #EF9B51 60%, #ffbf87 60%);
-background-image: -ms-linear-gradient(bottom, #EF9B51 60%, #ffbf87 60%);
-background-image: -webkit-gradient(
-	linear,
-	left bottom,
-	left top,
-	color-stop(0.60, #EF9B51),
-	color-stop(0.60, #ffbf87)
-);
-}
-div.slider-controls {
-    position: relative;
-    top: 467px;
-    width: 82.6%;
+    top: -60px;
+    width: 83%;
     margin: 0 auto;
 }
-div.slider-controls a {
-    width: 24px;
+.slider-controls a {
+    width: 26px;
     height: 19px;
     display: block;
     float: left;
 	cursor: pointer;
-	background: transparent url(../images/ui/controls-orange.png) no-repeat 0 0;
+	background: transparent url(../../../../images/controls/arrows.png) no-repeat 0 0;
 	text-indent: -9999px;
 	position: relative;
 	z-index: 100;
+	opacity: .5;
 }
-div.slider-controls a#prevCover {
-    background-position: left -185px;
-    margin-left: 2px;
+.slider-controls a#previous {
+    background-position: left top;
+    margin-left: 3px;
 }
-div.slider-controls a#nextCover {
-    background-position: right -185px;
+.slider-controls a#next {
+    background-position: right top;
     float: right;
+    margin-right: 3px;
 }
-div.slider-controls a#prevCover:hover {
-    background-position: left -206px;
+.slider-controls a#previous:hover {
+    background-position: left -21px;
 }
-div.slider-controls a#nextCover:hover {
-    background-position: right -206px;
+.slider-controls a#next:hover {
+    background-position: right -21px;
+}
+.ui-slider, .ui-slider .ui-slider-handle, .ui-slider .ui-slider-handle:hover {
+    border: 1px solid #EF9B51;
+    background: #9e5c20;
 }
 
-/* Play/Pause, add/remove images buttons */
-.add-remove-play-control {
-    width: 450px;
-    margin: 0 auto;
+/* IDs */
+#coverflow {
+    width: 100%;
+    height: 400px;
+    background: #c7732a;
     position: relative;
 }
-.play, .remove-image, .add-image {
-    width: 36px;
-    height: 36px;
-    display: block;
-    text-indent: -9999px;
-    background: url(../images/ui/controls-orange.png) no-repeat 0 -49px;
-    position: absolute;
-    top: 10px;
-    right: 0;
-    z-index: 200;
+#addImage {
+    background: url(../../../../images/controls/controls.png) no-repeat -49px 0;
 }
-.pause {
-    background-position: -49px -49px;
+#removeImage {
+    background: url(../../../../images/controls/controls.png) no-repeat 0 0;
 }
-.remove-image {
-    background-position: 0 0;
-    right: 101px;
-}
-.add-image {
-    background-position: -49px 0;
-    right: 51px;
-}
-

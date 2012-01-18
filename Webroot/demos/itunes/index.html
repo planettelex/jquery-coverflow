@@ -14,15 +14,14 @@
     <script type="text/javascript" src="../../js/jquery.ui.pt_coverflow.js"></script>
     <script type="text/javascript">
         $(function () {
-            var $demo = $("#coverflow").coverflow({ // Instantiate Coverflow
-                categories: {
-                    enabled: false  
-                }
-            });
-            $("#prevCover").click(function () { // Previous Cover Click
+            // Instantiate Coverflow
+            var $demo = $("#coverflow").coverflow();
+
+            // Attach click events to the coverflow API
+            $("#prevCover").click(function () {
                 $demo.coverflow("prevCover");
             });
-            $("#nextCover").click(function () { // Next Cover Click
+            $("#nextCover").click(function () {
                 $demo.coverflow("nextCover");
             });
         });
@@ -35,12 +34,12 @@
         <h2>iTunes Demo</h2>
     </header>
     <div id="coverflow">
-        <!-- Add arrows to slider. Coverflow leaves non-img tags in the container untouched, so you can absolute position them relative to the container. -->
+        <!-- Add additional controls. Coverflow leaves non-img tags in the container untouched, so you can absolute position them relative to the container. -->
         <div class="controls">
             <a id="previous" title="Previous Cover">&lsaquo;</a>
             <a id="next" title="Next Cover">&rsaquo;</a>
         </div>
-        <!-- Coverflow uses all img tags found in the container. The alt tags are not used by coverflow, but should be rendered to be standards compliant and accessible. -->
+        <!-- Coverflow uses all img tags in the container not nested in other elements. The alt tags are not used by coverflow, but should be rendered to be standards compliant and accessible. -->
         <img src="../../images/muse-the-resistance.jpg" alt="Muse, The Resistance" data-subtitle="Muse" data-title="The Resistance" />
         <img src="../../images/albertacross-thebrokensideoftime.jpg" alt="Alberta Cross, Broken Side of Time" data-subtitle="Alberta Cross" data-title="Broken Side of Time" />
         <img src="../../images/batforlashes-twosuns.jpg" alt="Bat For Lashes, Two Suns" data-subtitle="Bat For Lashes" data-title="Two Suns" />

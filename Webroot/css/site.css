@@ -1,6 +1,6 @@
 /* Elements */
 body {
-    background-color: Black;
+    background-color: black;
 }
 header {
     position: relative;
@@ -48,7 +48,7 @@ header h2 {
 .controls {
     position: relative;
     top: 370px;
-    width: 82.6%;
+    width: 83%;
     margin: 0 auto;
 }
 .controls a {
@@ -61,7 +61,6 @@ header h2 {
 	text-indent: -9999px;
 	position: relative;
 	z-index: 100;
-
 }
 .controls a#previous {
     background-position: left top;
@@ -85,11 +84,18 @@ header h2 {
     padding-left: 275px;
     font-size: 12px;
 }
+.coverflow-categories li {
+    font-family: Arial, Helvetica, sans-serif;
+	font-weight: bold;
+}
 .coverflow-categories li:hover {
     text-decoration: underline;
 }
 .coverflow-selected-category, .cover-title {
     color: white;
+}
+.cover-title {
+	font-family: Arial, Helvetica, sans-serif;
 }
 
 /* IDs */
@@ -135,6 +141,24 @@ header h2 {
     color: white;
 }
 #demoLinks {
-    width: 500px;
+    width: 510px;
     margin: 0 auto;
+}
+#demoLinks a 
+{
+    width: 160px;
+    display: block;
+    margin: 5px;
+    float: left;
+    text-align: center;
+    color: lightGray;
+    font-family: Arial, Helvetica, sans-serif;
+}
+#demoLinks a:hover {
+    color: white;
+}
+#demoLinks a img {
+    width: 160px;
+    border: 1px solid white;
+    margin-bottom: 5px;
 }
