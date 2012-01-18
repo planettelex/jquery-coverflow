@@ -27,7 +27,7 @@ typeof jQuery.ui != 'undefined' &&
                 defaultCategory: "Unknown",
                 selectedCategory: null,
                 renderTitles: true,
-                rememberLastCover: false, // This is always true when autoplay is enabled
+                rememberLastCover: true, // This is always true when autoplay is enabled
                 delAnimationCount: 2,   // The number of old covers animated on remove during category change
                 addAnimationRadius: 2   // The number of new covers animated on each side of the selected cover during category change
             },
