@@ -432,7 +432,7 @@ typeof jQuery.ui != 'undefined' &&
                     this._removeImage(isChangingCategory, (i + 1 > this.options.categories.delAnimationCount ? false : true));
                 }
 
-                if (this.options.autoplay.enabled || this.options.categories.rememberLastCover) {
+                if ((this.options.autoplay.enabled && !this._isPauseManual) || this.options.categories.rememberLastCover) {
                     this._currentIndex = this._categoryData[selectedCategory].selectedIndex;
                 }
                 var start = Math.max(0, this._currentIndex - this.options.categories.addAnimationRadius),
