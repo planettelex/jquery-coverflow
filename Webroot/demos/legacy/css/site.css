@@ -59,10 +59,10 @@ header h2 {
     font-size: 15px;
 }
 .pause {
-    background: url(../../../../images/controls/controls.png) no-repeat 0 -49px;
+    background: url(../../../images/controls/controls.png) no-repeat 0 -49px;
 }
 .play {
-    background: url(../../../../images/controls/controls.png) no-repeat -49px -49px;
+    background: url(../../../images/controls/controls.png) no-repeat -49px -49px;
 }
 .coverflow-slider {
     top: 340px;
@@ -79,7 +79,7 @@ header h2 {
     display: block;
     float: left;
 	cursor: pointer;
-	background: transparent url(../../../../images/controls/arrows.png) no-repeat 0 0;
+	background: transparent url(../../../images/controls/arrows.png) no-repeat 0 0;
 	text-indent: -9999px;
 	position: relative;
 	z-index: 100;
@@ -113,8 +113,8 @@ header h2 {
     position: relative;
 }
 #addImage {
-    background: url(../../../../images/controls/controls.png) no-repeat -49px 0;
+    background: url(../../../images/controls/controls.png) no-repeat -49px 0;
 }
 #removeImage {
-    background: url(../../../../images/controls/controls.png) no-repeat 0 0;
+    background: url(../../../images/controls/controls.png) no-repeat 0 0;
 }
