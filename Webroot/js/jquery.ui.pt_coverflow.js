@@ -18,9 +18,9 @@ typeof jQuery.ui != 'undefined' &&
             selectedIndex: 0,
             autoplay: {
                 enabled: false,
-                interval: 5, 		    // seconds between covers
+                interval: 3,            // seconds between covers
                 pauseOnMouseenter: true,
-                playsPerCategory: 1
+                playsPerCategory: 3     // Includes the first cover loaded in the category
             },
             categories: {
                 enabled: false,
@@ -30,22 +30,22 @@ typeof jQuery.ui != 'undefined' &&
                 animationCount: 2       // Per add/remove of covers (so a value of 2 equals a total of 4 animated covers)
             },
             cover: {
-                angle: 12, 			    // degrees
+                angle: 12,              // degrees
                 height: 300,
                 width: 300,
                 animation: {
                     perspective: {
                         duration: 80,   // milliseconds
-                        inner: 120		// percentage of duration
+                        inner: 120      // percentage of duration
                     },
                     radius: 20          // The number of covers animated on each side of the selected cover
                 },
                 background: {
-                    size: 90			// percentage of original image
+                    size: 90            // percentage of original image
                 },
                 overlap: {
                     inner: 20, 	        // percentage of overlap
-                    outer: 80			// percentage of overlap
+                    outer: 80           // percentage of overlap
                 },
                 perspective: {
                     enabled: true
@@ -53,7 +53,7 @@ typeof jQuery.ui != 'undefined' &&
                 reflection: {
                     enabled: true,
                     initialOpacity: 50, // percentage 0(transparent) <=> 100(opaque)
-                    length: 80			// percentage of original image
+                    length: 80          // percentage of original image
                 },
                 title: {
                     enabled: true
@@ -62,7 +62,7 @@ typeof jQuery.ui != 'undefined' &&
             images: [],                 // image format = { src: "", title: "", subtitle: "", category: "" }
             slider: {
                 enabled: true,
-                width: 80				// percentage of width
+                width: 80               // percentage of width
             }
         },
 
@@ -323,7 +323,7 @@ typeof jQuery.ui != 'undefined' &&
             ///<returns type="Undefined" />
 
             if (this.options.categories.enabled) {
-                if (this._playCountInCategory >= this._imagesCount() || this._playCountInCategory >= this.options.autoplay.playsPerCategory) {
+                if (this._playCountInCategory > this._imagesCount() || this._playCountInCategory >= this.options.autoplay.playsPerCategory - 1) {
                     this._nextCategory();
                     this._playCountInCategory = 0;
 

@@ -146,6 +146,10 @@ header h2 {
     background: white;
     position: relative;
 }
+/* prevents initial flash of images when page loads */
+#coverflow img {
+    visibility: hidden;
+}
 #playPause {
     display: block;
     margin: 0 auto;
