@@ -1,8 +1,10 @@
 <!DOCTYPE HTML>
+<html>
 <head>
-    <title>Legacy Demo</title>
-    <link type="text/css" href="css/ui-darkness/jquery-ui-1.8.16.custom.css" rel="Stylesheet" />
-    <link type="text/css" href="css/jquery.ui.pt_coverflow.css" rel="stylesheet" />
+    <title>Coverflow Legacy Demo</title>
+    <link type="text/css" href="../../css/reset.css" rel="Stylesheet" />
+    <link type="text/css" href="../../css/ui-darkness/jquery-ui-1.8.16.custom.css" rel="Stylesheet" />
+    <link type="text/css" href="../../css/jquery.ui.pt_coverflow.css" rel="stylesheet" />
     <link type="text/css" href="css/site.css" rel="Stylesheet" />
     <!-- Include jQuery and UI -->
     <script type="text/javascript" src="../../js/jquery-1.7.1.min.js"></script>
@@ -12,105 +14,133 @@
     <script type="text/javascript" src="../../js/jquery.ui.pt_coverflow.js"></script>
     <script type="text/javascript">
         $(function () {
-            var extraImage = $("#extraImage").hide(); //to show extra image addition when clicking the "plus" button
-            var $coverflow = $("#coverflow").coverflow({
-                categories: {
+            // Instantiate Coverflow
+            var $demo = $("#coverflow").coverflow({
+                autoplay: {
                     enabled: true
                 },
                 cover: {
+                    height: 260,
+                    width: 190,
                     reflection: {
                         enabled: false
                     },
                     perspective: {
                         enabled: false
-                    }
+                    },
+                    overlap: {
+                        inner: 30, 	        // percentage of overlap
+                        outer: 75			// percentage of overlap
+                    },
                 },
-                autoplay: {
-                    enabled: true
-                }
+                images: [
+                    { src: "images/snooty-sam.jpg", title: "Snooty Sam" },
+                    { src: "images/wriggley-rene.jpg", title: "Wriggley Rene" },
+                    { src: "images/peepin-tom.jpg", title: "Peepin' Tom" },
+                    { src: "images/electric-bill.jpg", title: "Electric Bill" },
+                    { src: "images/beth-death.jpg", title: "Beth Death" },
+                    { src: "images/amazin-grace.jpg", title: "Amazin' Grace" },
+                    { src: "images/furry-murray.jpg", title: "Furry Murry" },
+                    { src: "images/ashley-can.jpg", title: "Ashley Can" },
+                    { src: "images/babbling-brooke.jpg", title: "Babbling Brooke" },
+                    { src: "images/dyin-dinah.jpg", title: "Dyin' Dinah" },
+                    { src: "images/mauled-paul.jpg", title: "Mauled Paul" },
+                    { src: "images/bloated-blair.jpg", title: "Bloated Blair" },
+                    { src: "images/second-hand-rose.jpg", title: "Second Hand Rose" },
+                    { src: "images/alice-island.jpg", title: "Alice Island" },
+                    { src: "images/oozy-suzy.jpg", title: "Oozy Suzy" },
+                    { src: "images/bushy-bernice.jpg", title: "Bushy Bernice" },
+                    { src: "images/slain-wayne.jpg", title: "Slain Wayne" },
+                    { src: "images/charlotte-web.jpg", title: "Charlotte Web" },
+                    { src: "images/green-dean.jpg", title: "Green Dean" },
+                    { src: "images/corroded-carl.jpg", title: "Corroded Carl" },
+                    { src: "images/shrunken-ed.jpg", title: "Shrunken Ed" },
+                    { src: "images/tommy-gun.jpg", title: "Tommy Gun" },
+                    { src: "images/rocky-n-roll.jpg", title: "Rocky n' Roll" },
+                    { src: "images/boozin-bruce.jpg", title: "Boozin' Bruce" },
+                    { src: "images/beaky-becky.jpg", title: "Beaky Becky" },
+                    { src: "images/greaser-greg.jpg", title: "Greaser Greg" },
+                    { src: "images/smelly-kelly.jpg", title: "Smelly Kelly" },
+                    { src: "images/mouth-phil.jpg", title: "Mouth Phil" },
+                    { src: "images/horny-hal.jpg", title: "Horny Hal" },
+                    { src: "images/sumo-sid.jpg", title: "Sumo Sid" },
+                    { src: "images/hy-gene.jpg", title: "Hy Gene" },
+                    { src: "images/itchy-ritchie.jpg", title: "Itchy Ritchie" },
+                    { src: "images/kim-kong.jpg", title: "Kim Kong" },
+                    { src: "images/bye-bye-bobby.jpg", title: "Bye Bye Bobby" },
+                    { src: "images/max-axe.jpg", title: "Max Axe" },
+                    { src: "images/cindy-lopper.jpg", title: "Cindy Lopper" },
+                    { src: "images/mugged-marcus.jpg", title: "Mugged Marcus" },
+                    { src: "images/acne-amy.jpg", title: "Acne Amy" },
+                    { src: "images/ned-head.jpg", title: "Ned Head" },
+                    { src: "images/nervous-rex.jpg", title: "Nervous Rex" },
+                    { src: "images/bonnie-bunny.jpg", title: "Bonnie Bunny" },
+                    { src: "images/messy-tessie.jpg", title: "Messy Tessie" },
+                    { src: "images/punchy-perry.jpg", title: "Punchy Perry" },
+                    { src: "images/rock-e-horror.jpg", title: "Rock E. Horror" },
+                    { src: "images/armpit-britt.jpg", title: "Armpit Britt" },
+                    { src: "images/disgustin-justin.jpg", title: "Disgustin' Justin" },
+                    { src: "images/sewer-sue.jpg", title: "Sewer Sue" },
+                    { src: "images/stormy-heather.jpg", title: "Stormy Heather" },
+                    { src: "images/sticky-rick.jpg", title: "Sticky Rick" },
+                    { src: "images/stuffed-stephen.jpg", title: "Stuffed Stephen" },
+                    { src: "images/swell-mel.jpg", title: "Swell Mel" },
+                    { src: "images/warmin-norman.jpg", title: "Warmin Norman" },
+                    { src: "images/fishy-phyllis.jpg", title: "Fishy Phyllis" },
+                    { src: "images/hippie-skippie.jpg", title: "Hippie Skippie" }
+                ]
             });
 
-            // Example: hook up first coverflow control buttons
+            // Added to demonstrate the 'addImage' method.
+            var extraImage = $("#extraImage").hide();
+
+            // Attach click events to the coverflow API
             var $playButton = $("#playPause").click(function () {
-                $coverflow.coverflow("togglePlay");
+                $demo.coverflow("togglePlay");
             });
-            $("#prevCategory").click(function () {
-                $coverflow.coverflow("prevCategory");
+            $("#previous").click(function () {
+                $demo.coverflow("prevCover");
             });
-            $("#nextCategory").click(function () {
-                $coverflow.coverflow("nextCategory");
-            });
-            $("#prevCover").click(function () {
-                $coverflow.coverflow("prevCover");
-            });
-            $("#nextCover").click(function () {
-                $coverflow.coverflow("nextCover");
+            $("#next").click(function () {
+                $demo.coverflow("nextCover");
             });
             $("#addImage").click(function () {
-                $coverflow.coverflow("addImage", extraImage);
+                $demo.coverflow("addImage", extraImage);
             });
             $("#removeImage").click(function () {
-                $coverflow.coverflow("removeImage");
+                $demo.coverflow("removeImage");
             });
 
-            // Example: hook up to the togglePlay event on the coverflow
+            // Bind a method to the coverflow event pt.coverflowtoggleplay
             $("#coverflow").bind('pt.coverflowtoggleplay', function () {
+                // Toggle between play and pause image.
                 $playButton.fadeOut(function () {
-                    $(this).toggleClass("pause").fadeIn(); // To switch between play and pause button images 
+                    $(this).toggleClass("play").fadeIn();
                 });
             });
         });
     </script>
 </head>
 <body>
-    <div class="wrapper">
-
-        <!-- added to click between categories using >> arrows images -->
-        <div class="category-arrow-control">
-            <a id="prevCategory" title="Pevious category">&lsaquo;</a>
-            <a id="nextCategory" title="Next category">&rsaquo;</a>
-        </div>
-
-        <!-- Add image, remove image, and play/pause controls -->
-        <div class="add-remove-play-control">
-            <a id="removeImage" class="remove-image" title="Remove cover image from DOM">&ge;</a>
-            <a id="addImage" class="add-image" title="Add cover image to DOM">&ge;</a>
-            <a id="playPause" class="play" title="Play or pause on current cover">&ge;</a>
-        </div>
-
-        <!-- Adding arrows to slider -->
+    <header>
+        <img id="header" alt="Planet Telex Coverflow" src="../../images/_header-transparent.png" />
+        <h1><a href="../">Demos</a></h1>
+        <h2>Legacy Mode Demo</h2>
+    </header>
+    <!-- Images are set using the Images property, which could be an AJAX result. -->
+    <div id="coverflow"></div>
+    <footer>
         <div class="slider-controls">
-            <a id="prevCover">&lsaquo;</a>
-            <a id="nextCover">&rsaquo;</a>
+            <a id="previous" title="Previous Cover">&lsaquo;</a>
+            <a id="next" title="Next Cover">&rsaquo;</a>
         </div>
-
-        <!--Categories Navigation will render here if option is set -->
-
-        <!-- Begin Coverflow -->
-        <div id="coverflow" class="coverflow">
-            <img src="images/muse-the-resistance.jpg" alt="Muse, The Resistance" data-subtitle="Muse" data-title="The Resistance" data-category="Rock" />
-            <img src="images/alberta-cross.jpg" alt="Alberta Cross" data-subtitle="Alberta Cross" data-title="Broken Side of Time" data-category="Rock" />
-            <img src="images/bat-for-lashes.jpg" alt="Bat For Lashes" data-subtitle="Bat For Lashes" data-title="Two Suns" data-category="Rock" />
-            <img src="images/bjork-post.jpg" alt="Bjork" data-subtitle="Bjork" data-title="Post" data-category="Rock" />
-            <img src="images/bob-marley.jpg" alt="Bob Marley" data-subtitle="Bob Marley" data-title="Natty Dread" data-category="Rock" />
-            <img src="images/gorillaz-plasticbeach.jpg" alt="Gorillaz, Plastic Beach" data-subtitle="Gorillaz" data-title="Plastic Beach" data-category="Rock" />
-            <img src="images/chembros.jpg" alt="Chemical Brothers" data-subtitle="Chemical Brothers" data-title="Dig Your Own Hole" data-category="Pop" />
-            <img src="images/cibo-matto.jpg" alt="Cibo Matto" data-subtitle="Cibo Matto" data-title="Viva La Woman" data-category="Pop" />
-            <img src="images/cornershop.jpg" alt="Cornershop" data-subtitle="Cornershop" data-title="When I Was Born for the 7th Time" data-category="Pop" />
-            <img src="images/cream.jpg" alt="Cream" data-subtitle="Cream" data-title="Disraeli Gears" data-category="Pop" />
-            <img src="images/kingsofleon-comearoundsunshine.jpg" alt="Kings of Leon, Come Around Sundown" data-subtitle="Kings Of Leon" data-title="Come Around Sunshine" data-category="Pop" />
-            <img src="images/cut-copy.jpg" alt="Cut Copy" data-subtitle="Cut Copy" data-title="Cut Copy" data-category="Indy Rock" />
-            <img src="images/delerium.jpg" alt="Delerium" data-subtitle="Delerium" data-title="Nuages Du Monde" data-category="Indy Rock" />
-            <img src="images/ironmaiden-thefinalfrontier.jpg" alt="Iron Maiden, The Final Frontier" data-subtitle="Iron Maiden" data-title="The Final Frontier" data-category="Indy Rock" />
-            <img src="images/bonobo-blacksands.jpg" alt="Bonobo, Blacksands" data-subtitle="Bonobo" data-title="Blacksands" data-category="Indy Rock" />
-            <img src="images/elbow.jpg" alt="Elbow" data-subtitle="Elbow" data-title="Asleep in the Back" data-category="Jazz" />
-            <img src="images/iron-butterfly.jpg" alt="Iron Butterfly" data-subtitle="Iron Butterfly" data-title="In A Gadda Da Vida" data-category="Jazz" />
-            <img src="images/john-coltrane.jpg" alt="john-coltrane" data-subtitle="John Coltrane" data-title="Blue Note 91721" data-category="Jazz" />       
+        <div class="button-controls">
+            <a id="removeImage" title="Remove First Cover">&ge;</a>
+            <a id="playPause" class="pause" title="Play/Pause">&ge;</a>
+            <a id="addImage" title="Add Cover to End">&ge;</a>
         </div>
-        <!-- End Coverflow -->
-
-        <!-- Image used to demonstrate the add image (plus button) feature -->
-        <img id="extraImage" src="images/animalcollective-merriweatherpostpavilion.jpg" alt="Animal Collective" data-subtitle="Animal Collective" data-title="Merriweather Post Pavilion" data-category="Rock" />
-    </div>
+    </footer>
+    <!-- Image used to demonstrate the addImage method -->
+    <img id="extraImage" src="images/yicchy-mickey.jpg" alt="Yicchy Mickey" data-title="Yicchy Mickey" />
 </body>
 </html>

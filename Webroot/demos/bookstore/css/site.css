@@ -1,221 +1,162 @@
-/* http://meyerweb.com/eric/tools/css/reset/ 
-   v2.0b1 | 201101 
-   NOTE: WORK IN PROGRESS
-   USE WITH CAUTION AND TEST WITH ABANDON */
-
-html, body, div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-a, abbr, acronym, address, big, cite, code,
-del, dfn, em, img, ins, kbd, q, s, samp,
-small, strike, strong, sub, sup, tt, var,
-b, u, i, center,
-dl, dt, dd, ol, ul, li,
-fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, figcaption, figure, 
-footer, header, hgroup, menu, nav, section, summary,
-time, mark, audio, video {
-	margin: 0;
-	padding: 0;
-	border: 0;
-	outline: 0;
-	font-size: 100%;
-	font: inherit;
-	vertical-align: baseline;
-}
-/* HTML5 display-role reset for older browsers */
-article, aside, details, figcaption, figure, 
-footer, header, hgroup, menu, nav, section {
-	display: block;
-}
+/* Elements */
 body {
-	line-height: 1;
+    background-color: white;
 }
-ol, ul {
-	list-style: none;
+header {
+    position: relative;
+    width: 500px;
+    margin: 30px auto 50px;
 }
-blockquote, q {
-	quotes: none;
+header a {
+    color: darkGray;
+    position: absolute;
+    z-index: 1000;
 }
-blockquote:before, blockquote:after,
-q:before, q:after {
-	content: '';
-	content: none;
+header a:hover {
+    color: black;
+    cursor: pointer;
 }
-
-/* remember to define visible focus styles! 
-:focus {
-	outline: ?????;
-} */
-
-/* remember to highlight inserts somehow! */
-ins {
-	text-decoration: none;
+header h1 a {
+    color: black;
+    font-family: Arial, Sans-Serif;
+    font-size: 18px;
+    font-style: italic;
+    position: absolute;
+    bottom: 29px;
+    left: 445px;
+    text-decoration: none;
 }
-del {
-	text-decoration: line-through;
-}
-
-table {
-	border-collapse: collapse;
-	border-spacing: 0;
-}
-/* End reset */
-
-/* Global Page Styles */
-body {
-    background: white;
-    font-size: 100%;
-}
-h1 {
-	font-size: 24px;
+header h2 {
+    color: black;
+    font-family: Arial, Sans-Serif;
+    font-size: 16px;
+    font-style: italic;
+    position: absolute;
+    bottom: 6px;
+    left: 240px;
+    width: 300px;
+    font-weight: normal;
 }
 
-h2 {
-	font-size: 20px;
+/* Classes */
+.category-controls {
+    width: 570px;
+    margin: 0 auto;
+    position: relative;
 }
-div.wrapper {
-	height: 1000px;
-	width: 100%;
-	overflow: hidden;
-	position: relative;
-	margin: 100px auto 0;
+.category-controls a {
+    cursor: pointer;
+    font-size: 25px;
+    display: block;
+    margin-top: -15px;
+    color: darkGray;
 }
-
-
-
-/* Override/Add to Default Coverflow Styling
-----------------------------------------*/
-.coverflow {
-    width: 100%;
-    height: 100%;
-    background: #fff;
+.category-controls a:hover {
+    color: black;
 }
-
-/* Categories List */
 .coverflow-categories {
-    width: 443px;
+    width: 500px;
+    margin: -30px auto 30px;
     color: #666;
     background: #eee;
     padding: 18px 8px;
-    z-index: 100;
     border-radius: 5px;
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
     border: 1px solid #b9b9b9;
-    margin-bottom: 50px;
 }
 .coverflow-categories li {
-    padding: 8px;
-    margin: 0 9px 0 0;
-    color: #666;
+    font-family: Arial, Sans-Serif;
+    padding: 5px;
+    margin: 0 23px;
     border-radius: 3px;
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
 }
-.coverflow-categories .coverflow-selected-category {
+.coverflow-selected-category {
     color: #fff;
     background: #666;
     border: 1px solid #555;
 }
-
-/* Catagory Navigation Arrows */
-.category-arrow-control {
-    width: 90%;
+.cover-title {
+	font-family: Arial, Helvetica, sans-serif;
+	margin-top: 510px;
+}
+.cover-title h1 {
+    font-size: 20px;
+}
+.play {
+    background: url(../../../../images/controls/controls-light.png) no-repeat -49px -49px;
+}
+.pause {
+    background: url(../../../../images/controls/controls-light.png) no-repeat 0 -49px;
+}
+.slider-controls {
+    position: relative;
+    top: -30px;
+    width: 83%;
     margin: 0 auto;
-    position: relative;
-    top: 302px;
 }
-.category-arrow-control a {
-    width: 34px;
-    height: 71px;
+.slider-controls a {
+    width: 26px;
+    height: 19px;
     display: block;
-    text-indent: -9999px;
-    background: url(../images/ui/controls-light.png) no-repeat 0 -99px;
-    position: relative;
-    z-index: 999;
-    float: left;    
+    float: left;
+	cursor: pointer;
+	background: transparent url(../../../../images/controls/arrows-light.png) no-repeat 0 0;
+	text-indent: -9999px;
+	position: relative;
+	z-index: 100;
 }
-.category-arrow-control a#nextCategory {
-    background-position: -50px -99px;
+.slider-controls a#previous {
+    background-position: left top;
+    margin-left: 3px;
+}
+.slider-controls a#next {
+    background-position: right top;
     float: right;
+    margin-right: 3px;
 }
-div.cover-title {
-    top: 32%;  /* Cover Title Styling  */
-    color: #333;
+.slider-controls a#previous:hover {
+    background-position: left -21px;
 }
-
-/*Slider and Arrows*/
+.slider-controls a#next:hover {
+    background-position: right -21px;
+}
 .ui-slider { 
-    margin-top: 213px; 
+    margin-top: 200px;
 }
 .ui-slider, .ui-slider .ui-slider-handle, .ui-slider .ui-slider-handle:hover {
     border: 1px solid #b9b9b9;
 }
 .ui-slider .ui-slider-handle {
-background-color: #000;
-background-image: linear-gradient(bottom, #b9b9b9 60%, #ddd 60%);
-background-image: -o-linear-gradient(bottom, #b9b9b9 60%, #ddd 60%);
-background-image: -moz-linear-gradient(bottom, #b9b9b9 60%, #ddd 60%);
-background-image: -webkit-linear-gradient(bottom, #b9b9b9 60%, #ddd 60%);
-background-image: -ms-linear-gradient(bottom, #b9b9b9 60%, #ddd 60%);
-background-image: -webkit-gradient(
-	linear,
-	left bottom,
-	left top,
-	color-stop(0.60, #b9b9b9),
-	color-stop(0.60, #ddd)
-);
-}
-div.slider-controls {
-    position: relative;
-    top: 682px;
-    width: 82.6%;
-    margin: 0 auto;
-}
-div.slider-controls a {
-    width: 24px;
-    height: 19px;
-    display: block;
-    float: left;
-	cursor: pointer;
-	background: transparent url(../images/ui/controls-light.png) no-repeat 0 0;
-	text-indent: -9999px;
-	position: relative;
-	z-index: 100;
-}
-div.slider-controls a#prevCover {
-    background-position: left -185px;
-    margin-left: 2px;
-}
-div.slider-controls a#nextCover {
-    background-position: right -185px;
-    float: right;
-}
-div.slider-controls a#prevCover:hover {
-    background-position: left -206px;
-}
-div.slider-controls a#nextCover:hover {
-    background-position: right -206px;
+    background-color: black;
+    background-image: linear-gradient(bottom, #b9b9b9 60%, #ddd 60%);
+    background-image: -o-linear-gradient(bottom, #b9b9b9 60%, #ddd 60%);
+    background-image: -moz-linear-gradient(bottom, #b9b9b9 60%, #ddd 60%);
+    background-image: -webkit-linear-gradient(bottom, #b9b9b9 60%, #ddd 60%);
+    background-image: -ms-linear-gradient(bottom, #b9b9b9 60%, #ddd 60%);
+    background-image: -webkit-gradient(linear, left bottom,	left top, color-stop(0.60, #b9b9b9), color-stop(0.60, #ddd));
 }
 
-/* Play and Pause Control */
-.play-pause-control {
-    width: 450px;
-    margin: 0 auto;
+/* IDs */
+#coverflow {
+    width: 100%;
+    height: 600px;
+    background: white;
     position: relative;
 }
-.play {
+#playPause {
+    display: block;
+    margin: 0 auto;
     width: 36px;
     height: 36px;
-    display: block;
     text-indent: -9999px;
-    background: url(../images/ui/controls-light.png) no-repeat 0 -49px;
-    position: absolute;
-    top: 10px;
-    right: 0;
-    z-index: 200;
+    cursor: pointer;
 }
-.pause {
-    background: url(../images/ui/controls-light.png) no-repeat -49px -49px;
+#previousCategory {
+    float: left;
+}
+#nextCategory {
+    float: right;
 }

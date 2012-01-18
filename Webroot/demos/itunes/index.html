@@ -1,9 +1,11 @@
 <!DOCTYPE HTML>
+<html>
 <head>
-    <title>iTunes Coverflow Demo</title>
-    <link type="text/css" href="css/ui-darkness/jquery-ui-1.8.16.custom.css" rel="Stylesheet" />
-    <link type="text/css" href="css/jquery.ui.pt_coverflow.css" rel="stylesheet" />
-    <link type="text/css" href="css/site.css" rel="Stylesheet" />
+    <title>Coverflow iTunes Demo</title>
+    <link type="text/css" href="../../css/reset.css" rel="Stylesheet" />
+    <link type="text/css" href="../../css/ui-darkness/jquery-ui-1.8.16.custom.css" rel="Stylesheet" />
+    <link type="text/css" href="../../css/jquery.ui.pt_coverflow.css" rel="stylesheet" />
+    <link type="text/css" href="../../css/site.css" rel="stylesheet" />
     <!-- Include jQuery and UI -->
     <script type="text/javascript" src="../../js/jquery-1.7.1.min.js"></script>
     <script type="text/javascript" src="../../js/jquery-ui-1.8.16.custom.min.js"></script>
@@ -12,49 +14,47 @@
     <script type="text/javascript" src="../../js/jquery.ui.pt_coverflow.js"></script>
     <script type="text/javascript">
         $(function () {
-            var $coverflow1 = $("#coverflow").coverflow({ // Instantiate Coverflow
-                categories: {
-                    enabled: false  
-                }
-            });
-            $("#prevCover").click(function () { // Previous Scrollbar Arrow
-                $coverflow1.coverflow("prevCover");
-            });
-            $("#nextCover").click(function () { // Next Scrollbar Arrow
-                $coverflow1.coverflow("nextCover");
-            });
+            // Instantiate Coverflow
+            var $demo = $("#coverflow").coverflow();
 
+            // Attach click events to the coverflow API
+            $("#prevCover").click(function () {
+                $demo.coverflow("prevCover");
+            });
+            $("#nextCover").click(function () {
+                $demo.coverflow("nextCover");
+            });
         });
     </script>
 </head>
 <body>
-    <div class="wrapper">
-        <div id="coverflow" class="coverflow">
-            <!-- Add arrows to slider. This markup can be placed anywhere on page. -->
-            <div class="slider-controls">
-                <a id="prevCover" title="Previous Cover">&lsaquo;</a>
-                <a id="nextCover" title="Next Cover">&rsaquo;</a>
-            </div>
-            <!-- Coverflow images -->
-            <img src="images/muse-the-resistance.jpg" alt="Muse, The Resistance" data-subtitle="Muse" data-title="The Resistance" />
-            <img src="images/alberta-cross.jpg" alt="Alberta Cross" data-subtitle="Alberta Cross" data-title="Broken Side of Time" />
-            <img src="images/bat-for-lashes.jpg" alt="Bat For Lashes" data-subtitle="Bat For Lashes" data-title="Two Suns" />
-            <img src="images/bjork-post.jpg" alt="Bjork" data-subtitle="Bjork" data-title="Post" />
-            <img src="images/bob-marley.jpg" alt="Bob Marley" data-subtitle="Bob Marley" data-title="Natty Dread" />
-            <img src="images/gorillaz-plasticbeach.jpg" alt="Gorillaz, Plastic Beach" data-subtitle="Gorillaz" data-title="Plastic Beach" />
-            <img src="images/chembros.jpg" alt="Chemical Brothers" data-subtitle="Chemical Brothers" data-title="Dig Your Own Hole" />
-            <img src="images/cibo-matto.jpg" alt="Cibo Matto" data-subtitle="Cibo Matto" data-title="Viva La Woman" />
-            <img src="images/cornershop.jpg" alt="Cornershop" data-subtitle="Cornershop" data-title="When I Was Born for the 7th Time" />
-            <img src="images/cream.jpg" alt="Cream" data-subtitle="Cream" data-title="Disraeli Gears" />
-            <img src="images/kingsofleon-comearoundsunshine.jpg" alt="Kings of Leon, Come Around Sundown" data-subtitle="Kings Of Leon" data-title="Come Around Sunshine" />
-            <img src="images/cut-copy.jpg" alt="Cut Copy" data-subtitle="Cut Copy" data-title="Zonoscope" />
-            <img src="images/delerium.jpg" alt="Delerium" data-subtitle="Delerium" data-title="Nuages Du Monde" />
-            <img src="images/ironmaiden-thefinalfrontier.jpg" alt="Iron Maiden, The Final Frontier" data-subtitle="Iron Maiden" data-title="The Final Frontier" />
-            <img src="images/bonobo-blacksands.jpg" alt="Bonobo, Blacksands" data-subtitle="Bonobo" data-title="Blacksands" />
-            <img src="images/elbow.jpg" alt="Elbow" data-subtitle="Elbow" data-title="Asleep in the Back" />
-            <img src="images/iron-butterfly.jpg" alt="Iron Butterfly" data-subtitle="Iron Butterfly" data-title="In A Gadda Da Vida" />
-            <img src="images/john-coltrane.jpg" alt="john-coltrane" data-subtitle="John Coltrane" data-title="Blue Note 91721" />
+    <header>
+        <img id="header" alt="Planet Telex Coverflow" src="../../images/_header.png" />
+        <h1><a href="../">Demos</a></h1>
+        <h2>iTunes Demo</h2>
+    </header>
+    <div id="coverflow">
+        <!-- Add additional controls. Coverflow leaves non-img tags in the container untouched, so you can absolute position them relative to the container. -->
+        <div class="controls">
+            <a id="previous" title="Previous Cover">&lsaquo;</a>
+            <a id="next" title="Next Cover">&rsaquo;</a>
         </div>
+        <!-- Coverflow uses all img tags in the container not nested in other elements. The alt tags are not used by coverflow, but should be rendered to be standards compliant and accessible. -->
+        <img src="../../images/muse-the-resistance.jpg" alt="Muse, The Resistance" data-subtitle="Muse" data-title="The Resistance" />
+        <img src="../../images/albertacross-thebrokensideoftime.jpg" alt="Alberta Cross, Broken Side of Time" data-subtitle="Alberta Cross" data-title="Broken Side of Time" />
+        <img src="../../images/batforlashes-twosuns.jpg" alt="Bat For Lashes, Two Suns" data-subtitle="Bat For Lashes" data-title="Two Suns" />
+        <img src="../../images/bjork-post.jpg" alt="Bjork" data-subtitle="Bjork, Post" data-title="Post" />
+        <img src="../../images/gorillaz-plasticbeach.jpg" alt="Gorillaz, Plastic Beach" data-subtitle="Gorillaz" data-title="Plastic Beach" />
+        <img src="../../images/chemicalbrothers-digyourownhole.jpg" alt="Chemical Brothers, Dig Your Own Hole" data-subtitle="Chemical Brothers" data-title="Dig Your Own Hole" />
+        <img src="../../images/cibomatto-vivalawoman.jpg" alt="Cibo Matto, Viva La Woman" data-subtitle="Cibo Matto" data-title="Viva La Woman" />
+        <img src="../../images/cornershop-wheniwasbornfortheseventhtime.jpg" alt="Cornershop, When I Was Born for the 7th Time" data-subtitle="Cornershop" data-title="When I Was Born for the 7th Time" />
+        <img src="../../images/cream-disraeligears.jpg" alt="Cream, Disraeli Gears" data-subtitle="Cream" data-title="Disraeli Gears" />
+        <img src="../../images/cut-copy-zonoscope.jpg" alt="Cut Copy, Zonoscope" data-subtitle="Cut Copy" data-title="Zonoscope" />
+        <img src="../../images/delerium-nuagesdumonde.jpg" alt="Delerium, Nuages Du Monde" data-subtitle="Delerium" data-title="Nuages Du Monde" />
+        <img src="../../images/ironmaiden-thefinalfrontier.jpg" alt="Iron Maiden, The Final Frontier" data-subtitle="Iron Maiden" data-title="The Final Frontier" />
+        <img src="../../images/bonobo-blacksands.jpg" alt="Bonobo, Black Sands" data-subtitle="Bonobo" data-title="Black Sands" />
+        <img src="../../images/elbow-asleepintheback.jpg" alt="Elbow, Asleep in the Back" data-subtitle="Elbow" data-title="Asleep in the Back" />
+        <img src="../../images/ironbutterfly-in-a-gadda-da-vida.jpg" alt="Iron Butterfly, In-a-Gadda-Da-Vida" data-subtitle="Iron Butterfly" data-title="In-a-Gadda-Da-Vida" />
     </div>
 </body>
 </html>
