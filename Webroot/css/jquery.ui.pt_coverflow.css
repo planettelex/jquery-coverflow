@@ -1,5 +1,5 @@
 ﻿/* prevents initial flash of images when page loads */
-.coverflow img {
+#coverflow img {
     visibility: hidden;
 }
 
