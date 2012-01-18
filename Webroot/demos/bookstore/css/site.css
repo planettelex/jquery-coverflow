@@ -86,10 +86,10 @@ header h2 {
     font-size: 20px;
 }
 .play {
-    background: url(../../../../images/controls/controls-light.png) no-repeat -49px -49px;
+    background: url(../../../images/controls/controls-light.png) no-repeat -49px -49px;
 }
 .pause {
-    background: url(../../../../images/controls/controls-light.png) no-repeat 0 -49px;
+    background: url(../../../images/controls/controls-light.png) no-repeat 0 -49px;
 }
 .slider-controls {
     position: relative;
@@ -103,7 +103,7 @@ header h2 {
     display: block;
     float: left;
 	cursor: pointer;
-	background: transparent url(../../../../images/controls/arrows-light.png) no-repeat 0 0;
+	background: transparent url(../../../images/controls/arrows-light.png) no-repeat 0 0;
 	text-indent: -9999px;
 	position: relative;
 	z-index: 100;
