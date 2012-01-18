@@ -168,7 +168,7 @@ typeof jQuery.ui != 'undefined' &&
         _$categories: null,
         _$images: [],
         _imagesByCategory: {},
-
+        _isPauseManual: false,
         _$slider: null,
         _$sliderHandleHelper: null,
         _currentIndex: 0,
@@ -297,6 +297,7 @@ typeof jQuery.ui != 'undefined' &&
             ///</summary>
             ///<returns type="Undefined" />
 
+            this._isPauseManual = false;
             var autoplay = $.extend(true, {}, this.options.autoplay);
             autoplay.enabled = true;
             this._setOption("autoplay", autoplay);
@@ -337,9 +338,8 @@ typeof jQuery.ui != 'undefined' &&
         },
 
         pause: function () {
-            var autoplay = $.extend(true, {}, this.options.autoplay);
-            autoplay.enabled = false;
-            this._setOption("autoplay", autoplay);
+            this._isPauseManual = true;
+            this._pause();
             this._trigger("pause", null, { selectedIndex: this._currentIndex });
         },
 
@@ -352,9 +352,11 @@ typeof jQuery.ui != 'undefined' &&
 
         togglePlay: function () {
             if (this.isPlaying()) {
+                this._isPauseManual = true;
                 this._pause();
             }
             else {
+                this._isPauseManual = false;                
                 var autoplay = $.extend(true, {}, this.options.autoplay);
                 autoplay.enabled = true;
                 this._setOption("autoplay", autoplay);
@@ -523,8 +525,8 @@ typeof jQuery.ui != 'undefined' &&
                 options = this._coverConfig(this._currentIndex, index, initialPosition, isSliding, {
                     id: (new Date()).getTime() * Math.random(),
                     click: $.proxy(this, "_clickCover"),
-                    mouseenter: $.proxy(this, "_mouseenterCover"),
-                    mouseleave: $.proxy(this, "_mouseleaveCover")
+                    mouseenter: $.proxy(this, "_autoplayMouseEnter"),
+                    mouseleave: $.proxy(this, "_autoplayMouseLeave")
                 });
             $(image).show().cover(options).data("coverflow", {
                 index: index,
@@ -606,20 +608,20 @@ typeof jQuery.ui != 'undefined' &&
             this._gotoCover(data.image.data("coverflow").index);
         },
 
-        _mouseenterCover: function () {
+        _autoplayMouseEnter: function () {
             if (this.options.autoplay.pauseOnMouseenter) {
                 this._pause();
-                this._trigger("mouseenter", null, { selectedIndex: this._currentIndex });
             }
+            this._trigger("mouseenter", null, { selectedIndex: this._currentIndex });            
         },
 
-        _mouseleaveCover: function () {
+        _autoplayMouseLeave: function () {
             if (this.options.autoplay.pauseOnMouseenter) {
-                if (this.options.autoplay.enabled) {
+                if (this.options.autoplay.enabled && !this._isPauseManual) {
                     this._play();
                 }
-                this._trigger("mouseleave", null, { selectedIndex: this._currentIndex });
             }
+            this._trigger("mouseleave", null, { selectedIndex: this._currentIndex });            
         },
 
         _coverConfig: function (selectedIndex, index, initialPosition, isSliding, options) {
@@ -753,6 +755,8 @@ typeof jQuery.ui != 'undefined' &&
                 handleSize = sliderWidth / coverCount;
 
             this._$slider = $("<div />")
+                .bind("mouseenter", $.proxy(this, "_autoplayMouseEnter"))
+                .bind("mouseleave", $.proxy(this, "_autoplayMouseLeave"))
                 .css({
                     width: sliderWidth,
                     position: "absolute",
