@@ -27,7 +27,9 @@ typeof jQuery.ui != 'undefined' &&
                 defaultCategory: "Unknown",
                 selectedCategory: null,
                 renderTitles: true,
-                animationCount: 2       // Per add/remove of covers (so a value of 2 equals a total of 4 animated covers)
+                rememberLastCover: false, // This is always true when autoplay is enabled
+                delAnimationCount: 2,   // The number of old covers animated on remove during category change
+                addAnimationRadius: 2   // The number of new covers animated on each side of the selected cover during category change
             },
             cover: {
                 angle: 12,              // degrees
@@ -71,7 +73,7 @@ typeof jQuery.ui != 'undefined' &&
             ///<returns type="Undefined" />
 
             this._categories = [];
-            this._imagesByCategory = {};
+            this._categoryData = {};
             this.options.width = this.options.width || this.element.width();
             this.options.height = this.options.height || this.element.height();
 
@@ -167,7 +169,7 @@ typeof jQuery.ui != 'undefined' &&
         _categories: [],
         _$categories: null,
         _$images: [],
-        _imagesByCategory: {},
+        _categoryData: {},
         _isPauseManual: false,
         _$slider: null,
         _$sliderHandleHelper: null,
@@ -356,7 +358,7 @@ typeof jQuery.ui != 'undefined' &&
                 this._pause();
             }
             else {
-                this._isPauseManual = false;                
+                this._isPauseManual = false;
                 var autoplay = $.extend(true, {}, this.options.autoplay);
                 autoplay.enabled = true;
                 this._setOption("autoplay", autoplay);
@@ -418,23 +420,31 @@ typeof jQuery.ui != 'undefined' &&
         },
 
         _gotoCategory: function (selectedCategory) {
-            var images = this._imagesByCategory[selectedCategory];
+            var images = this._categoryData[selectedCategory].images;
             if (images && images.length > 0) {
                 var isChangingCategory = true,
-                    maxAnimations = this.options.categories.animationCount,
-                    isAnimated = true,
+                    isAnimated,
                     prevImagesCount = this._imagesCount(),
-                    i,
-                    animate = function () {
-                        return i + 1 > maxAnimations ? false : isAnimated;
-                    };
+                    i;
 
+                // Removes the old category's images
                 for (i = 0; i < prevImagesCount; i++) {
-                    this._removeImage(isChangingCategory, animate());
+                    this._removeImage(isChangingCategory, (i + 1 > this.options.categories.delAnimationCount ? false : true));
                 }
+
+                if (this.options.autoplay.enabled || this.options.categories.rememberLastCover) {
+                    this._currentIndex = this._categoryData[selectedCategory].selectedIndex;
+                }
+                var start = Math.max(0, this._currentIndex - this.options.categories.addAnimationRadius),
+                end = Math.min(images.length, this._currentIndex + this.options.categories.addAnimationRadius);
+
+                // Adds the new category's images
                 for (i = 0; i < images.length; i++) {
-                    this._addImage($(images[i]), isChangingCategory, animate());
+                    isAnimated = start <= i && i <= end;
+                    this._addImage($(images[i]), isChangingCategory, isAnimated);
                 }
+
+                // Finds the currentCategoryIndex based off the selectedCategory and sets it.
                 for (i = 0; i < this._categories.length; i++) {
                     if (this._categories[i] == selectedCategory) {
                         this._currentCategoryIndex = i;
@@ -509,6 +519,11 @@ typeof jQuery.ui != 'undefined' &&
 
             this._currentIndex = selectedIndex;
 
+            if (this.options.categories.enabled) {
+                var category = this._getCurrentCategory();
+                this._categoryData[category].selectedIndex = selectedIndex;
+            }
+
             if (this._currentIndex == this._imagesCount()) {
                 this._trigger("lastCover", null, { selectedIndex: this._currentIndex });
             }
@@ -543,7 +558,8 @@ typeof jQuery.ui != 'undefined' &&
                 if (!this.options.categories.selectedCategory) {
                     this.options.categories.selectedCategory = this._categories[0];
                 }
-                this._$activeImages = $(this._imagesByCategory[this.options.categories.selectedCategory]);
+                this._categoryData[this.options.categories.selectedCategory].selectedIndex = this._currentIndex;
+                this._$activeImages = $(this._categoryData[this.options.categories.selectedCategory].images);
             }
             else {
                 this._$activeImages = this._$images;
@@ -564,12 +580,12 @@ typeof jQuery.ui != 'undefined' &&
                 }
 
                 if (loadCategories) {
-                    if (!this._imagesByCategory[category]) {
-                        this._imagesByCategory[category] = [];
+                    if (!this._categoryData[category]) {
+                        this._categoryData[category] = { selectedIndex: 0, images: [] };
                         this._categories.push(category);
                     }
 
-                    this._imagesByCategory[category].push(image);
+                    this._categoryData[category].images.push(image);
                 }
             }
 
@@ -612,7 +628,7 @@ typeof jQuery.ui != 'undefined' &&
             if (this.options.autoplay.pauseOnMouseenter) {
                 this._pause();
             }
-            this._trigger("mouseenter", null, { selectedIndex: this._currentIndex });            
+            this._trigger("mouseenter", null, { selectedIndex: this._currentIndex });
         },
 
         _autoplayMouseLeave: function () {
@@ -621,7 +637,7 @@ typeof jQuery.ui != 'undefined' &&
                     this._play();
                 }
             }
-            this._trigger("mouseleave", null, { selectedIndex: this._currentIndex });            
+            this._trigger("mouseleave", null, { selectedIndex: this._currentIndex });
         },
 
         _coverConfig: function (selectedIndex, index, initialPosition, isSliding, options) {
