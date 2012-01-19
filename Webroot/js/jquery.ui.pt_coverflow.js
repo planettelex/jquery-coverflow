@@ -436,7 +436,7 @@ typeof jQuery.ui != 'undefined' &&
                     this._currentIndex = this._categoryData[selectedCategory].selectedIndex;
                 }
                 var start = Math.max(0, this._currentIndex - this.options.categories.addAnimationRadius),
-                end = Math.min(images.length, this._currentIndex + this.options.categories.addAnimationRadius);
+                end = Math.min(images.length - 1, this._currentIndex + this.options.categories.addAnimationRadius);
 
                 // Adds the new category's images
                 for (i = 0; i < images.length; i++) {
@@ -510,7 +510,7 @@ typeof jQuery.ui != 'undefined' &&
             var index,
                 isAnimated,
                 start = Math.max(0, selectedIndex - this.options.cover.animation.radius),
-                end = Math.min(this._$activeImages.length, selectedIndex + this.options.cover.animation.radius);
+                end = Math.min(this._$activeImages.length - 1, selectedIndex + this.options.cover.animation.radius);
 
             for (index = 0; index < this._$activeImages.length; index++) {
                 isAnimated = start <= index && index <= end;
