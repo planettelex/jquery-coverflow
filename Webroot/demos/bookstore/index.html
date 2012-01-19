@@ -17,7 +17,7 @@
             // Instantiate Coverflow
             var $demo = $("#coverflow").coverflow({
                 autoplay: {
-                    playsPerCategory: 5
+                    playsPerCategory: 3
                 },
                 categories: {
                     enabled: true
@@ -66,9 +66,9 @@
     </header>
     <div class="category-controls">
         <a id="previousCategory" title="Go to previous category">&lsaquo;&lsaquo;</a>
-        <a id="nextCategory" title="Go to next Category">&rsaquo;&rsaquo;</a>
+        <a id="nextCategory" title="Go to next category">&rsaquo;&rsaquo;</a>
     </div>
-    <div id="coverflow">
+    <div id="coverflow" class="coverflow">
         <!-- Coverflow uses all img tags in the container not nested in other elements. The alt tags are not used by coverflow, but should be rendered to be standards compliant and accessible. -->
         <img src="images/adland.large.jpg" alt="Ad Land" data-subtitle="James P. Othmer" data-title="Ad Land" data-category="Fiction" />
         <img src="images/and_then_theres_this.large.jpg" alt="And Then There's This" data-subtitle="Bill Wasik" data-title="And Then There's This" data-category="Fiction" />

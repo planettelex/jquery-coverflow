@@ -53,16 +53,17 @@ header h2 {
 }
 .cover-title {
 	font-family: Arial, Helvetica, sans-serif;
-	margin-top: 290px;
+	margin-top: 295px;
 }
 .cover-title h1 {
     font-size: 15px;
+    opacity: .7;
 }
 .pause {
-    background: url(../../../images/controls/controls.png) no-repeat 0 -49px;
+    background: url(../../../images/controls/controls-light.png) no-repeat 0 -49px;
 }
 .play {
-    background: url(../../../images/controls/controls.png) no-repeat -49px -49px;
+    background: url(../../../images/controls/controls-light.png) no-repeat -49px -49px;
 }
 .coverflow-slider {
     top: 340px;
@@ -70,7 +71,7 @@ header h2 {
 .slider-controls {
     position: relative;
     top: -60px;
-    width: 83%;
+    width: 82.6%;
     margin: 0 auto;
 }
 .slider-controls a {
@@ -113,8 +114,8 @@ header h2 {
     position: relative;
 }
 #addImage {
-    background: url(../../../images/controls/controls.png) no-repeat -49px 0;
+    background: url(../../../images/controls/controls-light.png) no-repeat -49px 0;
 }
 #removeImage {
-    background: url(../../../images/controls/controls.png) no-repeat 0 0;
+    background: url(../../../images/controls/controls-light.png) no-repeat 0 0;
 }

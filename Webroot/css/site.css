@@ -48,7 +48,7 @@ header h2 {
 .controls {
     position: relative;
     top: 370px;
-    width: 83%;
+    width: 81%;
     margin: 0 auto;
 }
 .controls a {
@@ -132,7 +132,7 @@ header h2 {
     right: 270px;
 }
 #nextCategory {
-    right: 18px;
+    right: 15px;
     bottom: 8px;
 }
 #play:hover, #pause:hover,
