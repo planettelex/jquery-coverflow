@@ -13,58 +13,58 @@ typeof jQuery.ui != 'undefined' &&
         widgetEventPrefix: 'pt.coverflow',
 
         options: {
-            width: null,
-            height: null,
-            selectedIndex: 0,
+            width: null,                // Display width of the coverflow. Defaults to the container width.
+            height: null,               // Display height of the coverflow. Defaults to the container height.
+            selectedIndex: 0,           // The index of the cover to select where 0 is the first
             autoplay: {
                 enabled: false,
-                interval: 3,            // seconds between covers
+                interval: 3,            // Seconds between changing covers
                 pauseOnMouseenter: true,
                 playsPerCategory: 3     // Includes the first cover loaded in the category
             },
             categories: {
                 enabled: false,
-                defaultCategory: "Unknown",
-                selectedCategory: null,
+                defaultCategory: "Unknown", // Name of category applied to covers that don't have one specified.
+                selectedCategory: null,     // Name of the category to select.
                 renderTitles: true,
-                rememberLastCover: true, // This is always true when autoplay is enabled
-                delAnimationCount: 4,   // The number of old covers animated on remove during category change
-                addAnimationRadius: 4   // The number of new covers animated on each side of the selected cover during category change
+                rememberLastCover: true,    // Show the last cover displayed when returning to the category. This is always true when autoplay is enabled.
+                delAnimationCount: 4,       // Number of old covers animated on remove during category change
+                addAnimationRadius: 4       // Number of new covers animated on each side of the selected cover during category change
             },
             cover: {
-                angle: 12,              // degrees
-                height: 300,
-                width: 300,
+                height: 300,            // Display height of each cover.
+                width: 300,             // Display width of each cover.
                 animation: {
                     perspective: {
-                        duration: 80,   // milliseconds
-                        inner: 120      // percentage of duration
+                        duration: 80,   // Milliseconds
+                        inner: 120      // Percentage of duration
                     },
-                    radius: 20          // The number of covers animated on each side of the selected cover
+                    radius: 20          // Number of covers animated on each side of the selected cover
                 },
                 background: {
-                    size: 90            // percentage of original image
-                },
-                overlap: {
-                    inner: 20, 	        // percentage of overlap
-                    outer: 80           // percentage of overlap
+                    size: 90,           // Percentage of original image
+                    overlap: {
+                        inner: 20,      // Percentage of overlap
+                        outer: 80       // Percentage of overlap
+                    }
                 },
                 perspective: {
+                    angle: 12,          // Angle in degrees from the outside corner to the center. The same value is applied to the top and bottom.
                     enabled: true
                 },
                 reflection: {
                     enabled: true,
-                    initialOpacity: 50, // percentage 0(transparent) <=> 100(opaque)
-                    length: 80          // percentage of original image
+                    initialOpacity: 50, // Percentage 0(transparent) <=> 100(opaque)
+                    length: 80          // Percentage of original image
                 },
                 title: {
                     enabled: true
                 }
             },
-            images: [],                 // image format = { src: "", title: "", subtitle: "", category: "" }
+            images: [],                 // The collection of image objects to be displayed in the coverflow. Image structure = { src: "", title: "", subtitle: "", category: "" }
             slider: {
                 enabled: true,
-                width: 80               // percentage of width
+                width: 80               // Percentage of the width of the coverflow container
             }
         },
 
@@ -701,12 +701,12 @@ typeof jQuery.ui != 'undefined' &&
                     left = (this.options.width / 2) - (coverWidth / 2) + (coverWidth * centerOffset);
                     var overlap;
                     if (Math.abs(centerOffset) > 1) { // outer
-                        overlap = (this.options.cover.overlap.outer / 100) * coverWidth;
+                        overlap = (this.options.cover.background.overlap.outer / 100) * coverWidth;
                         overlap *= Math.abs(centerOffset) - 1;
-                        overlap += (this.options.cover.overlap.inner / 100) * coverWidth;
+                        overlap += (this.options.cover.background.overlap.inner / 100) * coverWidth;
                     }
                     else { // inner
-                        overlap = (this.options.cover.overlap.inner / 100) * coverWidth;
+                        overlap = (this.options.cover.background.overlap.inner / 100) * coverWidth;
                         overlap *= Math.abs(centerOffset);
                     }
 
