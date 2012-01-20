@@ -54,7 +54,7 @@ typeof jQuery.ui != 'undefined' &&
                 },
                 reflection: {
                     enabled: true,
-                    initialOpacity: 50, // percentage 0(transparent) <=> 100(opaque)
+                    initialOpacity: 30, // percentage 0(transparent) <=> 100(opaque)
                     length: 80          // percentage of original image
                 },
                 title: {

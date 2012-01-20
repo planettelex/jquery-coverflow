@@ -36,6 +36,7 @@
     <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="admin.html" />
     <Content Include="css\jquery.ui.pt_coverflow.css" />
     <Content Include="css\reset.css" />
     <Content Include="css\site.css" />
