@@ -44,10 +44,8 @@ Include the PT Coverflow and its starter CSS in your HTML.
 
 Create your HTML structure with a wrapper element that has the class "coverflow".  Add some images to your container including the title and subtitle as data attributes if you want those to be displayed.
 
-Example:
-
     <div id="coverflow" class="coverflow">
-        <!-- Add additional controls. PT Coverflow leaves non-img tags in the container untouched, so you can absolute position them relative to the container. -->
+        <!-- (Optional) Add additional controls. PT Coverflow leaves non-img tags in the container untouched, so you can absolute position them relative to the container. -->
         <div class="controls">
             <a id="previous" title="Previous Cover">&lsaquo;</a>
             <a id="next" title="Next Cover">&rsaquo;</a>
@@ -63,14 +61,12 @@ Example:
 
 Add the JavaScript to your page to hook up the PT Coverflow to your container.
 
-Example:
-
     <script type="text/javascript">
         $(function () {
             // Instantiate PT Coverflow
             var $demo = $("#coverflow").coverflow();
 
-            // Attach control click events to the PT Coverflow API
+            // (Optional) Attach control click events to the PT Coverflow API
             $("#previous").click(function () {
                 $demo.coverflow("prevCover");
             });
