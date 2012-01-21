@@ -64,7 +64,7 @@ typeof jQuery.ui != 'undefined' &&
                     this.element.trigger('error');
                 }
                 else {
-                    this.element.load($.proxy(this, "_load"));
+                    this.element.load(this._load.bind(this));
                 }
             }
         },
@@ -198,7 +198,7 @@ typeof jQuery.ui != 'undefined' &&
 				    queue: false,
 				    duration: this.options.animation.slide.duration,
 				    easing: this.options.animation.slide.easing,
-				    complete: $.proxy(this, "_animateLeftComplete")
+				    complete: this._animateLeftComplete.bind(this)
 				})
 				.animate({
 				    textIndent: this.options.perspective.position == "center" ? 0 : this.options.perspective.angle
@@ -206,8 +206,8 @@ typeof jQuery.ui != 'undefined' &&
 				    queue: false,
 				    duration: this.options.animation.perspective.duration,
 				    easing: this.options.animation.perspective.easing,
-				    step: $.proxy(this, "_animateAngleStep"),
-				    complete: $.proxy(this, "_animateAngleComplete")
+				    step: this._animateAngleStep.bind(this),
+				    complete: this._animateAngleComplete.bind(this)
 				});
             }
         },
@@ -276,9 +276,9 @@ typeof jQuery.ui != 'undefined' &&
 				    position: "absolute",
 				    cursor: "pointer"
 				})
-				.click($.proxy(this, "_click"))
-				.mouseenter($.proxy(this, "_mouseenter"))
-				.mouseleave($.proxy(this, "_mouseleave"));
+				.click(this._click.bind(this))
+				.mouseenter(this._mouseenter.bind(this))
+				.mouseleave(this._mouseleave.bind(this));
 
             if (this.supportsCanvas) {
                 this.element.css({ top: -1000, left: -1000, position: "absolute" }).after(this._$cover);
@@ -726,4 +726,29 @@ typeof jQuery.ui != 'undefined' &&
 
         return new matrix(temp);
     };
+    
+    // See https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Function/bind
+    if (!Function.prototype.bind) {
+      Function.prototype.bind = function (oThis) {
+        if (typeof this !== "function") {
+          // closest thing possible to the ECMAScript 5 internal IsCallable function
+          throw new TypeError("Function.prototype.bind - what is trying to be bound is not callable");
+        }
+
+        var aArgs = Array.prototype.slice.call(arguments, 1), 
+            fToBind = this, 
+            fNOP = function () {},
+            fBound = function () {
+              return fToBind.apply(this instanceof fNOP
+                                     ? this
+                                     : oThis || window,
+                                    aArgs.concat(Array.prototype.slice.call(arguments)));
+            };
+
+        fNOP.prototype = this.prototype;
+        fBound.prototype = new fNOP();
+
+        return fBound;
+      };
+    }
 })(jQuery);
