@@ -1,49 +1,49 @@
 ﻿$(function () {
     // The default coverflow options
     var coverflowOptions = JSON.constructor({
-        width: null,
-        height: null,
-        selectedIndex: 0,
+        width: null,                // Display width of the coverflow. Defaults to the container width.
+        height: null,               // Display height of the coverflow. Defaults to the container height.
+        selectedIndex: 0,           // The index of the cover to select where 0 is the first
         autoplay: {
             enabled: false,
-            interval: 3,            // seconds between covers
+            interval: 3,            // Seconds between changing covers
             pauseOnMouseenter: true,
             playsPerCategory: 3     // Includes the first cover loaded in the category
         },
         categories: {
             enabled: false,
-            defaultCategory: "Unknown",
-            selectedCategory: null,
+            defaultCategory: "Unknown", // Name of category applied to covers that don't have one specified.
+            selectedCategory: null,     // Name of the category to select.
             renderTitles: true,
-            rememberLastCover: true, // This is always true when autoplay is enabled
-            delAnimationCount: 4,   // The number of old covers animated on remove during category change
-            addAnimationRadius: 4   // The number of new covers animated on each side of the selected cover during category change
+            rememberLastCover: true,    // Show the last cover displayed when returning to the category. This is always true when autoplay is enabled.
+            delAnimationCount: 4,       // Number of old covers animated on remove during category change
+            addAnimationRadius: 4       // Number of new covers animated on each side of the selected cover during category change
         },
         cover: {
-            angle: 12,              // degrees
-            height: 300,
-            width: 300,
+            height: 300,            // Display height of each cover.
+            width: 300,             // Display width of each cover.
             animation: {
                 perspective: {
-                    duration: 80,   // milliseconds
-                    inner: 120      // percentage of duration
+                    duration: 80,   // Milliseconds
+                    inner: 120      // Percentage of duration
                 },
-                radius: 20          // The number of covers animated on each side of the selected cover
+                radius: 20          // Number of covers animated on each side of the selected cover
             },
             background: {
-                size: 90            // percentage of original image
-            },
-            overlap: {
-                inner: 20, 	        // percentage of overlap
-                outer: 80           // percentage of overlap
+                size: 90,           // Percentage of original image
+                overlap: {
+                    inner: 20,      // Percentage of overlap
+                    outer: 80       // Percentage of overlap
+                }
             },
             perspective: {
+                angle: 12,          // Angle in degrees from the outside corner to the center. The same value is applied to the top and bottom.
                 enabled: true
             },
             reflection: {
                 enabled: true,
-                initialOpacity: 30, // percentage 0(transparent) <=> 100(opaque)
-                length: 80          // percentage of original image
+                initialOpacity: 30, // Percentage 0(transparent) <=> 100(opaque)
+                length: 80          // Percentage of original image
             },
             title: {
                 enabled: true
@@ -51,22 +51,63 @@
         },
         slider: {
             enabled: true,
-            width: 80               // percentage of width
+            width: 80               // Percentage of the width of the coverflow container
         }
     });
 
-    
+    var numberOfCovers = $("#coverflow > img").length;
+    var categories = [];
+    $.each($("#coverflow > img"), function (index, value) {
+        var category = value.dataset["category"] != null ? value.dataset["category"] : coverflowOptions.categories.defaultCategory;
+        if ($.inArray(category, categories) == -1)
+            categories.push(category);
+    });
+
     // Set up accordion
     $("#optionsPanel").accordion({ collapsible: true });
+
     // Set up on/off switches
-    $("#autoplay .onOffSwitch").iphoneSwitch("off", turnOnAutoplay, turnOffAutoplay);
-    $("#categories .onOffSwitch").iphoneSwitch("off", turnOnCategories, turnOffCategories);
-    $("#perspective .onOffSwitch").iphoneSwitch("on", turnOnPerpective, turnOffPerpective);
-    $("#reflections .onOffSwitch").iphoneSwitch("on", turnOnReflections, turnOffReflections);
-    $("#slider .onOffSwitch").iphoneSwitch("on", turnOnSlider, turnOffSlider);
-    $("#titles .onOffSwitch").iphoneSwitch("on", turnOnTitles, turnOffTitles);
+    $("#autoplay .onOffSwitch").iphoneSwitch(coverflowOptions.autoplay.enabled ? "on" : "off", turnOnAutoplay, turnOffAutoplay);
+    $("#categories .onOffSwitch").iphoneSwitch(coverflowOptions.categories.enabled ? "on" : "off", turnOnCategories, turnOffCategories);
+    $("#perspective .onOffSwitch").iphoneSwitch(coverflowOptions.cover.perspective.enabled ? "on" : "off", turnOnPerpective, turnOffPerpective);
+    $("#reflections .onOffSwitch").iphoneSwitch(coverflowOptions.cover.reflection.enabled ? "on" : "off", turnOnReflections, turnOffReflections);
+    $("#slider .onOffSwitch").iphoneSwitch(coverflowOptions.slider.enabled ? "on" : "off", turnOnSlider, turnOffSlider);
+    $("#titles .onOffSwitch").iphoneSwitch(coverflowOptions.cover.title.enabled ? "on" : "off", turnOnTitles, turnOffTitles);
+
+    // Set up select lists
+    for (var i = 0; i < numberOfCovers; i++) {
+        var selectOption = $("<option value='" + i + "'>" + i + "</option>");
+        $("#startingIndex").append(selectOption.clone());
+        if (i > 1) {
+            $("#slideAnimationRadius").append(selectOption.clone());
+            $("#animateIn").append(selectOption.clone());
+            $("#animateOut").append(selectOption.clone());
+        }
+        if (i > 0) $("#flipsPerCategory").append(selectOption.clone());
+    }
+    $.each(categories, function (index, value) {
+        var categorySelectOption = $("<option value='" + value + "'>" + value + "</option>");
+        $("#startingCategory").append(categorySelectOption.clone());
+    });
+
+    // Set non-slider form values
+    $("#coverWidth").val(coverflowOptions.cover.width);
+    $("#coverHeight").val(coverflowOptions.cover.height);
+    $("#startingIndex").val(Math.min(coverflowOptions.selectedIndex, numberOfCovers - 1));
+    $("#slideAnimationRadius").val(Math.min(coverflowOptions.cover.animation.radius, numberOfCovers));
+    $("#flipInterval").val(coverflowOptions.autoplay.interval);
+    $("#flipsPerCategory").val(Math.min(coverflowOptions.autoplay.playsPerCategory, numberOfCovers));
+    $("#pauseOnHover").prop("checked", coverflowOptions.autoplay.pauseOnMouseenter);
+    $("#displayCategoriesNav").prop("checked", coverflowOptions.categories.renderTitles);
+    $("#categoriesStateful").prop("checked", coverflowOptions.categories.rememberLastCover);
+    $("#defaultCategory").val(coverflowOptions.categories.defaultCategory);
+    if (coverflowOptions.categories.selectedCategory != null)
+        $("#startingCategory").val(coverflowOptions.categories.selectedCategory);
+    $("#animateIn").val(Math.min(coverflowOptions.categories.addAnimationRadius, numberOfCovers));
+    $("#animateOut").val(Math.min(coverflowOptions.categories.delAnimationCount, numberOfCovers));
+
     // Set up sliders
-    $("#backgroundCoverSizeSlider").slider({
+    var $sliderBackgroundSize = $("#backgroundCoverSizeSlider").slider({
         value: coverflowOptions.cover.background.size - 100,
         min: -50,
         max: 50,
@@ -75,8 +116,8 @@
             $("#backgroundCoverSize").html(ui.value);
         }
     });
-    $("#innerCoverOverlapSlider").slider({
-        value: 0,
+    var $sliderInnerOverlap = $("#innerCoverOverlapSlider").slider({
+        value: coverflowOptions.cover.background.overlap.inner,
         min: -100,
         max: 100,
         step: 1,
@@ -84,8 +125,8 @@
             $("#innerCoverOverlap").html(ui.value);
         }
     });
-    $("#outerCoverOverlapSlider").slider({
-        value: 0,
+    var $sliderOuterOverlap = $("#outerCoverOverlapSlider").slider({
+        value: coverflowOptions.cover.background.overlap.outer,
         min: -100,
         max: 100,
         step: 1,
@@ -93,8 +134,8 @@
             $("#outerCoverOverlap").html(ui.value);
         }
     });
-    $("#angleSlider").slider({
-        value: 12,
+    var $sliderAngle = $("#angleSlider").slider({
+        value: coverflowOptions.cover.perspective.angle,
         min: 0,
         max: 180,
         step: 1,
@@ -102,8 +143,8 @@
             $("#angle").html(ui.value);
         }
     });
-    $("#animationDurationSlider").slider({
-        value: 80,
+    var $sliderAnimationDuration = $("#animationDurationSlider").slider({
+        value: coverflowOptions.cover.animation.perspective.duration,
         min: 0,
         max: 1000,
         step: 10,
@@ -111,8 +152,8 @@
             $("#animationDuration").html(ui.value);
         }
     });
-    $("#innerCoverAnimationOffsetSlider").slider({
-        value: 0,
+    var $sliderInnerCoverAnimationOffset = $("#innerCoverAnimationOffsetSlider").slider({
+        value: coverflowOptions.cover.animation.perspective.inner - 100,
         min: -100,
         max: 100,
         step: 1,
@@ -120,8 +161,8 @@
             $("#innerCoverAnimationOffset").html(ui.value);
         }
     });
-    $("#initialOpacitySlider").slider({
-        value: 30,
+    var $sliderInitialOpacity = $("#initialOpacitySlider").slider({
+        value: coverflowOptions.cover.reflection.initialOpacity,
         min: 0,
         max: 100,
         step: 1,
@@ -129,8 +170,8 @@
             $("#initialOpacity").html(ui.value);
         }
     });
-    $("#reflectionLengthSlider").slider({
-        value: 80,
+    var $sliderReflectionLength = $("#reflectionLengthSlider").slider({
+        value: coverflowOptions.cover.reflection.length,
         min: 0,
         max: 100,
         step: 1,
@@ -138,8 +179,8 @@
             $("#reflectionLength").html(ui.value);
         }
     });
-    $("#sliderWidthSlider").slider({
-        value: 80,
+    var $sliderSliderWidth = $("#sliderWidthSlider").slider({
+        value: coverflowOptions.slider.width,
         min: 0,
         max: 100,
         step: 1,
@@ -147,68 +188,124 @@
             $("#sliderWidth").html(ui.value);
         }
     });
-    // Set up select lists
+    $("#backgroundCoverSize").html(coverflowOptions.cover.background.size - 100);
+    $("#innerCoverOverlap").html(coverflowOptions.cover.background.overlap.inner);
+    $("#outerCoverOverlap").html(coverflowOptions.cover.background.overlap.outer);
+    $("#angle").html(coverflowOptions.cover.perspective.angle);
+    $("#animationDuration").html(coverflowOptions.cover.animation.perspective.duration);
+    $("#innerCoverAnimationOffset").html(coverflowOptions.cover.animation.perspective.inner);
+    $("#initialOpacity").html(coverflowOptions.cover.reflection.initialOpacity);
+    $("#reflectionLength").html(coverflowOptions.cover.reflection.length);
+    $("#sliderWidth").html(coverflowOptions.slider.width);
 
-    var $coverflow = $("#coverflow").coverflow();
+    // Set visibile areas
+    if (!coverflowOptions.autoplay.enabled) turnOffAutoplay();
+    if (!coverflowOptions.categories.enabled) turnOffCategories();
+    if (!coverflowOptions.cover.perspective.enabled) turnOffPerpective();
+    if (!coverflowOptions.cover.reflection.enabled) turnOffReflections();
+    if (!coverflowOptions.slider.enabled) turnOffSlider();
+    if (!coverflowOptions.cover.title.enabled) turnOffTitles();
 
+    // On/Off functions
     function turnOnAutoplay() {
-        console.log("turn on autoplay");
+        coverflowOptions.autoplay.enabled = true;
         $("#autoplay ul").show();
         $("#autoplay > p").hide();
     }
     function turnOffAutoplay() {
-        console.log("turn off autoplay");
+        coverflowOptions.autoplay.enabled = false;
         $("#autoplay ul").hide();
         $("#autoplay > p").show();
     }
     function turnOnCategories() {
-        console.log("turn on categories");
+        coverflowOptions.categories.enabled = true;
         $("#categories ul").show();
         $("#categories > p").hide();
         $("#flipsPerCategory").removeAttr("disabled");
     }
     function turnOffCategories() {
-        console.log("turn off categories");
+        coverflowOptions.categories.enabled = false;
         $("#categories ul").hide();
         $("#categories > p").show();
         $("#flipsPerCategory").attr("disabled", "disabled");
     }
     function turnOnPerpective() {
-        console.log("turn on perspective");
+        coverflowOptions.cover.perspective.enabled = true;
         $("#perspective ul").show();
         $("#perspective > p").hide();
     }
     function turnOffPerpective() {
-        console.log("turn off perspective");
+        coverflowOptions.cover.perspective.enabled = false;
         $("#perspective ul").hide();
         $("#perspective > p").show();
     }
     function turnOnReflections() {
-        console.log("turn on reflections");
+        coverflowOptions.cover.reflection.enabled = true;
         $("#reflections ul").show();
         $("#reflections > p").hide();
     }
     function turnOffReflections() {
-        console.log("turn off reflections");
+        coverflowOptions.cover.reflection.enabled = false;
         $("#reflections ul").hide();
         $("#reflections > p").show();
     }
     function turnOnSlider() {
-        console.log("turn on slider");
+        coverflowOptions.slider.enabled = true;
         $("#slider ul").show();
         $("#slider > p").hide();
     }
     function turnOffSlider() {
-        console.log("turn off slider");
+        coverflowOptions.slider.enabled = false;
         $("#slider ul").hide();
         $("#slider > p").show();
     }
     function turnOnTitles() {
-        console.log("turn on titles");
+        coverflowOptions.cover.title.enabled = true;
         $("#titles > p").hide();
     }
     function turnOffTitles() {
-        console.log("turn off titles");
+        coverflowOptions.cover.title.enabled = false;
         $("#titles > p").show();
     }
+
+    // Update options from form
+    function updateOptions() {
+        coverflowOptions.selectedIndex = $("#startingIndex").val();
+        coverflowOptions.autoplay.interval = $("#flipInterval").val();
+        coverflowOptions.autoplay.pauseOnMouseenter = $("#pauseOnHover").prop("checked");
+        coverflowOptions.autoplay.playsPerCategory = $("#flipsPerCategory").val();
+        coverflowOptions.categories.defaultCategory = $("#defaultCategory").val();
+        coverflowOptions.categories.selectedCategory = $("#startingCategory").val();
+        coverflowOptions.categories.renderTitles = $("#displayCategoriesNav").prop("checked");
+        coverflowOptions.categories.rememberLastCover = $("#categoriesStateful").prop("checked");
+        coverflowOptions.categories.delAnimationCount = $("#animateOut").val();
+        coverflowOptions.categories.addAnimationRadius = $("#animateIn").val();
+        coverflowOptions.cover.height = $("#coverHeight").val();
+        coverflowOptions.cover.width = $("#coverWidth").val();
+        coverflowOptions.cover.animation.radius = $("#slideAnimationRadius").val();
+        coverflowOptions.cover.animation.perspective.duration = $sliderAnimationDuration.slider("value");
+        coverflowOptions.cover.animation.perspective.inner = $sliderInnerCoverAnimationOffset.slider("value");
+        coverflowOptions.cover.background.size = $sliderBackgroundSize.slider("value") + 100;
+        coverflowOptions.cover.background.overlap.inner = $sliderInnerOverlap.slider("value");
+        coverflowOptions.cover.background.overlap.outer = $sliderOuterOverlap.slider("value");
+        coverflowOptions.cover.perspective.angle = $sliderAngle.slider("value");
+        coverflowOptions.cover.reflection.initialOpacity = $sliderInitialOpacity.slider("value");
+        coverflowOptions.cover.reflection.length = $sliderReflectionLength.slider("value");
+        coverflowOptions.slider.width = $sliderSliderWidth.slider("value");
+    }
+
+    // Initialize coverflow
+    var $coverflow = $("#coverflow").coverflow(coverflowOptions);
+
+    // Refresh coverflow
+    $("#refreshCoverflow").click(function () {
+        $coverflow.coverflow("destroy");
+        updateOptions();
+        $coverflow = $("#coverflow").coverflow(coverflowOptions);
+    });
+
+    // View/edit JSON
+    $("#refreshCoverflow").click(function () {
+
+    });
 });

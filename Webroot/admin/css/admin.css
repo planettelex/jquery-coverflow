@@ -126,10 +126,10 @@ sub {
     width: 35px;
 }
 #generalSettings select, #autoplay select {
-    width: 39px;
+    width: 42px;
 }
 #generalSettings label {
-    width: 144px;
+    width: 141px;
 }
 #backgroundCovers li span, #perspective li span, 
 #reflections li span, #slider li span {
@@ -150,7 +150,10 @@ sub {
 #categories label.long {
     width: 194px;
 }
-#categories select {
+#categories select.short {
+    width: 42px;
+}
+#categories select.long {
     width: 90px;
 }
 #categories #defaultCategory {

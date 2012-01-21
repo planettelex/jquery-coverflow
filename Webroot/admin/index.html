@@ -44,16 +44,12 @@
                             </li>
                             <li>
                                 <label for="startingIndex" title="The first cover in the center selected position.">Starting index:</label>
-                                <select id="startingIndex">
-                                    <option value="0">0</option>
-                                </select>
+                                <select id="startingIndex"></select>
                                 <abbr>&nbsp;</abbr>
                             </li>
                             <li>
                                 <label for="slideAnimationRadius" title="The number of covers animated when selected covers change.">Slide animation radius:</label>
-                                <select id="slideAnimationRadius">
-                                    <option value="1">1</option>
-                                </select>
+                                <select id="slideAnimationRadius"></select>
                                 <abbr>covers</abbr>
                             </li>
                         </ul>
@@ -62,19 +58,19 @@
                         <h4>Background Covers</h4>
                         <ul>
                             <li>
-                                <label title="The size of the background covers as a percentage of the center selected cover.">Background cover size:&nbsp;&nbsp;<small id="backgroundCoverSize">0</small> %</label>
+                                <label title="The size of the background covers as a percentage of the center selected cover.">Background cover size:&nbsp;&nbsp;<small id="backgroundCoverSize"></small> %</label>
                                 <br class="clear"/>
                                 <span id="backgroundCoverSizeSlider"></span>
                                 <sub><small class="floatLeft">-50%</small>0<small class="floatRight">+50%</small></sub>
                             </li>
                             <li>
-                                <label title="The percent the two covers directly to the right and left of the center cover are covered by it.">Inner cover overlap:&nbsp;&nbsp;<small id="innerCoverOverlap">0</small> %</label>
+                                <label title="The percent the two covers directly to the right and left of the center cover are covered by it.">Inner cover overlap:&nbsp;&nbsp;<small id="innerCoverOverlap"></small> %</label>
                                 <br class="clear"/>
                                 <span id="innerCoverOverlapSlider"></span>
                                 <sub><small class="floatLeft">-100%</small>0<small class="floatRight">+100%</small></sub>
                             </li>
                             <li>
-                                <label title="The percent the background covers not directly to the right and left are covered by adjoining covers.">Outer cover overlap:&nbsp;&nbsp;<small id="outerCoverOverlap">0</small> %</label>
+                                <label title="The percent the background covers not directly to the right and left are covered by adjoining covers.">Outer cover overlap:&nbsp;&nbsp;<small id="outerCoverOverlap"></small> %</label>
                                 <br class="clear"/>
                                 <span id="outerCoverOverlapSlider"></span>
                                 <sub><small class="floatLeft">-100%</small>0<small class="floatRight">+100%</small></sub>
@@ -88,25 +84,21 @@
                             <li>
                                 <label for="flipInterval" class="short" title="The number of seconds between auto flips.">Flip Interval:</label>
                                 <select id="flipInterval">
-                                    <option value="0">0</option>
-                                    <option value="0">1</option>
-                                    <option value="0">2</option>
-                                    <option value="0">3</option>
-                                    <option value="0">4</option>
-                                    <option value="0">5</option>
-                                    <option value="0">6</option>
-                                    <option value="0">7</option>
-                                    <option value="0">8</option>
-                                    <option value="0">9</option>
-                                    <option value="0">10</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>
+                                    <option value="10">10</option>
                                 </select>
                                 <abbr>seconds</abbr>
                             </li>
                             <li>
                                 <label for="flipsPerCategory" class="short" title="When categories are enabled, autoplay will play this many covers before each auto flip.">Flips per category:</label>
-                                <select id="flipsPerCategory">
-                                    <option value="1">1</option>
-                                </select>
+                                <select id="flipsPerCategory"></select>
                                 <abbr>&nbsp;</abbr>
                             </li>
                             <li>
@@ -120,18 +112,6 @@
                         <h4>Categories<span class="onOffSwitch"></span></h4>
                         <p class="hidden">Categories currently disabled.</p>
                         <ul>
-                             <li>
-                                <label for="defaultCategory" class="short" title="If a category isn't specified for some data item, it is assigned this category.">Default category:</label>
-                                <input id="defaultCategory" type="text" value="Unknown" />
-                                <abbr>&nbsp;</abbr>
-                            </li>
-                            <li>
-                                <label for="startingCategory" class="short" title="The first category displayed.">Starting category:</label>
-                                <select id="startingCategory">
-                                    <option value="Unknown">Unknown</option>
-                                </select>
-                                <abbr>&nbsp;</abbr>
-                            </li>
                             <li>
                                 <label for="displayCategoriesNav" class="long" title="Display a clickable list of categories.">Display navigation:</label>
                                 <input id="displayCategoriesNav" class="checkbox" type="checkbox"/>
@@ -142,6 +122,26 @@
                                 <input id="categoriesStateful" class="checkbox" type="checkbox"/>
                                 <abbr>&nbsp;</abbr>
                             </li>
+                            <li>
+                                <label for="defaultCategory" class="short" title="If a category isn't specified for some data item, it is assigned this category.">Default category:</label>
+                                <input id="defaultCategory" type="text" />
+                                <abbr>&nbsp;</abbr>
+                            </li>
+                            <li>
+                                <label for="startingCategory" class="short" title="The first category displayed.">Starting category:</label>
+                                <select id="startingCategory" class="long"><option>- Not set -</option></select>
+                                <abbr>&nbsp;</abbr>
+                            </li>
+                            <li>
+                                <label for="animateIn" class="short" title="Animate in this many covers when categories change.">Animate in:</label>
+                                <select id="animateIn" class="short"></select>
+                                <abbr>covers</abbr>
+                            </li>
+                            <li>
+                                <label for="animateOut" class="short" title="Animate out this many covers when categories change.">Animate out:</label>
+                                <select id="animateOut" class="short"></select>
+                                <abbr>covers</abbr>
+                            </li>
                         </ul>
                     </section>
                     <section id="perspective">
@@ -149,19 +149,19 @@
                         <p class="hidden">Perspective currently disabled.</p>
                         <ul>
                             <li>
-                                <label title="The angle of the perspective skew. For realism, stick to values less than 25, but venture beyond for psychedlic effects.">Angle:&nbsp;&nbsp;<small id="angle">12</small> &deg;</label>
+                                <label title="The angle of the perspective skew. For realism, stick to values less than 25, but venture beyond for psychedlic effects.">Angle:&nbsp;&nbsp;<small id="angle"></small> &deg;</label>
                                 <br class="clear"/>
                                 <span id="angleSlider"></span>
                                 <sub><small class="floatLeft">0 &deg;</small><small class="floatRight">180 &deg;</small></sub>
                             </li>
                             <li>
-                                <label title="The time, in milliseconds, the animation to and from a perspective takes.">Animation duration:&nbsp;&nbsp;<small id="animationDuration">80</small> ms</label>
+                                <label title="The time, in milliseconds, the animation to and from a perspective takes.">Animation duration:&nbsp;&nbsp;<small id="animationDuration"></small> ms</label>
                                 <br class="clear"/>
                                 <span id="animationDurationSlider"></span>
                                 <sub><small class="floatLeft">0 ms</small><small class="floatRight">1000 ms</small></sub>
                             </li>
                             <li>
-                                <label title="It looks good when the two covers directly to the right and left of the center animate at a different speed. This adjusts the inner background covers' animation duration as a percentage of the standard duration.">Inner cover duration offset:&nbsp;&nbsp;<small id="innerCoverAnimationOffset">0</small> %</label>
+                                <label title="It looks good when the two covers directly to the right and left of the center animate at a different speed. This adjusts the inner background covers' animation duration as a percentage of the standard duration.">Inner cover duration offset:&nbsp;&nbsp;<small id="innerCoverAnimationOffset"></small> %</label>
                                 <br class="clear"/>
                                 <span id="innerCoverAnimationOffsetSlider"></span>
                                 <sub><small class="floatLeft">-100%</small>0<small class="floatRight">+100%</small></sub>
@@ -173,13 +173,13 @@
                         <p class="hidden">Reflections currently disabled.</p>
                         <ul>
                             <li>
-                                <label title="The opacity level where the reflection touches the cover. 0 is transparaent, while 100 is fully opaque.">Initial opacity:&nbsp;&nbsp;<small id="initialOpacity">30</small></label>
+                                <label title="The opacity level where the reflection touches the cover. 0 is transparaent, while 100 is fully opaque.">Initial opacity:&nbsp;&nbsp;<small id="initialOpacity"></small></label>
                                 <br class="clear"/>
                                 <span id="initialOpacitySlider"></span>
                                 <sub><small class="floatLeft">transparent</small><small class="floatRight">opaque</small></sub>
                             </li>
                             <li>
-                                <label title="The length of the reflection as a percentage of the cover.">Length:&nbsp;&nbsp;<small id="reflectionLength">80</small> %</label>
+                                <label title="The length of the reflection as a percentage of the cover.">Length:&nbsp;&nbsp;<small id="reflectionLength"></small> %</label>
                                 <br class="clear"/>
                                 <span id="reflectionLengthSlider"></span>
                                 <sub><small class="floatLeft">0%</small><small class="floatRight">100%</small></sub>
@@ -191,7 +191,7 @@
                         <p class="hidden">Slider currently disabled.</p>
                         <ul>
                             <li>
-                                <label title="The width of the slider bar as a percentage of the container.">Width:&nbsp;&nbsp;<small id="sliderWidth">80</small> %</label>
+                                <label title="The width of the slider bar as a percentage of the container.">Width:&nbsp;&nbsp;<small id="sliderWidth"></small> %</label>
                                 <br class="clear"/>
                                 <span id="sliderWidthSlider"></span>
                                 <sub><small class="floatLeft">0%</small><small class="floatRight">100%</small></sub>
@@ -255,6 +255,7 @@
         <img src="../images/delerium-nuagesdumonde.jpg" alt="Delerium, Nuages du Monde" data-subtitle="Delerium" data-title="Nuages du Monde" data-category="Electronica" />
         <img src="../images/prodigy-fatoftheland.jpg" alt="Prodigy, The Fat of the Land" data-subtitle="Prodigy" data-title="The Fat of the Land" data-category="Electronica" />
         <img src="../images/propellerheads-desksanddrumsandrockandroll.jpg" alt="Propellerheads, Desksanddrumsandrockandroll" data-subtitle="Propellerheads" data-title="Desksanddrumsandrockandroll" data-category="Electronica" />
+        <img src="../images/apparat-walls.jpg" alt="Apparat, Walls" data-subtitle="Apparat" data-title="Walls" data-category="Electronica" />
     </div>
 </body>
 </html>

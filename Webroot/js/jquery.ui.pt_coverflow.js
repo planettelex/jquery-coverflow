@@ -54,7 +54,7 @@ typeof jQuery.ui != 'undefined' &&
                 },
                 reflection: {
                     enabled: true,
-                    initialOpacity: 50, // Percentage 0(transparent) <=> 100(opaque)
+                    initialOpacity: 30, // Percentage 0(transparent) <=> 100(opaque)
                     length: 80          // Percentage of original image
                 },
                 title: {
@@ -152,8 +152,10 @@ typeof jQuery.ui != 'undefined' &&
             this._$images.each(function (i, img) {
                 $(img).cover("destroy");
             });
-            this._$categories.remove();
-            this._$slider.slider("destroy").remove();
+            if (this._$categories != null)
+                this._$categories.remove();
+            if (this._$slider != null)
+                this._$slider.slider("destroy").remove();
 
             this.element.unbind().css({
                 position: "",
