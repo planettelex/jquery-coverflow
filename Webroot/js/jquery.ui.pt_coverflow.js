@@ -76,6 +76,9 @@ typeof jQuery.ui != 'undefined' &&
             this._categoryData = {};
             this.options.width = this.options.width || this.element.width();
             this.options.height = this.options.height || this.element.height();
+            if (!$().slider) {
+                this.options.slider = false;
+            }
 
             this._currentIndex = this.options.selectedIndex;
 
@@ -315,7 +318,7 @@ typeof jQuery.ui != 'undefined' &&
             ///<returns type="Undefined" />
 
             if (!this.isPlaying()) {
-                this._playIntervalId = setInterval($.proxy(this, "_playNext"), this.options.autoplay.interval * 1000);
+                this._playIntervalId = setInterval(this._playNext.bind(this), this.options.autoplay.interval * 1000);
             }
         },
 
@@ -541,9 +544,9 @@ typeof jQuery.ui != 'undefined' &&
             var isSliding = false,
                 options = this._coverConfig(this._currentIndex, index, initialPosition, isSliding, {
                     id: (new Date()).getTime() * Math.random(),
-                    click: $.proxy(this, "_clickCover"),
-                    mouseenter: $.proxy(this, "_autoplayMouseEnter"),
-                    mouseleave: $.proxy(this, "_autoplayMouseLeave")
+                    click: this._clickCover.bind(this),
+                    mouseenter: this._autoplayMouseEnter.bind(this),
+                    mouseleave: this._autoplayMouseLeave.bind(this)
                 });
             $(image).show().cover(options).data("coverflow", {
                 index: index,
@@ -567,7 +570,7 @@ typeof jQuery.ui != 'undefined' &&
                 this._$activeImages = this._$images;
             }
 
-            this._$activeImages.each($.proxy(this, "_createCover"));
+            this._$activeImages.each(this._createCover.bind(this));
         },
 
         _loadImage: function (image, loadCategories) {
@@ -606,6 +609,9 @@ typeof jQuery.ui != 'undefined' &&
             if (targetPosition == position.left) {
                 coverOptions.canvas.opacity = 0;
                 coverOptions.animation.slide.easing = "jswing";
+            }
+            else {
+                coverOptions.canvas.opacity = 1;
             }
             var cover = $(image).data("cover");
             for (var option in coverOptions) {
@@ -773,8 +779,8 @@ typeof jQuery.ui != 'undefined' &&
                 handleSize = sliderWidth / coverCount;
 
             this._$slider = $("<div />")
-                .bind("mouseenter", $.proxy(this, "_autoplayMouseEnter"))
-                .bind("mouseleave", $.proxy(this, "_autoplayMouseLeave"))
+                .bind("mouseenter", this._autoplayMouseEnter.bind(this))
+                .bind("mouseleave", this._autoplayMouseLeave.bind(this))
                 .css({
                     width: sliderWidth,
                     position: "absolute",
@@ -786,7 +792,7 @@ typeof jQuery.ui != 'undefined' &&
                     animate: true,
                     value: this._currentIndex,
                     max: coverCount - 1,
-                    slide: $.proxy(this, "_sliderChange")
+                    slide: this._sliderChange.bind(this)
                 });
 
 
@@ -832,6 +838,7 @@ typeof jQuery.ui != 'undefined' &&
         }
     });
 
+    // TODO Implement currying with "bind" instead.
     $.curry = function (fn, proxy) {
         ///	<summary>
         ///		Just like proxy, but enhanced with the ability to "curry" arguments.
@@ -866,7 +873,7 @@ typeof jQuery.ui != 'undefined' &&
                 proxy = undefined;
 
             }
-            else if (proxy && !jQuery.isFunction(proxy)) {
+            else if (proxy && !$.isFunction(proxy)) {
                 context = proxy;
                 proxy = undefined;
 
@@ -875,15 +882,15 @@ typeof jQuery.ui != 'undefined' &&
 
         if (!proxy && fn) {
             proxy = function () {
-                var combinedArgs = jQuery.merge([], args);
-                combinedArgs = jQuery.merge(combinedArgs, arguments);
+                var combinedArgs = $.merge([], args);
+                combinedArgs = $.merge(combinedArgs, arguments);
                 return fn.apply(context || this, combinedArgs);
             };
         }
 
         // Set the guid of unique handler to the same of original handler, so it can be removed
         if (fn) {
-            proxy.guid = fn.guid = fn.guid || proxy.guid || jQuery.guid++;
+            proxy.guid = fn.guid = fn.guid || proxy.guid || $.guid++;
         }
 
         // So proxy can be declared as an argument

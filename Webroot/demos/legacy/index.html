@@ -3,12 +3,12 @@
 <head>
     <title>Coverflow Legacy Demo</title>
     <link type="text/css" href="../../css/reset.css" rel="Stylesheet" />
-    <link type="text/css" href="../../css/ui-darkness/jquery-ui-1.8.16.custom.css" rel="Stylesheet" />
+    <link type="text/css" href="../../css/ui-darkness/jquery-ui-1.8.17.custom.css" rel="Stylesheet" />
     <link type="text/css" href="../../css/jquery.ui.pt_coverflow.css" rel="stylesheet" />
     <link type="text/css" href="css/site.css" rel="Stylesheet" />
     <!-- Include jQuery and UI -->
     <script type="text/javascript" src="../../js/jquery-1.7.1.min.js"></script>
-    <script type="text/javascript" src="../../js/jquery-ui-1.8.16.custom.min.js"></script>
+    <script type="text/javascript" src="../../js/jquery-ui-1.8.17.custom.min.js"></script>
     <!-- Include jQuery CoverFlow widgets -->
     <script type="text/javascript" src="../../js/jquery.ui.pt_cover.js"></script>
     <script type="text/javascript" src="../../js/jquery.ui.pt_coverflow.js"></script>
@@ -31,9 +31,11 @@
                     perspective: {
                         enabled: false
                     },
-                    overlap: {
-                        inner: 30, 	        // percentage of overlap
-                        outer: 75           // percentage of overlap
+                    background: {
+                        overlap: {
+                            inner: 30,      // Percentage of overlap
+                            outer: 75       // Percentage of overlap
+                        }
                     }
                 },
                 images: [

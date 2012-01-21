@@ -79,7 +79,7 @@
     <Content Include="css\ui-darkness\images\ui-icons_a83300_256x240.png" />
     <Content Include="css\ui-darkness\images\ui-icons_cccccc_256x240.png" />
     <Content Include="css\ui-darkness\images\ui-icons_ffffff_256x240.png" />
-    <Content Include="css\ui-darkness\jquery-ui-1.8.16.custom.css" />
+    <Content Include="css\ui-darkness\jquery-ui-1.8.17.custom.css" />
     <Content Include="demos\bookstore\css\site.css" />
     <Content Include="demos\bookstore\css\ui-overcast\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="demos\bookstore\css\ui-overcast\images\ui-bg_flat_0_eeeeee_40x100.png" />
@@ -233,7 +233,7 @@
     <Content Include="json.html" />
     <Content Include="js\jquery-1.7.1-vsdoc.js" />
     <Content Include="js\jquery-1.7.1.min.js" />
-    <Content Include="js\jquery-ui-1.8.16.custom.min.js" />
+    <Content Include="js\jquery-ui-1.8.17.custom.min.js" />
     <Content Include="js\jquery.ui.pt_cover.js" />
     <Content Include="js\jquery.ui.pt_coverflow.js" />
   </ItemGroup>
