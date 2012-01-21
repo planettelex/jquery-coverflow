@@ -36,7 +36,32 @@
     <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="admin.html" />
+    <Content Include="admin\css\admin.css" />
+    <Content Include="admin\css\trontastic\images\ui-bg_diagonals-small_50_262626_40x40.png" />
+    <Content Include="admin\css\trontastic\images\ui-bg_flat_0_303030_40x100.png" />
+    <Content Include="admin\css\trontastic\images\ui-bg_flat_0_4c4c4c_40x100.png" />
+    <Content Include="admin\css\trontastic\images\ui-bg_glass_40_0a0a0a_1x400.png" />
+    <Content Include="admin\css\trontastic\images\ui-bg_glass_55_f1fbe5_1x400.png" />
+    <Content Include="admin\css\trontastic\images\ui-bg_glass_60_000000_1x400.png" />
+    <Content Include="admin\css\trontastic\images\ui-bg_gloss-wave_55_000000_500x100.png" />
+    <Content Include="admin\css\trontastic\images\ui-bg_gloss-wave_85_9fda58_500x100.png" />
+    <Content Include="admin\css\trontastic\images\ui-bg_gloss-wave_95_f6ecd5_500x100.png" />
+    <Content Include="admin\css\trontastic\images\ui-icons_000000_256x240.png" />
+    <Content Include="admin\css\trontastic\images\ui-icons_1f1f1f_256x240.png" />
+    <Content Include="admin\css\trontastic\images\ui-icons_9fda58_256x240.png" />
+    <Content Include="admin\css\trontastic\images\ui-icons_b8ec79_256x240.png" />
+    <Content Include="admin\css\trontastic\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="admin\css\trontastic\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="admin\css\trontastic\jquery-ui-1.8.17.custom.css" />
+    <Content Include="admin\images\eye.png" />
+    <Content Include="admin\images\iphone_switch_container_on.png" />
+    <Content Include="admin\images\refresh.png" />
+    <Content Include="admin\index.html" />
+    <Content Include="admin\images\iphone_switch.png" />
+    <Content Include="admin\images\iphone_switch_container_off.png" />
+    <Content Include="admin\js\admin.js" />
+    <Content Include="admin\js\jquery.iphone-switch.js" />
+    <Content Include="admin\js\jquery.ui.accordion.min.js" />
     <Content Include="css\jquery.ui.pt_coverflow.css" />
     <Content Include="css\reset.css" />
     <Content Include="css\site.css" />

@@ -1,0 +1,158 @@
+﻿a {
+    cursor: pointer;
+}
+small, sub {
+    font-size: 8pt;
+    font-weight: bold;
+}
+sub {
+    display: block;
+    margin-top: 6px;
+    text-align: center;
+}
+
+.clear {
+     clear: both;
+}
+.floatLeft {
+    float: left;
+}
+.floatRight {
+    float: right;
+}
+.onOffSwitch {
+    float: right;
+    overflow: hidden;
+}
+.iphone_switch {
+    background-repeat: no-repeat;
+}
+.ui-accordion .ui-accordion-header {
+    padding-left: 30px;
+    margin: 0 0 1px;
+}
+.ui-widget-content {
+    background-image: none;
+}
+
+#refreshCoverflow {
+    background-image: url(../images/refresh.png);
+    background-repeat: no-repeat;
+    background-position: center left;
+}
+#viewEditJson {
+    background-image: url(../images/eye.png);
+    background-repeat: no-repeat;
+    background-position: center left;
+}
+#optionsLinks {
+    position: absolute;
+    width: 310px;
+    height: 40px;
+    top: 4px;
+    right: 0;
+    z-index: 100;
+}
+#optionsLinks a {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: .85em;
+    color: white;
+    padding: 0 20px;
+}
+#optionsLinks a:hover {
+    color: #B8EC79;
+}
+#optionsPanel > div {
+    border-top: 3px solid #333333;
+}
+#optionsForm section {
+    display: block;
+    float: left;
+    width: 24.8%;
+    min-width: 250px;
+    height: 280px;
+    border-left: 2px solid black;
+    border-bottom: 2px solid black;
+    background-color: #333333;
+    position: relative;
+}
+#optionsForm section h4 {
+    color: #B8EC79;
+    padding: 5px;
+    font-weight: bold;
+    font-size: 1em;
+    background-color: #181818;
+}
+#optionsForm section > p {
+    text-align: center;
+    font-size: 10pt;
+    padding-top: 110px;
+    position: absolute;
+    width: 100%;
+    color: #cdcdcd;
+}
+#optionsForm label, #optionsForm input, #optionsForm select {
+    font-size: 10pt;
+    float: left;
+}
+#optionsForm label {
+    padding-top: 5px;
+}
+#optionsForm abbr {
+    font-size: 8pt;
+    padding-left: 5px;
+}
+#optionsForm ul {
+    padding: 15px;
+}
+#optionsForm li {
+    padding-bottom: 10px;
+    clear: both;
+    display: block;
+}
+#optionsForm .checkbox {
+    margin: 8px 0 0 -2px;
+}
+#optionsForm .ui-slider .ui-slider-handle {
+    height: 18px;
+    width: 5px;
+    margin-left: -6px;
+    top: -7px;
+}
+#optionsForm .ui-slider-horizontal {
+    height: 6px;   
+}
+#generalSettings input {
+    width: 35px;
+}
+#generalSettings select, #autoplay select {
+    width: 39px;
+}
+#generalSettings label {
+    width: 144px;
+}
+#backgroundCovers li span, #perspective li span, 
+#reflections li span, #slider li span {
+    display: block;
+    width: 100%;
+    min-width: 220px;
+    margin-top: 10px;
+}
+#autoplay label.short {
+    width: 120px;
+}
+#autoplay label.long {
+    width: 148px;
+}
+#categories label.short {
+    width: 115px;
+}
+#categories label.long {
+    width: 194px;
+}
+#categories select {
+    width: 90px;
+}
+#categories #defaultCategory {
+    width: 85px;
+}

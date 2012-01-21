@@ -1,0 +1,260 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Planet Telex Coverflow</title>
+    <link type="text/css" href="../css/reset.css" rel="Stylesheet" />
+    <link type="text/css" href="../css/ui-darkness/jquery-ui-1.8.16.custom.css" rel="Stylesheet" />
+    <link type="text/css" href="css/trontastic/jquery-ui-1.8.17.custom.css" rel="Stylesheet" /> 
+    <link type="text/css" href="../css/jquery.ui.pt_coverflow.css" rel="stylesheet" />
+    <link type="text/css" href="../css/site.css" rel="Stylesheet" />
+    <link type="text/css" href="css/admin.css" rel="Stylesheet" />
+    <!-- Include jQuery and UI -->
+    <script type="text/javascript" src="../js/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" src="../js/jquery-ui-1.8.16.custom.min.js"></script>
+    <script type="text/javascript" src="js/jquery.ui.accordion.min.js"></script>
+    <script type="text/javascript" src="js/jquery.iphone-switch.js"></script>
+    <!-- Include jQuery CoverFlow widgets -->
+    <script type="text/javascript" src="../js/jquery.ui.pt_cover.js"></script>
+    <script type="text/javascript" src="../js/jquery.ui.pt_coverflow.js"></script>
+    <!-- Admin -->
+    <script type="text/javascript" src="js/admin.js"></script>
+</head>
+<body>
+    <div id="options">
+        <div id="optionsLinks">
+            <a id="refreshCoverflow">Refresh Coverflow</a>
+            <a id="viewEditJson">View/Edit JSON</a>
+        </div>
+        <div id="optionsPanel">
+            <h3>Coverflow Options</h3>
+            <div>
+                <form id="optionsForm">
+                    <section id="generalSettings">
+                        <h4>General Settings</h4>
+                        <ul>
+                            <li>
+                                <label for="coverWidth" title="The width of each cover.">Cover width:</label>
+                                <input id="coverWidth" type="text" />
+                                <abbr>px</abbr>
+                            </li>
+                            <li>
+                                <label for="coverHeight" title="The height of each cover.">Cover height:</label>
+                                <input id="coverHeight" type="text" />
+                                <abbr>px</abbr>
+                            </li>
+                            <li>
+                                <label for="startingIndex" title="The first cover in the center selected position.">Starting index:</label>
+                                <select id="startingIndex">
+                                    <option value="0">0</option>
+                                </select>
+                                <abbr>&nbsp;</abbr>
+                            </li>
+                            <li>
+                                <label for="slideAnimationRadius" title="The number of covers animated when selected covers change.">Slide animation radius:</label>
+                                <select id="slideAnimationRadius">
+                                    <option value="1">1</option>
+                                </select>
+                                <abbr>covers</abbr>
+                            </li>
+                        </ul>
+                    </section>
+                    <section id="backgroundCovers">
+                        <h4>Background Covers</h4>
+                        <ul>
+                            <li>
+                                <label title="The size of the background covers as a percentage of the center selected cover.">Background cover size:&nbsp;&nbsp;<small id="backgroundCoverSize">0</small> %</label>
+                                <br class="clear"/>
+                                <span id="backgroundCoverSizeSlider"></span>
+                                <sub><small class="floatLeft">-50%</small>0<small class="floatRight">+50%</small></sub>
+                            </li>
+                            <li>
+                                <label title="The percent the two covers directly to the right and left of the center cover are covered by it.">Inner cover overlap:&nbsp;&nbsp;<small id="innerCoverOverlap">0</small> %</label>
+                                <br class="clear"/>
+                                <span id="innerCoverOverlapSlider"></span>
+                                <sub><small class="floatLeft">-100%</small>0<small class="floatRight">+100%</small></sub>
+                            </li>
+                            <li>
+                                <label title="The percent the background covers not directly to the right and left are covered by adjoining covers.">Outer cover overlap:&nbsp;&nbsp;<small id="outerCoverOverlap">0</small> %</label>
+                                <br class="clear"/>
+                                <span id="outerCoverOverlapSlider"></span>
+                                <sub><small class="floatLeft">-100%</small>0<small class="floatRight">+100%</small></sub>
+                            </li>
+                        </ul>
+                    </section>
+                    <section id="autoplay">
+                        <h4>Autoplay<span class="onOffSwitch"></span></h4>
+                        <p class="hidden">Autoplay currently disabled.</p>
+                        <ul>
+                            <li>
+                                <label for="flipInterval" class="short" title="The number of seconds between auto flips.">Flip Interval:</label>
+                                <select id="flipInterval">
+                                    <option value="0">0</option>
+                                    <option value="0">1</option>
+                                    <option value="0">2</option>
+                                    <option value="0">3</option>
+                                    <option value="0">4</option>
+                                    <option value="0">5</option>
+                                    <option value="0">6</option>
+                                    <option value="0">7</option>
+                                    <option value="0">8</option>
+                                    <option value="0">9</option>
+                                    <option value="0">10</option>
+                                </select>
+                                <abbr>seconds</abbr>
+                            </li>
+                            <li>
+                                <label for="flipsPerCategory" class="short" title="When categories are enabled, autoplay will play this many covers before each auto flip.">Flips per category:</label>
+                                <select id="flipsPerCategory">
+                                    <option value="1">1</option>
+                                </select>
+                                <abbr>&nbsp;</abbr>
+                            </li>
+                            <li>
+                                <label for="pauseOnHover" class="long" title="Autoplay should pause when the mouse is over the coverflow.">Pause on hover:</label>
+                                <input id="pauseOnHover" class="checkbox" type="checkbox"/>
+                                <abbr>&nbsp;</abbr>
+                            </li>
+                        </ul>
+                    </section>
+                    <section id="categories">
+                        <h4>Categories<span class="onOffSwitch"></span></h4>
+                        <p class="hidden">Categories currently disabled.</p>
+                        <ul>
+                             <li>
+                                <label for="defaultCategory" class="short" title="If a category isn't specified for some data item, it is assigned this category.">Default category:</label>
+                                <input id="defaultCategory" type="text" value="Unknown" />
+                                <abbr>&nbsp;</abbr>
+                            </li>
+                            <li>
+                                <label for="startingCategory" class="short" title="The first category displayed.">Starting category:</label>
+                                <select id="startingCategory">
+                                    <option value="Unknown">Unknown</option>
+                                </select>
+                                <abbr>&nbsp;</abbr>
+                            </li>
+                            <li>
+                                <label for="displayCategoriesNav" class="long" title="Display a clickable list of categories.">Display navigation:</label>
+                                <input id="displayCategoriesNav" class="checkbox" type="checkbox"/>
+                                <abbr>&nbsp;</abbr>
+                            </li>
+                            <li>
+                                <label for="categoriesStateful" class="long" title="Each category remembers its selected cover, otherwise each coverflow resets to the first cover when categories are changed.">Categories are stateful:</label>
+                                <input id="categoriesStateful" class="checkbox" type="checkbox"/>
+                                <abbr>&nbsp;</abbr>
+                            </li>
+                        </ul>
+                    </section>
+                    <section id="perspective">
+                        <h4>Perspective<span class="onOffSwitch"></span></h4>
+                        <p class="hidden">Perspective currently disabled.</p>
+                        <ul>
+                            <li>
+                                <label title="The angle of the perspective skew. For realism, stick to values less than 25, but venture beyond for psychedlic effects.">Angle:&nbsp;&nbsp;<small id="angle">12</small> &deg;</label>
+                                <br class="clear"/>
+                                <span id="angleSlider"></span>
+                                <sub><small class="floatLeft">0 &deg;</small><small class="floatRight">180 &deg;</small></sub>
+                            </li>
+                            <li>
+                                <label title="The time, in milliseconds, the animation to and from a perspective takes.">Animation duration:&nbsp;&nbsp;<small id="animationDuration">80</small> ms</label>
+                                <br class="clear"/>
+                                <span id="animationDurationSlider"></span>
+                                <sub><small class="floatLeft">0 ms</small><small class="floatRight">1000 ms</small></sub>
+                            </li>
+                            <li>
+                                <label title="It looks good when the two covers directly to the right and left of the center animate at a different speed. This adjusts the inner background covers' animation duration as a percentage of the standard duration.">Inner cover duration offset:&nbsp;&nbsp;<small id="innerCoverAnimationOffset">0</small> %</label>
+                                <br class="clear"/>
+                                <span id="innerCoverAnimationOffsetSlider"></span>
+                                <sub><small class="floatLeft">-100%</small>0<small class="floatRight">+100%</small></sub>
+                            </li>
+                        </ul>
+                    </section>
+                    <section id="reflections">
+                        <h4>Reflections<span class="onOffSwitch"></span></h4>
+                        <p class="hidden">Reflections currently disabled.</p>
+                        <ul>
+                            <li>
+                                <label title="The opacity level where the reflection touches the cover. 0 is transparaent, while 100 is fully opaque.">Initial opacity:&nbsp;&nbsp;<small id="initialOpacity">30</small></label>
+                                <br class="clear"/>
+                                <span id="initialOpacitySlider"></span>
+                                <sub><small class="floatLeft">transparent</small><small class="floatRight">opaque</small></sub>
+                            </li>
+                            <li>
+                                <label title="The length of the reflection as a percentage of the cover.">Length:&nbsp;&nbsp;<small id="reflectionLength">80</small> %</label>
+                                <br class="clear"/>
+                                <span id="reflectionLengthSlider"></span>
+                                <sub><small class="floatLeft">0%</small><small class="floatRight">100%</small></sub>
+                            </li>
+                        </ul>
+                    </section>
+                    <section id="slider">
+                        <h4>Slider<span class="onOffSwitch"></span></h4>
+                        <p class="hidden">Slider currently disabled.</p>
+                        <ul>
+                            <li>
+                                <label title="The width of the slider bar as a percentage of the container.">Width:&nbsp;&nbsp;<small id="sliderWidth">80</small> %</label>
+                                <br class="clear"/>
+                                <span id="sliderWidthSlider"></span>
+                                <sub><small class="floatLeft">0%</small><small class="floatRight">100%</small></sub>
+                            </li>
+                        </ul>
+                    </section>
+                    <section id="titles">
+                        <h4>Titles<span class="onOffSwitch"></span></h4>
+                        <p class="hidden">Titles currently disabled.</p>
+                    </section>
+                </form>
+            </div>
+        </div>
+    </div>
+    <header>
+        <img id="header" alt="Planet Telex Coverflow" src="../images/_header.png" />
+        <h1><a>Options</a></h1>
+    </header>
+    <div id="coverflow" class="coverflow">
+        <img src="../images/albertacross-thebrokensideoftime.jpg" alt="Alberta Cross, Broken Side of Time" data-subtitle="Alberta Cross" data-title="Broken Side of Time" data-category="Rock" />
+        <img src="../images/beatles-revolver.jpg" alt="The Beatles, Revolver" data-subtitle="The Beatles" data-title="Revolver" data-category="Rock" />
+        <img src="../images/cream-disraeligears.jpg" alt="Cream, Disraeli Gears" data-subtitle="Cream" data-title="Disraeli Gears" data-category="Rock" />
+        <img src="../images/ironbutterfly-in-a-gadda-da-vida.jpg" alt="Iron Butterfly, In-a-Gadda-Da-Vida" data-subtitle="Iron Butterfly" data-title="In-a-Gadda-Da-Vida" data-category="Rock" />
+        <img src="../images/ironmaiden-thefinalfrontier.jpg" alt="Iron Maiden, The Final Frontier" data-subtitle="Iron Maiden" data-title="The Final Frontier" data-category="Rock" />
+        <img src="../images/kasabian-empire.jpg" alt="Kasabian, Empire" data-subtitle="Kasabian" data-title="Empire" data-category="Rock" />
+        <img src="../images/kingcrimson-inthecourtofthecrimsonking.jpg" alt="King Crimson, In the Court of the Crimson King" data-subtitle="King Crimson" data-title="In the Court of the Crimson King" data-category="Rock" />
+        <img src="../images/kulashaker-strangefolk.jpg" alt="Kula Shaker, Strangefolk" data-subtitle="Kula Shaker" data-title="Strangefolk" data-category="Rock" />
+        <img src="../images/ledzeppelin-ledzeppelin.jpg" alt="Led Zeppelin, Led Zeppelin" data-subtitle="Led Zeppelin" data-title="Led Zeppelin" data-category="Rock" />
+        <img src="../images/muse-the-resistance.jpg" alt="Muse, The Resistance" data-subtitle="Muse" data-title="The Resistance" data-category="Rock" />
+        <img src="../images/nirvana-inutero.jpg" alt="Nirvana, In Utero" data-subtitle="Nirvana" data-title="In Utero" data-category="Rock" />
+        <img src="../images/queen-newsoftheworld.jpg" alt="Queen, News of the World" data-subtitle="Queen" data-title="News of the World" data-category="Rock" />
+        <img src="../images/smashingpumpkins-melloncallieandtheinfinitesadness.jpg" alt="The Smashing Pumpkins, Mellon Collie and the Infinite Sadness" data-subtitle="The Smashing Pumpkins" data-title="Mellon Collie and the Infinite Sadness" data-category="Rock" />
+        <img src="../images/weezer-maladroit.jpg" alt="Weezer, Maladroit" data-subtitle="Weezer" data-title="Maladroit" data-category="Rock" />
+        <img src="../images/beastieboys-illcommunication.jpg" alt="Beastie Boys, Ill Communication" data-subtitle="Beastie Boys" data-title="Ill Communication" data-category="Hip-Hop" />
+        <img src="../images/blackalicious-blazingarrow.jpg" alt="Blackalicious, Blazing Arrow" data-subtitle="Blackalicious" data-title="Blazing Arrow" data-category="Hip-Hop" />
+        <img src="../images/cypresshill-iv.jpg" alt="Cypress Hill, IV" data-subtitle="Cypress Hill" data-title="IV" data-category="Hip-Hop" />
+        <img src="../images/kanyewest-graduation.jpg" alt="Kanye West, Graduation" data-subtitle="Kanye West" data-title="Graduation" data-category="Hip-Hop" />
+        <img src="../images/outkast-atliens.jpg" alt="Outkast, ATLiens" data-subtitle="Outkast" data-title="ATLiens" data-category="Hip-Hop" />
+        <img src="../images/theroots-thingsfallapart.jpg" alt="The Roots, Things Fall Apart" data-subtitle="The Roots" data-title="Things Fall Apart" data-category="Hip-Hop" />
+        <img src="../images/animalcollective-merriweatherpostpavilion.jpg" alt="Animal Collective, Merriweather Post Pavillion" data-subtitle="Animal Collective" data-title="Merriweather Post Pavillion" data-category="Alternative" />
+        <img src="../images/astallaslions-astallaslions.jpg" alt="As Tall As Lions, As Tall As Lions" data-subtitle="As Tall As Lions" data-title="As Tall As Lions" data-category="Alternative" />
+        <img src="../images/batforlashes-twosuns.jpg" alt="Bat For Lashes, Two Suns" data-subtitle="Bat For Lashes" data-title="Two Suns" data-category="Alternative" />
+        <img src="../images/beck-midnightvultures.jpg" alt="Beck, Midnight Vultures" data-subtitle="Beck" data-title="Midnight Vultures" data-category="Alternative" />
+        <img src="../images/bjork-post.jpg" alt="Bjork, Post" data-subtitle="Bjork" data-title="Post" data-category="Alternative" />
+        <img src="../images/cibomatto-vivalawoman.jpg" alt="Cibo Matto, Viva la Woman" data-subtitle="Cibo Matto" data-title="Viva la Woman" data-category="Alternative" />
+        <img src="../images/cornershop-wheniwasbornfortheseventhtime.jpg" alt="Cornershop, When I Was Born for the Seventh Time" data-subtitle="Cornershop" data-title="When I Was Born for the Seventh Time" data-category="Alternative" />
+        <img src="../images/depechemmode-violator.jpg" alt="Depeche Mode, Violator" data-subtitle="Depeche Mode" data-title="Violator" data-category="Alternative" />
+        <img src="../images/elbow-asleepintheback.jpg" alt="Elbow, Asleep in the Back" data-subtitle="Elbow" data-title="Asleep in the Back" data-category="Alternative" />
+        <img src="../images/thefllaminglips-thesoftbulletin.jpg" alt="The Flaming Lips, The Soft Bulletin" data-subtitle="The Flaming Lips" data-title="The Soft Bulletin" data-category="Alternative" />
+        <img src="../images/gorillaz-plasticbeach.jpg" alt="Gorillaz, Plastic Beach" data-subtitle="Gorillaz" data-title="Plastic Beach" data-category="Alternative" />
+        <img src="../images/keane-undertheironsea.jpg" alt="Keane, Under the Iron Sea" data-subtitle="Keane" data-title="Under the Iron Sea" data-category="Alternative" />
+        <img src="../images/portugaltheman-inthemountaininthecloud.jpg" alt="Portugal.The Man, In the Mountain in the Cloud" data-subtitle="Portugal.The Man" data-title="In the Mountain in the Cloud" data-category="Alternative" />
+        <img src="../images/radiohead-the-king-of-limbs.jpg" alt="Radiohead, The King of Limbs" data-subtitle="Radiohead" data-title="The King of Limbs" data-category="Alternative" />
+        <img src="../images/vast-visualaudiosensorytheater.jpg" alt="Vast, Visual Audio Sensory Theater" data-subtitle="Vast" data-title="Visual Audio Sensory Theater" data-category="Alternative" />
+        <img src="../images/ween-quebec.jpg" alt="Ween, Quebec" data-subtitle="Ween" data-title="Quebec" data-category="Alternative" />
+        <img src="../images/air-thevirginsuisides.jpg" alt="Air, The Virgin Suicides" data-subtitle="Air" data-title="The Virgin Suicides" data-category="Electronica" />
+        <img src="../images/aphextwin-richardjamesalbum.jpg" alt="Aphex Twin, The Virgin Suicides" data-subtitle="Aphex Twin" data-title="Richard D. James Album" data-category="Electronica" />
+        <img src="../images/bonobo-blacksands.jpg" alt="Bonobo, Black Sands" data-subtitle="Bonobo" data-title="Black Sands" data-category="Electronica" />
+        <img src="../images/chemicalbrothers-digyourownhole.jpg" alt="Chemical Brothers, Dig Your Own Hole" data-subtitle="Chemical Brothers" data-title="Dig Your Own Hole" data-category="Electronica" />
+        <img src="../images/cut-copy-zonoscope.jpg" alt="Cut Copy, Zonoscope" data-subtitle="Cut Copy" data-title="Zonoscope" data-category="Electronica" />
+        <img src="../images/delerium-nuagesdumonde.jpg" alt="Delerium, Nuages du Monde" data-subtitle="Delerium" data-title="Nuages du Monde" data-category="Electronica" />
+        <img src="../images/prodigy-fatoftheland.jpg" alt="Prodigy, The Fat of the Land" data-subtitle="Prodigy" data-title="The Fat of the Land" data-category="Electronica" />
+        <img src="../images/propellerheads-desksanddrumsandrockandroll.jpg" alt="Propellerheads, Desksanddrumsandrockandroll" data-subtitle="Propellerheads" data-title="Desksanddrumsandrockandroll" data-category="Electronica" />
+    </div>
+</body>
+</html>
