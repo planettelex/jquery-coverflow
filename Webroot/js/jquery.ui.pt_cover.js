@@ -13,11 +13,11 @@ typeof jQuery.ui != 'undefined' &&
 
         options: {
             id: (new Date()).getTime() * Math.random(),
-            angle: 0,
             width: 300,
             height: 300,
             patchSize: 70,
             perspective: {
+                angle: 0,
                 enabled: true,
                 position: "center"	// (left|center|right)
             },
@@ -201,7 +201,7 @@ typeof jQuery.ui != 'undefined' &&
 				    complete: $.proxy(this, "_animateLeftComplete")
 				})
 				.animate({
-				    textIndent: this.options.perspective.position == "center" ? 0 : this.options.angle
+				    textIndent: this.options.perspective.position == "center" ? 0 : this.options.perspective.angle
 				}, {
 				    queue: false,
 				    duration: this.options.animation.perspective.duration,
@@ -229,7 +229,7 @@ typeof jQuery.ui != 'undefined' &&
                     position = this.options.perspective.position;
                 }
 
-                this.options.angle = now;
+                this.options.perspective.angle = now;
                 this._perspective(position);
             }
         },
@@ -252,7 +252,7 @@ typeof jQuery.ui != 'undefined' &&
         },
 
         _skewLength: function () {
-            return Math.tan(Math.degreesToRadians(this.options.angle)) * this.options.width;
+            return Math.tan(Math.degreesToRadians(this.options.perspective.angle)) * this.options.width;
         },
 
         _load: function () {
@@ -272,7 +272,7 @@ typeof jQuery.ui != 'undefined' &&
 				    top: this.options.canvas.top,
 				    left: this.options.canvas.left,
 				    zIndex: this.options.canvas.zIndex,
-				    textIndent: this.options.angle,  //textIndent is a placeholder for animation
+				    textIndent: this.options.perspective.angle,  //textIndent is a placeholder for animation
 				    position: "absolute",
 				    cursor: "pointer"
 				})
