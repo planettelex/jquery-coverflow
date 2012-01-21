@@ -27,7 +27,7 @@ Planet Telex  brings you the most fully featured JavaScript Coverflow plugin ava
 
 ## Quick start
 
-**Step 1**
+### Step 1
 
 Include jQuery, jQuery UI, and jQuery UI CSS in your HTML.
 
@@ -40,7 +40,7 @@ Include the PT Coverflow and its starter CSS in your HTML.
 	<script type="text/javascript" src="js/jquery.ui.pt_coverflow-1.0.min.js"></script>
 	<link type="text/css" href="css/jquery.ui.pt_coverflow-1.0.css" rel="stylesheet">
 
-**Step 2**
+### Step 2
 
 Create your HTML structure with a wrapper element that has the class "coverflow".  Add some images to your container including the title and subtitle as data attributes if you want those to be displayed.
 
@@ -59,7 +59,7 @@ Example:
         <img src="img/bjork-post.jpg" alt="Bjork, Post" data-subtitle="Bjork" data-title="Post" />
     </div>
 
-**Step 3**
+### Step 3
 
 Add the JavaScript to your page to hook up the PT Coverflow to your container.
 
