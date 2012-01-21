@@ -92,7 +92,7 @@ typeof jQuery.ui != 'undefined' &&
                     });
             }
 
-            if (this.options.title.enabled) {
+            if (this._hasTitle()) {
                 this._$titleContainer.remove();
             }
 
@@ -106,7 +106,7 @@ typeof jQuery.ui != 'undefined' &&
         _previousOptions: null,
         _previousVisibility: null,
         _cachedCanvas: null,
-        _refreshState: 1,        
+        _refreshState: 1,
         _$titleContainer: null,
 
         supportsCanvas: (function () {
@@ -162,7 +162,7 @@ typeof jQuery.ui != 'undefined' &&
             // is safe to assume all options are set and version should be incremented.
             ++this.options.refreshState;
 
-            if (this.options.title.enabled) {
+            if (this._hasTitle()) {
                 switch (this.options.perspective.position) {
                     case "center":
                         this._$titleContainer.show();
@@ -338,6 +338,10 @@ typeof jQuery.ui != 'undefined' &&
             }
         },
 
+        _hasTitle: function () {
+            return this.options.title.enabled && this._$titleContainer;
+        },
+
         _perspective: function (position) {
             ///<summary>
             /// Sets the cover's perspective to the supplied position.
@@ -368,7 +372,7 @@ typeof jQuery.ui != 'undefined' &&
             ///</remarks>
             ///<see cref="refresh"/>
             ///<returns type="Undefined" />
-            
+
             if (this.options.refreshState - this._refreshState <= 1) {
                 this._previousOptions = $.extend(true, {}, this.options);
             }
@@ -726,29 +730,29 @@ typeof jQuery.ui != 'undefined' &&
 
         return new matrix(temp);
     };
-    
+
     // See https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Function/bind
     if (!Function.prototype.bind) {
-      Function.prototype.bind = function (oThis) {
-        if (typeof this !== "function") {
-          // closest thing possible to the ECMAScript 5 internal IsCallable function
-          throw new TypeError("Function.prototype.bind - what is trying to be bound is not callable");
-        }
+        Function.prototype.bind = function (oThis) {
+            if (typeof this !== "function") {
+                // closest thing possible to the ECMAScript 5 internal IsCallable function
+                throw new TypeError("Function.prototype.bind - what is trying to be bound is not callable");
+            }
 
-        var aArgs = Array.prototype.slice.call(arguments, 1), 
-            fToBind = this, 
-            fNOP = function () {},
+            var aArgs = Array.prototype.slice.call(arguments, 1),
+            fToBind = this,
+            fNOP = function () { },
             fBound = function () {
-              return fToBind.apply(this instanceof fNOP
+                return fToBind.apply(this instanceof fNOP
                                      ? this
                                      : oThis || window,
                                     aArgs.concat(Array.prototype.slice.call(arguments)));
             };
 
-        fNOP.prototype = this.prototype;
-        fBound.prototype = new fNOP();
+            fNOP.prototype = this.prototype;
+            fBound.prototype = new fNOP();
 
-        return fBound;
-      };
+            return fBound;
+        };
     }
 })(jQuery);
