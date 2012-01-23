@@ -92,10 +92,8 @@ header h2 {
     background: url(../../../images/controls/controls-light.png) no-repeat 0 -49px;
 }
 .slider-controls {
-    position: relative;
-    top: -30px;
     width: 81%;
-    margin: 0 auto;
+    margin: -30px auto 0;
 }
 .slider-controls a {
     width: 26px;
@@ -125,6 +123,7 @@ header h2 {
 }
 .ui-slider { 
     margin-top: 200px;
+    cursor: default;
 }
 .ui-slider, .ui-slider .ui-slider-handle, .ui-slider .ui-slider-handle:hover {
     border: 1px solid #b9b9b9;
@@ -152,7 +151,7 @@ header h2 {
 }
 #playPause {
     display: block;
-    margin: 0 auto;
+    margin: 15px auto 0;
     width: 36px;
     height: 36px;
     text-indent: -9999px;

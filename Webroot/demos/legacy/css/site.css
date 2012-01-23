@@ -8,7 +8,7 @@ header {
     margin: 30px auto 50px;
 }
 header a {
-    color: darkGray;
+    color: darkgray;
     position: absolute;
     z-index: 1000;
 }
@@ -42,6 +42,8 @@ header h2 {
 .button-controls {
     width: 110px;
     margin: 0 auto;
+    top: 32px;
+    position: relative;
 }
 .button-controls a {
     display: block;
@@ -67,12 +69,11 @@ header h2 {
 }
 .coverflow-slider {
     top: 340px;
+    cursor: default;
 }
 .slider-controls {
-    position: relative;
-    top: -60px;
     width: 82.6%;
-    margin: 0 auto;
+    margin: -60px auto 0;
 }
 .slider-controls a {
     width: 26px;

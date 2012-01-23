@@ -46,10 +46,8 @@ header h2 {
     clear: both;
 }
 .controls {
-    position: relative;
-    top: 370px;
     width: 81%;
-    margin: 0 auto;
+    margin: -284px auto 0;
 }
 .controls a {
     width: 26px;
@@ -96,6 +94,9 @@ header h2 {
 }
 .cover-title {
 	font-family: Arial, Helvetica, sans-serif;
+}
+.ui-slider {
+    cursor: default;
 }
 
 /* IDs */
