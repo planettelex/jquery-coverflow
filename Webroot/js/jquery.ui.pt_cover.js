@@ -74,7 +74,7 @@ typeof jQuery.ui != 'undefined' &&
         },
 
         destroy: function () {
-            if (this.supportsCanvas) {
+            if (this.supportsCanvas && this._$cover) {
                 this._$cover.remove();
             }
             else {

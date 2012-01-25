@@ -42,6 +42,7 @@ typeof jQuery.ui != 'undefined' &&
                     radius: 20          // Number of covers animated on each side of the selected cover
                 },
                 background: {
+                	style: null,		// Color or url applied to the backround in CSS (defaults to the container color)
                     size: 90,           // Percentage of original image
                     overlap: {
                         inner: 20,      // Percentage of overlap
@@ -155,10 +156,12 @@ typeof jQuery.ui != 'undefined' &&
             this._$images.each(function (i, img) {
                 $(img).cover("destroy");
             });
-            if (this._$categories != null)
+            if (this._$categories) {
                 this._$categories.remove();
-            if (this._$slider != null)
+            }
+            if (this._$slider) {
                 this._$slider.slider("destroy").remove();
+            }
 
             this.element.unbind().css({
                 position: "",
@@ -682,7 +685,7 @@ typeof jQuery.ui != 'undefined' &&
                     width: coverWidth,
                     height: coverHeight,
                     canvas: {
-                        background: this.element.css("background-color"),
+                        background: this.options.cover.background.style || this.element.css("background-color"),
                         left: this._coverLeft(centerOffset, coverWidth, initialPosition),
                         top: this._coverTop(centerOffset, coverHeight, scale),
                         zIndex: this._$activeImages.length - Math.abs(centerOffset)
