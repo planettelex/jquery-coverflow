@@ -4,3 +4,5 @@ obj
 *.user
 *.suo
 *.dotCover
+.settings
+.project
