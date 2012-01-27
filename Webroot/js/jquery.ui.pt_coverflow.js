@@ -84,13 +84,26 @@ typeof jQuery.ui != 'undefined' &&
             this._currentIndex = this.options.selectedIndex;
 
             if (this.options.images.length > 0) {
-                for (var i in this.options.images) {
-                    var image = this.options.images[i];
+            	var i = null, image, alt;
+                for (i in this.options.images) {
+                    image = this.options.images[i];
+                    
+                    alt = "";
+                    if (image.title) {
+                    	alt = image.title;
+                    }
+                    if (image.subtitle) {
+                    	if (alt != "") {
+                    		alt += ", ";
+                    	}
+                    	alt += image.subtitle;
+                    }
+                    
                     this.element.append(
                        $("<img/>")
                            .attr({
                                src: image.src,
-                               alt: image.title + (!image.subtitle ? "" : ", " + image.subtitle)
+                               alt: alt
                            })
                             .data({
                                 title: image.title,
