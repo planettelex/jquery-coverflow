@@ -275,7 +275,7 @@
         coverflowOptions.autoplay.pauseOnMouseenter = $("#pauseOnHover").prop("checked");
         coverflowOptions.autoplay.playsPerCategory = $("#flipsPerCategory").val();
         coverflowOptions.categories.defaultCategory = $("#defaultCategory").val();
-        coverflowOptions.categories.selectedCategory = $("#startingCategory").val();
+        coverflowOptions.categories.selectedCategory = ($("#startingCategory").val() == "- Not set -") ? null : $("#startingCategory").val();
         coverflowOptions.categories.renderTitles = $("#displayCategoriesNav").prop("checked");
         coverflowOptions.categories.rememberLastCover = $("#categoriesStateful").prop("checked");
         coverflowOptions.categories.delAnimationCount = $("#animateOut").val();
