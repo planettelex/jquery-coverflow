@@ -6,3 +6,4 @@ obj
 *.dotCover
 .settings
 .project
+target

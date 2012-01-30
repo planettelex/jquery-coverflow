@@ -1,0 +1,168 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>net.planettelex.jquery</groupId>
+	<artifactId>jquery-ui-pt-coverflow</artifactId>
+	<name>Planet Telex jQueryUI Coverflow</name>
+	<version>1.0-SNAPSHOT</version>
+	<description>Coverflow plugin for jQueryUI</description>
+
+	<inceptionYear>2011</inceptionYear>
+	<organization>
+		<name>Planet Telex Inc.</name>
+		<url>http://www.planettelex.net</url>
+	</organization>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<javascript.src.dir>Webroot/js</javascript.src.dir>
+	</properties>
+
+	<build>
+		<sourceDirectory>.</sourceDirectory>
+		<plugins>
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>2.2.2</version>
+				<configuration>
+					<descriptors>
+						<descriptor>Assembly/full.xml</descriptor>
+						<descriptor>Assembly/min.xml</descriptor>
+					</descriptors>
+				</configuration>
+				<executions>
+					<execution>
+						<id>make-assembly</id>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>net.alchim31.maven</groupId>
+				<artifactId>yuicompressor-maven-plugin</artifactId>
+				<version>1.1</version>
+				<configuration>
+					<force>true</force>
+					<jswarn>false</jswarn>
+					<encoding>${project.build.sourceEncoding}</encoding>
+					<sourceDirectory>${javascript.src.dir}</sourceDirectory>
+					<outputDirectory>${javascript.src.dir}</outputDirectory>
+					<suffix>.min</suffix>
+					<excludes>
+						<exclude>**/*.min.js</exclude>
+					</excludes>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<!--
+								Not linting for for now because it expects if, while, do and for statements to be made with blocks
+							-->
+							<!--<goal>jslint</goal>-->
+							<goal>compress</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>nl.windgazer</groupId>
+				<artifactId>jsdoctk-plugin</artifactId>
+				<version>2.3.0-RC1</version>
+				<configuration>
+					<recurse>3</recurse>
+					<allFunctions>false</allFunctions>
+					<AllFunctions>false</AllFunctions>
+					<srcDir>${javascript.src.dir}</srcDir>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>process-resources</phase>
+						<goals>
+							<goal>jsdoc</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>com.mycila.maven-license-plugin</groupId>
+				<artifactId>maven-license-plugin</artifactId>
+				<version>1.9.0</version>
+				<configuration>
+					<header>etc/header.txt</header>
+					<strictCheck>true</strictCheck>
+					<excludes>
+						<exclude>**/jquery-1*.js</exclude>
+						<exclude>**/LICENSE*</exclude>
+						<exclude>**/.gitignore</exclude>
+					</excludes>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>check</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+	<scm>
+		<connection>scm:git:git://github.com/PlanetTelexInc/jquery-ui-pt-coverflow.git</connection>
+		<developerConnection>scm:git:ssh://git@github.com:PlanetTelexInc/jquery-ui-pt-coverflow.git</developerConnection>
+		<url>http://github.com/PlanetTelexInc/jquery-textmeter</url>
+	</scm>
+
+	<distributionManagement>
+		<repository>
+			<id>release</id>
+			<url>file:///${project.build.directory}</url>
+		</repository>
+	</distributionManagement>
+
+	<pluginRepositories>
+		<pluginRepository>
+			<name>oss.sonatype.org (yuicompressor-maven-plugin)</name>
+			<id>oss.sonatype.org-releases</id>
+			<url>http://oss.sonatype.org/content/repositories/github-releases</url>
+		</pluginRepository>
+
+		<pluginRepository>
+			<id>jsdoctk2</id>
+			<url>http://jsdoctk-plugin.googlecode.com/svn/repo</url>
+		</pluginRepository>
+
+		<pluginRepository>
+			<id>mc-release</id>
+			<name>Local Maven repository of releases</name>
+			<url>http://mc-repo.googlecode.com/svn/maven2/releases</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+		</pluginRepository>
+	</pluginRepositories>
+
+	<repositories>
+		<repository>
+			<name>oss.sonatype.org (yuicompressor-maven-plugin)</name>
+			<id>oss.sonatype.org-releases</id>
+			<url>http://oss.sonatype.org/content/repositories/github-releases</url>
+		</repository>
+
+		<repository>
+			<id>jsdoctk1</id>
+			<url>http://jsdoctk-plugin.googlecode.com/svn/repo</url>
+		</repository>
+	</repositories>
+
+</project>
