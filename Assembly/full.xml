@@ -28,11 +28,11 @@
 	<fileSets>
 		<fileSet>
 			<includes>
-				<include>Webroot/**</include>
+                <include>${webroot.dir}/**</include>
 			</includes>
 			<excludes>
 				<exclude>**/Properties/**</exclude>
-				<exclude>**/aspent_client/**</exclude>
+				<exclude>**/aspnet_client/**</exclude>
 				<exclude>**/bin/**</exclude>
 				<exclude>**/obj/**</exclude>
 				<exclude>**/*.user</exclude>
