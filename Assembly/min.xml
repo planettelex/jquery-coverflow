@@ -29,7 +29,7 @@
 		<fileSet>
 			<directory>${javascript.src.dir}</directory>
 			<includes>
-				<include>jquery.ui.pt_coverflow.*</include>
+                <include>${artifact.name.prefix}*</include>
 			</includes>
 			<outputDirectory>/</outputDirectory>
 		</fileSet>
