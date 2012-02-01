@@ -42,9 +42,16 @@
 		<fileSet>
 			<directory>${project.build.directory}</directory>
 			<includes>
+				<include>${javascript.final.name}</include>
+			</includes>
+			<outputDirectory>${javascript.src.dir}</outputDirectory>
+		</fileSet>
+		<fileSet>
+			<directory>${project.build.directory}</directory>
+			<includes>
 				<include>jsdoc/**</include>
 			</includes>
-			<outputDirectory>Webroot</outputDirectory>
+            <outputDirectory>${webroot.dir}</outputDirectory>
 		</fileSet>
 	</fileSets>
 </assembly>
