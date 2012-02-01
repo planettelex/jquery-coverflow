@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>net.planettelex.jquery</groupId>
-	<artifactId>jquery-ui-pt-coverflow</artifactId>
+	<artifactId>jquery.ui.pt_coverflow</artifactId>
 	<name>Planet Telex jQueryUI Coverflow</name>
 	<version>1.0-SNAPSHOT</version>
 	<description>Coverflow plugin for jQueryUI</description>
@@ -16,80 +16,135 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<javascript.src.dir>Webroot/js</javascript.src.dir>
+		<webroot.dir>Webroot</webroot.dir>
+		<javascript.src.dir>${webroot.dir}/js</javascript.src.dir>
+		<javascript.final.name>${project.build.finalName}.min.js</javascript.final.name>
+		<artifact.name.prefix>jquery.ui.pt_cover</artifact.name.prefix>
 	</properties>
+
+	<profiles>
+		<profile>
+			<id>no-tests</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<maven.test.skip>true</maven.test.skip>
+			</properties>
+		</profile>
+
+		<profile>
+			<id>combine</id>
+
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>net.alchim31.maven</groupId>
+						<artifactId>yuicompressor-maven-plugin</artifactId>
+						<version>1.1</version>
+						<configuration>
+							<force>true</force>
+							<jswarn>false</jswarn>
+							<encoding>${project.build.sourceEncoding}</encoding>
+							<sourceDirectory>${javascript.src.dir}</sourceDirectory>
+							<outputDirectory>${javascript.src.dir}</outputDirectory>
+							<suffix>.min</suffix>
+							<excludes>
+								<exclude>**/*.min.js</exclude>
+								<exclude>**/*vsdoc.*</exclude>
+							</excludes>
+							<aggregations>
+								<aggregation>
+									<removeIncluded>true</removeIncluded>
+									<insertNewLine>true</insertNewLine>
+									<output>${javascript.src.dir}/${project.artifactId}-combined.min.js</output>
+									<includes>
+										<include>**/${artifact.name.prefix}*.min.js</include>
+									</includes>
+								</aggregation>
+							</aggregations>
+						</configuration>
+						<executions>
+							<execution>
+								<goals>
+									<goal>jslint</goal>
+									<goal>compress</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+
+		<profile>
+			<id>release</id>
+
+			<build>
+				<plugins>
+					<plugin>
+						<artifactId>maven-assembly-plugin</artifactId>
+						<version>2.2.2</version>
+						<configuration>
+							<descriptors>
+								<descriptor>Assembly/full.xml</descriptor>
+								<descriptor>Assembly/min.xml</descriptor>
+							</descriptors>
+						</configuration>
+						<executions>
+							<execution>
+								<id>make-assembly</id>
+								<phase>package</phase>
+								<goals>
+									<goal>single</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+
+					<plugin>
+						<groupId>net.alchim31.maven</groupId>
+						<artifactId>yuicompressor-maven-plugin</artifactId>
+						<version>1.1</version>
+						<configuration>
+							<force>true</force>
+							<jswarn>false</jswarn>
+							<encoding>${project.build.sourceEncoding}</encoding>
+							<sourceDirectory>${javascript.src.dir}</sourceDirectory>
+							<outputDirectory>${project.build.directory}</outputDirectory>
+							<suffix>.min</suffix>
+							<excludes>
+								<exclude>**/*.min.js</exclude>
+								<exclude>**/*vsdoc.*</exclude>
+							</excludes>
+							<aggregations>
+								<aggregation>
+									<insertNewLine>true</insertNewLine>
+									<output>${project.build.directory}/${javascript.final.name}</output>
+									<includes>
+										<include>**/${artifact.name.prefix}*.min.js</include>
+									</includes>
+								</aggregation>
+							</aggregations>
+						</configuration>
+						<executions>
+							<execution>
+								<phase>compile</phase>
+								<goals>
+									<goal>jslint</goal>
+									<goal>compress</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 
 	<build>
 		<sourceDirectory>.</sourceDirectory>
 		<plugins>
-			<plugin>
-				<artifactId>maven-assembly-plugin</artifactId>
-				<version>2.2.2</version>
-				<configuration>
-					<descriptors>
-						<descriptor>Assembly/full.xml</descriptor>
-						<descriptor>Assembly/min.xml</descriptor>
-					</descriptors>
-				</configuration>
-				<executions>
-					<execution>
-						<id>make-assembly</id>
-						<phase>package</phase>
-						<goals>
-							<goal>single</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-
-			<plugin>
-				<groupId>net.alchim31.maven</groupId>
-				<artifactId>yuicompressor-maven-plugin</artifactId>
-				<version>1.1</version>
-				<configuration>
-					<force>true</force>
-					<jswarn>false</jswarn>
-					<encoding>${project.build.sourceEncoding}</encoding>
-					<sourceDirectory>${javascript.src.dir}</sourceDirectory>
-					<outputDirectory>${javascript.src.dir}</outputDirectory>
-					<suffix>.min</suffix>
-					<excludes>
-						<exclude>**/*.min.js</exclude>
-					</excludes>
-				</configuration>
-				<executions>
-					<execution>
-						<goals>
-							<!--
-								Not linting for for now because it expects if, while, do and for statements to be made with blocks
-							-->
-							<!--<goal>jslint</goal>-->
-							<goal>compress</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-
-			<plugin>
-				<groupId>nl.windgazer</groupId>
-				<artifactId>jsdoctk-plugin</artifactId>
-				<version>2.3.0-RC1</version>
-				<configuration>
-					<recurse>3</recurse>
-					<allFunctions>false</allFunctions>
-					<AllFunctions>false</AllFunctions>
-					<srcDir>${javascript.src.dir}</srcDir>
-				</configuration>
-				<executions>
-					<execution>
-						<phase>process-resources</phase>
-						<goals>
-							<goal>jsdoc</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-
 			<plugin>
 				<groupId>com.mycila.maven-license-plugin</groupId>
 				<artifactId>maven-license-plugin</artifactId>
