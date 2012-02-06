@@ -27,6 +27,9 @@ sub {
     float: right;
     overflow: hidden;
 }
+.hidden {
+    display: none;
+}
 .iphone_switch {
     background-repeat: no-repeat;
 }

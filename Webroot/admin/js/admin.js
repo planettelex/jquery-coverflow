@@ -305,7 +305,15 @@
     });
 
     // View/edit JSON
-    $("#refreshCoverflow").click(function () {
-
+    function setJsonView() {
+        var jsonString = JSON.stringify(coverflowOptions);
+        $("#jsonView pre").html(jsonString);
+        SyntaxHighlighter.all();
+    }
+    SyntaxHighlighter.all();
+    $("#viewEditJson").fancybox({
+        overlayColor: '#000',
+        onStart: setJsonView
     });
+
 });
