@@ -6,14 +6,9 @@
     <link type="text/css" href="../css/ui-darkness/jquery-ui-1.8.17.custom.css" rel="Stylesheet" />
     <link type="text/css" href="css/trontastic/jquery-ui-1.8.17.custom.css" rel="Stylesheet" /> 
     <link type="text/css" href="css/jquery.fancybox-1.3.4.css" rel="Stylesheet" />
-    <link type="text/css" href="css/shCore.css" rel="Stylesheet" />
-    <link type="text/css" href="css/shThemeDefault.css" rel="Stylesheet" />
     <link type="text/css" href="../css/jquery.ui.pt_coverflow.css" rel="stylesheet" />
     <link type="text/css" href="../css/site.css" rel="Stylesheet" />
     <link type="text/css" href="css/admin.css" rel="Stylesheet" />
-    <!-- Include Syntax Highlighter -->
-    <script type="text/javascript" src="js/shCore.js"></script>
-    <script type="text/javascript" src="js/shBrushJScript.js"></script>
     <!-- Include jQuery and UI -->
     <script type="text/javascript" src="../js/jquery-1.7.1.min.js"></script>
     <script type="text/javascript" src="js/jquery.mousewheel-3.0.4.pack.js"></script>
@@ -25,13 +20,15 @@
     <script type="text/javascript" src="../js/jquery.ui.pt_cover.js"></script>
     <script type="text/javascript" src="../js/jquery.ui.pt_coverflow.js"></script>
     <!-- Admin -->
+    <script type="text/javascript" src="js/json.js"></script>
     <script type="text/javascript" src="js/admin.js"></script>
 </head>
 <body>
     <div id="options">
         <div id="optionsLinks">
+            <label id="changesLabel">Options Updated: Click Refresh to Apply to Coverflow -&gt;</label>
             <a id="refreshCoverflow">Refresh Coverflow</a>
-            <a id="viewEditJson" href="#jsonView" title="View/Edit JSON">View/Edit JSON</a>
+            <a id="viewEditJson" href="#jsonView">View/Edit JSON</a>
         </div>
         <div id="optionsPanel">
             <h3>Coverflow Options</h3>
@@ -66,7 +63,7 @@
                         <h4>Background Covers</h4>
                         <ul>
                             <li>
-                                <label title="The size of the background covers as a percentage of the center selected cover.">Background cover size:&nbsp;&nbsp;<small id="backgroundCoverSize"></small> %</label>
+                                <label title="The size of the background covers as a percentage of the center selected cover.">Background cover size:&nbsp;&nbsp;<small id="backgroundCoverSize"></small> % <small id="biggerSmaller"></small></label>
                                 <br class="clear"/>
                                 <span id="backgroundCoverSizeSlider"></span>
                                 <sub><small class="floatLeft">-50%</small>0<small class="floatRight">+50%</small></sub>
@@ -169,10 +166,10 @@
                                 <sub><small class="floatLeft">0 ms</small><small class="floatRight">1000 ms</small></sub>
                             </li>
                             <li>
-                                <label title="It looks good when the two covers directly to the right and left of the center animate at a different speed. This adjusts the inner background covers' animation duration as a percentage of the standard duration.">Inner cover duration offset:&nbsp;&nbsp;<small id="innerCoverAnimationOffset"></small> %</label>
+                                <label title="It looks good when the two covers directly to the right and left of the center animate at a different speed. This adjusts the inner background covers' animation duration as a percentage of the standard duration.">Inner cover duration offset:&nbsp;&nbsp;<small id="innerCoverAnimationOffset"></small> % <small id="fasterSlower">slower</small></label>
                                 <br class="clear"/>
                                 <span id="innerCoverAnimationOffsetSlider"></span>
-                                <sub><small class="floatLeft">-100%</small>0<small class="floatRight">+100%</small></sub>
+                                <sub><small class="floatLeft">faster</small><small class="floatRight">slower</small></sub>
                             </li>
                         </ul>
                     </section>
@@ -214,7 +211,8 @@
             </div>
             <div class="hidden">
                 <div id="jsonView">
-                    <pre class="brush: js;"></pre>
+                    <textarea></textarea>
+                    <input type="button" value="Update Coverflow with These Settings"/>
                 </div>
             </div>
         </div>

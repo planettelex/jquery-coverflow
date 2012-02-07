@@ -58,8 +58,6 @@
     <Content Include="admin\css\images\fancy_title_over.png" />
     <Content Include="admin\css\images\fancy_title_right.png" />
     <Content Include="admin\css\jquery.fancybox-1.3.4.css" />
-    <Content Include="admin\css\shCore.css" />
-    <Content Include="admin\css\shThemeDefault.css" />
     <Content Include="admin\css\trontastic\images\ui-bg_diagonals-small_50_262626_40x40.png" />
     <Content Include="admin\css\trontastic\images\ui-bg_flat_0_303030_40x100.png" />
     <Content Include="admin\css\trontastic\images\ui-bg_flat_0_4c4c4c_40x100.png" />
@@ -88,8 +86,7 @@
     <Content Include="admin\js\jquery.iphone-switch.js" />
     <Content Include="admin\js\jquery.mousewheel-3.0.4.pack.js" />
     <Content Include="admin\js\jquery.ui.accordion.min.js" />
-    <Content Include="admin\js\shBrushJScript.js" />
-    <Content Include="admin\js\shCore.js" />
+    <Content Include="admin\js\json.js" />
     <Content Include="css\jquery.ui.pt_coverflow.css" />
     <Content Include="css\reset.css" />
     <Content Include="css\site.css" />
