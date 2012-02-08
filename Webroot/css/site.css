@@ -163,3 +163,24 @@ header h2 {
     border: 1px solid white;
     margin-bottom: 5px;
 }
+#pageMenu {
+    position: absolute;
+    top: 20px;
+    left: 243px;
+}
+#pageMenu li, #pageMenu li a {
+    display: block;
+    float: left;
+    position: relative;
+    font-family: Arial, Helvetica, sans-serif;
+    color: grey;
+    padding-right: 5px;
+    font-size: 10pt;
+    text-decoration: none;
+}
+#pageMenu li a:hover {
+    text-decoration: underline;
+}
+#pageMenu a.coverflow-selected-page {
+    color: white;
+}

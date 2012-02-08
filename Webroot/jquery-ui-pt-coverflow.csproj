@@ -252,6 +252,9 @@
     <Content Include="images\vast-visualaudiosensorytheater.jpg" />
     <Content Include="images\ween-quebec.jpg" />
     <Content Include="images\weezer-maladroit.jpg" />
+    <Content Include="images\_demo-1.jpg" />
+    <Content Include="images\_demo-2.jpg" />
+    <Content Include="images\_demo-3.jpg" />
     <Content Include="images\_header-transparent.png" />
     <Content Include="images\_header.png" />
     <Content Include="index.html" />
@@ -260,6 +263,7 @@
     <Content Include="js\jquery-1.7.1.min.js" />
     <Content Include="js\jquery-ui-1.8.17.custom.min.js" />
     <Content Include="js\jquery.ui.pt_cover.js" />
+    <Content Include="js\jquery.ui.pt_coverflow-combined.min.js" />
     <Content Include="js\jquery.ui.pt_coverflow.js" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
