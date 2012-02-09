@@ -16,9 +16,13 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<webroot.dir>Webroot</webroot.dir>
-		<javascript.src.dir>${webroot.dir}/js</javascript.src.dir>
-		<javascript.final.name>${project.build.finalName}.min.js</javascript.final.name>
+		<webroot.src.dir>Webroot</webroot.src.dir>
+		<webroot.build.dir>${project.build.directory}/${project.build.finalName}</webroot.build.dir>
+		<js.src.dir>${webroot.src.dir}/js</js.src.dir>
+		<js.build.dir>${webroot.build.dir}/js</js.build.dir>
+		<js.final.name>${project.build.finalName}.js</js.final.name>
+		<js.final.name.min>${project.build.finalName}.min.js</js.final.name.min>
+		<js.combined.name>${project.artifactId}-combined.min.js</js.combined.name>
 		<artifact.name.prefix>jquery.ui.pt_cover</artifact.name.prefix>
 	</properties>
 
@@ -33,6 +37,7 @@
 			</properties>
 		</profile>
 
+		<!-- Creates the combined and minified JS file used for development. -->
 		<profile>
 			<id>combine</id>
 
@@ -46,8 +51,8 @@
 							<force>true</force>
 							<jswarn>false</jswarn>
 							<encoding>${project.build.sourceEncoding}</encoding>
-							<sourceDirectory>${javascript.src.dir}</sourceDirectory>
-							<outputDirectory>${javascript.src.dir}</outputDirectory>
+							<sourceDirectory>${js.src.dir}</sourceDirectory>
+							<outputDirectory>${js.src.dir}</outputDirectory>
 							<suffix>.min</suffix>
 							<excludes>
 								<exclude>**/*.min.js</exclude>
@@ -57,7 +62,7 @@
 								<aggregation>
 									<removeIncluded>true</removeIncluded>
 									<insertNewLine>true</insertNewLine>
-									<output>${javascript.src.dir}/${project.artifactId}-combined.min.js</output>
+									<output>${js.src.dir}/${js.combined.name}</output>
 									<includes>
 										<include>**/${artifact.name.prefix}*.min.js</include>
 									</includes>
@@ -77,8 +82,13 @@
 			</build>
 		</profile>
 
+		<!-- Creates the final released and versioned JS file and deployable packages. -->
 		<profile>
 			<id>release</id>
+
+			<properties>
+				<maven.test.skip>true</maven.test.skip>
+			</properties>
 
 			<build>
 				<plugins>
@@ -110,8 +120,8 @@
 							<force>true</force>
 							<jswarn>false</jswarn>
 							<encoding>${project.build.sourceEncoding}</encoding>
-							<sourceDirectory>${javascript.src.dir}</sourceDirectory>
-							<outputDirectory>${project.build.directory}</outputDirectory>
+							<sourceDirectory>${js.build.dir}</sourceDirectory>
+							<outputDirectory>${js.build.dir}</outputDirectory>
 							<suffix>.min</suffix>
 							<excludes>
 								<exclude>**/*.min.js</exclude>
@@ -119,8 +129,9 @@
 							</excludes>
 							<aggregations>
 								<aggregation>
+									<removeIncluded>true</removeIncluded>
 									<insertNewLine>true</insertNewLine>
-									<output>${project.build.directory}/${javascript.final.name}</output>
+									<output>${js.build.dir}/${js.final.name.min}</output>
 									<includes>
 										<include>**/${artifact.name.prefix}*.min.js</include>
 									</includes>
@@ -134,6 +145,55 @@
 									<goal>jslint</goal>
 									<goal>compress</goal>
 								</goals>
+							</execution>
+						</executions>
+					</plugin>
+
+					<plugin>
+						<groupId>com.google.code.maven-replacer-plugin</groupId>
+						<artifactId>maven-replacer-plugin</artifactId>
+						<version>1.4.1</version>
+						<executions>
+							<execution>
+								<phase>prepare-package</phase>
+								<goals>
+									<goal>replace</goal>
+								</goals>
+							</execution>
+						</executions>
+						<configuration>
+							<basedir>${webroot.build.dir}</basedir>
+							<includes>
+								<include>**/index.html</include>
+							</includes>
+							<token>${js.combined.name}</token>
+							<value>${js.final.name.min}</value>
+						</configuration>
+					</plugin>
+
+					<plugin>
+						<artifactId>maven-resources-plugin</artifactId>
+						<version>2.5</version>
+						<executions>
+							<execution>
+								<id>copy-resources</id>
+								<phase>process-resources</phase>
+								<goals>
+									<goal>copy-resources</goal>
+								</goals>
+								<configuration>
+									<outputDirectory>${webroot.build.dir}</outputDirectory>
+									<resources>
+										<resource>
+											<directory>${webroot.src.dir}</directory>
+											<filtering>false</filtering>
+											<excludes>
+												<exclude>**/${js.combined.name}</exclude>
+												<exclude>**/*vsdoc.js</exclude>
+											</excludes>
+										</resource>
+									</resources>
+								</configuration>
 							</execution>
 						</executions>
 					</plugin>

@@ -27,17 +27,9 @@
 	</formats>
 	<fileSets>
 		<fileSet>
-			<directory>${javascript.src.dir}</directory>
+			<directory>${js.build.dir}</directory>
 			<includes>
-				<include>${artifact.name.prefix}*</include>
-			</includes>
-			<outputDirectory>/</outputDirectory>
-		</fileSet>
-		<fileSet>
-			<directory>${project.build.directory}</directory>
-			<includes>
-				<include>${artifact.name.prefix}*.min.js</include>
-				<include>${javascript.final.name}</include>
+				<include>*.js</include>
 			</includes>
 			<outputDirectory>/</outputDirectory>
 		</fileSet>

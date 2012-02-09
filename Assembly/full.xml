@@ -27,8 +27,9 @@
 	</formats>
 	<fileSets>
 		<fileSet>
+			<directory>${webroot.build.dir}</directory>
 			<includes>
-                <include>${webroot.dir}/**</include>
+                <include>/**</include>
 			</includes>
 			<excludes>
 				<exclude>**/Properties/**</exclude>
@@ -38,20 +39,14 @@
 				<exclude>**/*.user</exclude>
 				<exclude>**/*.csproj</exclude>
 			</excludes>
-		</fileSet>
-		<fileSet>
-			<directory>${project.build.directory}</directory>
-			<includes>
-				<include>${javascript.final.name}</include>
-			</includes>
-			<outputDirectory>${javascript.src.dir}</outputDirectory>
+			<outputDirectory>${webroot.src.dir}</outputDirectory>
 		</fileSet>
 		<fileSet>
 			<directory>${project.build.directory}</directory>
 			<includes>
 				<include>jsdoc/**</include>
 			</includes>
-            <outputDirectory>${webroot.dir}</outputDirectory>
+            <outputDirectory>/</outputDirectory>
 		</fileSet>
 	</fileSets>
 </assembly>
