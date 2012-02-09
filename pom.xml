@@ -15,6 +15,7 @@
 	</organization>
 
 	<properties>
+		<dryRun>true</dryRun>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<webroot.src.dir>Webroot</webroot.src.dir>
 		<webroot.build.dir>${project.build.directory}/${project.build.finalName}</webroot.build.dir>
@@ -231,7 +232,7 @@
 							<description>${project.version} release of ${project.name}</description>
 							<override>true</override>
 							<includeAttached>true</includeAttached>
-							<dryRun>true</dryRun>
+							<dryRun>${dryRun}</dryRun>
 							<includes>
 								<include>*.zip</include>
 							</includes>
