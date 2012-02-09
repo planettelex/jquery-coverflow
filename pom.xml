@@ -18,11 +18,13 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<webroot.src.dir>Webroot</webroot.src.dir>
 		<webroot.build.dir>${project.build.directory}/${project.build.finalName}</webroot.build.dir>
+		<css.build.dir>${webroot.build.dir}/css</css.build.dir>
 		<js.src.dir>${webroot.src.dir}/js</js.src.dir>
 		<js.build.dir>${webroot.build.dir}/js</js.build.dir>
 		<js.final.name>${project.build.finalName}.js</js.final.name>
 		<js.final.name.min>${project.build.finalName}.min.js</js.final.name.min>
 		<js.combined.name>${project.artifactId}-combined.min.js</js.combined.name>
+		<js.header.file>header-js.txt</js.header.file>
 		<artifact.name.prefix>jquery.ui.pt_cover</artifact.name.prefix>
 	</properties>
 
@@ -134,13 +136,20 @@
 												<exclude>**/*vsdoc.js</exclude>
 											</excludes>
 										</resource>
+										<resource>
+											<directory>${basedir}/etc</directory>
+											<filtering>false</filtering>
+											<includes>
+												<include>${js.header.file}</include>
+											</includes>
+										</resource>
 									</resources>
 								</configuration>
 							</execution>
 						</executions>
 					</plugin>
 
-					<!-- 2nd Step: replace refereneced JS in demos -->
+					<!-- 2nd Step: replace referenced JS in demos -->
 					<plugin>
 						<groupId>com.google.code.maven-replacer-plugin</groupId>
 						<artifactId>maven-replacer-plugin</artifactId>
@@ -185,7 +194,7 @@
 									<insertNewLine>true</insertNewLine>
 									<output>${js.build.dir}/${js.final.name.min}</output>
 									<includes>
-										<include>${basedir}/etc/header-js.txt</include>
+										<include>${webroot.build.dir}/${js.header.file}</include>
 										<include>**/${artifact.name.prefix}*.min.js</include>
 									</includes>
 								</aggregation>
@@ -252,7 +261,7 @@
 					<header>etc/header.txt</header>
 					<strictCheck>true</strictCheck>
 					<excludes>
-						<exclude>**/header-js.txt</exclude>
+						<exclude>**/${js.header.file}</exclude>
 						<exclude>**/jquery-1*.js</exclude>
 						<exclude>**/LICENSE*</exclude>
 						<exclude>**/.gitignore</exclude>

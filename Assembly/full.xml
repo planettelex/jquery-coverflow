@@ -37,6 +37,7 @@
 				<exclude>**/obj/**</exclude>
 				<exclude>**/*.user</exclude>
 				<exclude>**/*.csproj</exclude>
+				<exclude>**/header*.txt</exclude>
 			</excludes>
 			<outputDirectory>${webroot.src.dir}</outputDirectory>
 		</fileSet>

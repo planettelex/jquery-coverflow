@@ -28,9 +28,20 @@
 		<fileSet>
 			<directory>${js.build.dir}</directory>
 			<includes>
-				<include>*.js</include>
+				<include>*.min.js</include>
 			</includes>
-			<outputDirectory>/</outputDirectory>
+			<outputDirectory>/js</outputDirectory>
+		</fileSet>
+		<fileSet>
+			<directory>${css.build.dir}</directory>
+			<includes>
+				<include>/**</include>
+			</includes>
+			<excludes>
+				<exclude>reset.css</exclude>
+				<exclude>site.css</exclude>
+			</excludes>
+			<outputDirectory>/css</outputDirectory>
 		</fileSet>
 	</fileSets>
 </assembly>
