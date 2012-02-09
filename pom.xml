@@ -252,10 +252,10 @@
 					<header>etc/header.txt</header>
 					<strictCheck>true</strictCheck>
 					<excludes>
+						<exclude>**/header-js.txt</exclude>
 						<exclude>**/jquery-1*.js</exclude>
 						<exclude>**/LICENSE*</exclude>
 						<exclude>**/.gitignore</exclude>
-						<exclude>**/Assembly/**</exclude>
 						<exclude>**/_ReSharper*/**</exclude>
 						<exclude>**/Properties/**</exclude>
 						<exclude>**/aspnet_client/**</exclude>

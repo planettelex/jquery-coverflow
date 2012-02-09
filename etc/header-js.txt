@@ -1,4 +1,4 @@
-/**
+/*
  * Planet Telex (PT) Coverflow
  *
  * A beautiful "Coverflow" jQuery UI widget that is very simple to use,
