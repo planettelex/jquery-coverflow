@@ -112,65 +112,7 @@
 						</executions>
 					</plugin>
 
-					<plugin>
-						<groupId>net.alchim31.maven</groupId>
-						<artifactId>yuicompressor-maven-plugin</artifactId>
-						<version>1.1</version>
-						<configuration>
-							<force>true</force>
-							<jswarn>false</jswarn>
-							<encoding>${project.build.sourceEncoding}</encoding>
-							<sourceDirectory>${js.build.dir}</sourceDirectory>
-							<outputDirectory>${js.build.dir}</outputDirectory>
-							<suffix>.min</suffix>
-							<excludes>
-								<exclude>**/*.min.js</exclude>
-								<exclude>**/*vsdoc.*</exclude>
-							</excludes>
-							<aggregations>
-								<aggregation>
-									<removeIncluded>true</removeIncluded>
-									<insertNewLine>true</insertNewLine>
-									<output>${js.build.dir}/${js.final.name.min}</output>
-									<includes>
-										<include>**/${artifact.name.prefix}*.min.js</include>
-									</includes>
-								</aggregation>
-							</aggregations>
-						</configuration>
-						<executions>
-							<execution>
-								<phase>compile</phase>
-								<goals>
-									<goal>jslint</goal>
-									<goal>compress</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
-
-					<plugin>
-						<groupId>com.google.code.maven-replacer-plugin</groupId>
-						<artifactId>maven-replacer-plugin</artifactId>
-						<version>1.4.1</version>
-						<executions>
-							<execution>
-								<phase>prepare-package</phase>
-								<goals>
-									<goal>replace</goal>
-								</goals>
-							</execution>
-						</executions>
-						<configuration>
-							<basedir>${webroot.build.dir}</basedir>
-							<includes>
-								<include>**/index.html</include>
-							</includes>
-							<token>${js.combined.name}</token>
-							<value>${js.final.name.min}</value>
-						</configuration>
-					</plugin>
-
+					<!-- 1st Step: copy webroot files to build directory -->
 					<plugin>
 						<artifactId>maven-resources-plugin</artifactId>
 						<version>2.5</version>
@@ -197,6 +139,103 @@
 							</execution>
 						</executions>
 					</plugin>
+
+					<!-- 2nd Step: replace refereneced JS in demos -->
+					<plugin>
+						<groupId>com.google.code.maven-replacer-plugin</groupId>
+						<artifactId>maven-replacer-plugin</artifactId>
+						<version>1.4.1</version>
+						<executions>
+							<execution>
+								<phase>prepare-package</phase>
+								<goals>
+									<goal>replace</goal>
+								</goals>
+							</execution>
+						</executions>
+						<configuration>
+							<basedir>${webroot.build.dir}</basedir>
+							<includes>
+								<include>**/index.html</include>
+							</includes>
+							<token>${js.combined.name}</token>
+							<value>${js.final.name.min}</value>
+						</configuration>
+					</plugin>
+
+					<!-- 3rd Step: Minify JS files and combine into versioned release -->
+					<plugin>
+						<groupId>net.alchim31.maven</groupId>
+						<artifactId>yuicompressor-maven-plugin</artifactId>
+						<version>1.1</version>
+						<configuration>
+							<force>true</force>
+							<jswarn>false</jswarn>
+							<encoding>${project.build.sourceEncoding}</encoding>
+							<sourceDirectory>${js.build.dir}</sourceDirectory>
+							<outputDirectory>${js.build.dir}</outputDirectory>
+							<suffix>.min</suffix>
+							<excludes>
+								<exclude>**/*.min.js</exclude>
+								<exclude>**/*vsdoc.*</exclude>
+							</excludes>
+							<aggregations>
+								<aggregation>
+									<removeIncluded>true</removeIncluded>
+									<insertNewLine>true</insertNewLine>
+									<output>${js.build.dir}/${js.final.name.min}</output>
+									<includes>
+										<include>${basedir}/etc/header-js.txt</include>
+										<include>**/${artifact.name.prefix}*.min.js</include>
+									</includes>
+								</aggregation>
+							</aggregations>
+						</configuration>
+						<executions>
+							<execution>
+								<phase>compile</phase>
+								<goals>
+									<goal>jslint</goal>
+									<goal>compress</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+
+		<profile>
+			<id>deploy</id>
+
+			<properties>
+				<maven.test.skip>true</maven.test.skip>
+			</properties>
+
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>com.github.github</groupId>
+						<artifactId>downloads-maven-plugin</artifactId>
+						<version>0.4</version>
+						<configuration>
+							<description>${project.version} release of ${project.name}</description>
+							<override>true</override>
+							<includeAttached>true</includeAttached>
+							<dryRun>true</dryRun>
+							<includes>
+								<include>*.zip</include>
+							</includes>
+						</configuration>
+						<executions>
+							<execution>
+								<goals>
+									<goal>upload</goal>
+								</goals>
+								<phase>package</phase>
+							</execution>
+						</executions>
+					</plugin>
 				</plugins>
 			</build>
 		</profile>
@@ -216,10 +255,26 @@
 						<exclude>**/jquery-1*.js</exclude>
 						<exclude>**/LICENSE*</exclude>
 						<exclude>**/.gitignore</exclude>
+						<exclude>**/Assembly/**</exclude>
+						<exclude>**/_ReSharper*/**</exclude>
+						<exclude>**/Properties/**</exclude>
+						<exclude>**/aspnet_client/**</exclude>
+						<exclude>**/bin/**</exclude>
+						<exclude>**/obj/**</exclude>
+						<exclude>**/*.user</exclude>
+						<exclude>**/*.csproj</exclude>
+						<exclude>**/*.md</exclude>
+						<exclude>**/*.suo</exclude>
+						<exclude>**/*.sln*</exclude>
+						<exclude>**/*.dotCover</exclude>
+						<exclude>**/admin/**/jquery*</exclude>
+						<exclude>**/jquery-ui-*</exclude>
+						<exclude>**/reset.css</exclude>
 					</excludes>
 				</configuration>
 				<executions>
 					<execution>
+						<phase>process-resources</phase>
 						<goals>
 							<goal>check</goal>
 						</goals>
@@ -232,7 +287,7 @@
 	<scm>
 		<connection>scm:git:git://github.com/PlanetTelexInc/jquery-ui-pt-coverflow.git</connection>
 		<developerConnection>scm:git:ssh://git@github.com:PlanetTelexInc/jquery-ui-pt-coverflow.git</developerConnection>
-		<url>http://github.com/PlanetTelexInc/jquery-textmeter</url>
+		<url>https://github.com/PlanetTelexInc/jquery-ui-pt-coverflow</url>
 	</scm>
 
 	<distributionManagement>
