@@ -21,7 +21,7 @@
     <script type="text/javascript" src="../js/jquery.ui.pt_coverflow.js"></script>
     <!-- Admin -->
     <script type="text/javascript" src="js/json.js"></script>
-    <script type="text/javascript" src="js/admin.js"></script>
+    <script type="text/javascript" src="js/jquery.ui.pt_coverflow-admin.js"></script>
 </head>
 <body>
     <div id="coverflowOptionsAdminPanel">
@@ -34,6 +34,7 @@
             <div id="optionsPanel">
                 <h3>Coverflow Options</h3>
                 <div>
+                    <ul id="validationMessage" class="hidden"></ul>
                     <form id="optionsForm">
                         <section id="generalSettings">
                             <h4>General Settings</h4>
@@ -288,7 +289,7 @@
                 $("#refreshCoverflow").click(function () {
                     $coverflow.coverflow("destroy");
                     updateOptions();
-                    $coverflow = $("#coverflow").coverflow(coverflowOptions);
+                    $coverflow = $("#coverflowOptionsAdminPreview").coverflow(coverflowOptions);
                     $("#changesLabel").hide();
                 });
 
@@ -309,7 +310,7 @@
                     var jsonEval = "coverflowOptions = " + jsonString + ";";
                     eval(jsonEval);
                     $coverflow.coverflow("destroy");
-                    $coverflow = $("#coverflow").coverflow(coverflowOptions);
+                    $coverflow = $("#coverflowOptionsAdminPreview").coverflow(coverflowOptions);
                     $.fancybox.close();
                     updateForm(true);
                 });

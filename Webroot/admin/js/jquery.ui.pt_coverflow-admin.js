@@ -1,5 +1,5 @@
 ﻿// Declare and initialize variables.
-var coverflowOptions = {            // This are the default options.
+var defaultCoverflowOptions = {
     width: null,                    // Display width of the coverflow. Defaults to the container width.
     height: null,                   // Display height of the coverflow. Defaults to the container height.
     selectedIndex: 0,               // The index of the cover to select where 0 is the first.
@@ -54,27 +54,154 @@ var coverflowOptions = {            // This are the default options.
     }
 };
 
+var coverflowOptions = defaultCoverflowOptions;
 var numberOfCovers = 0;
 var categories = [];
 var $autoplaySwitch, $categoriesSwitch, $perspectiveSwitch, $reflectionsSwitch, $sliderSwitch, $titleSwitch;
 var $sliderBackgroundSize, $sliderInnerOverlap, $sliderOuterOverlap, $sliderAngle, $sliderAnimationDuration, $sliderInnerCoverAnimationOffset, $sliderInitialOpacity, $sliderReflectionLength, $sliderSliderWidth;
 
+function validateCoverflowOptions() {
+    var validationMessages = [];
+
+    if (coverflowOptions == null) coverflowOptions = defaultCoverflowOptions;
+    else {
+        if (coverflowOptions.selectedIndex == null) coverflowOptions.selectedIndex = defaultCoverflowOptions.selectedIndex;
+        else if (isNaN(parseInt(coverflowOptions.selectedIndex))) validationMessages.push("Selected index is not a number.");
+        
+        if (coverflowOptions.autoplay == null) coverflowOptions.autoplay = defaultCoverflowOptions.autoplay;
+        else {
+            if (coverflowOptions.autoplay.enabled == null) coverflowOptions.autoplay.enabled = defaultCoverflowOptions.autoplay.enabled;
+            else if (coverflowOptions.autoplay.enabled != true && coverflowOptions.autoplay.enabled != false) validationMessages.push("Autoplay enabled is not a boolean.");
+            if (coverflowOptions.autoplay.interval == null) coverflowOptions.autoplay.interval = defaultCoverflowOptions.autoplay.interval;
+            else if (isNaN(parseInt(coverflowOptions.autoplay.interval))) validationMessages.push("Autoplay interval is not a number.");
+            else if (parseInt(coverflowOptions.autoplay.interval) <= 0) validationMessages.push("Autoplay interval must be greater than zero.");
+            if (coverflowOptions.autoplay.pauseOnMouseenter == null) coverflowOptions.autoplay.pauseOnMouseenter = defaultCoverflowOptions.autoplay.pauseOnMouseenter;
+            else if (coverflowOptions.autoplay.pauseOnMouseenter != true && coverflowOptions.autoplay.pauseOnMouseenter != false) validationMessages.push("Autoplay pause on mouse enter is not a boolean.");
+            if (coverflowOptions.autoplay.playsPerCategory == null) coverflowOptions.autoplay.playsPerCategory = defaultCoverflowOptions.autoplay.playsPerCategory;
+            else if (isNaN(parseInt(coverflowOptions.autoplay.playsPerCategory))) validationMessages.push("Autoplay plays per category is not a number.");
+            else if (parseInt(coverflowOptions.autoplay.playsPerCategory) <= 0) validationMessages.push("Autoplay plays per category must be greater than zero.");
+        }
+        
+        if (coverflowOptions.categories == null) coverflowOptions.categories = defaultCoverflowOptions.categories;
+        else {
+            if (coverflowOptions.categories.enabled == null) coverflowOptions.categories.enabled = defaultCoverflowOptions.categories.enabled;
+            else if (coverflowOptions.categories.enabled != true && coverflowOptions.categories.enabled != false) validationMessages.push("Categories enabled is not a boolean.");
+            if (coverflowOptions.categories.defaultCategory == null) coverflowOptions.categories.defaultCategory = defaultCoverflowOptions.categories.defaultCategory;
+            if (coverflowOptions.categories.renderTitles == null) coverflowOptions.categories.renderTitles = defaultCoverflowOptions.categories.renderTitles;
+            else if (coverflowOptions.categories.renderTitles != true && coverflowOptions.categories.renderTitles != false) validationMessages.push("Categories render titles is not a boolean.");
+            if (coverflowOptions.categories.rememberLastCover == null) coverflowOptions.categories.rememberLastCover = defaultCoverflowOptions.categories.rememberLastCover;
+            else if (coverflowOptions.categories.rememberLastCover != true && coverflowOptions.categories.rememberLastCover != false) validationMessages.push("Categories remember last cover is not a boolean.");
+            if (coverflowOptions.categories.delAnimationCount == null) coverflowOptions.categories.delAnimationCount = defaultCoverflowOptions.categories.delAnimationCount;
+            else if (isNaN(parseInt(coverflowOptions.categories.delAnimationCount))) validationMessages.push("Categories delete animation count is not a number.");
+            else if (parseInt(coverflowOptions.categories.delAnimationCount) <= 0) validationMessages.push("Categories delete animation count must be greater than zero.");
+            if (coverflowOptions.categories.addAnimationRadius == null) coverflowOptions.categories.addAnimationRadius = defaultCoverflowOptions.categories.addAnimationRadius;
+            else if (isNaN(parseInt(coverflowOptions.categories.addAnimationRadius))) validationMessages.push("Categories add animation radius is not a number.");
+            else if (parseInt(coverflowOptions.categories.addAnimationRadius) <= 0) validationMessages.push("Categories add animation radius must be greater than zero.");
+        }
+        
+        if (coverflowOptions.cover == null) coverflowOptions.cover = defaultCoverflowOptions.cover;
+        else {
+            if (coverflowOptions.cover.height == null) coverflowOptions.cover.height = defaultCoverflowOptions.cover.height;
+            else if (isNaN(parseInt(coverflowOptions.cover.height))) validationMessages.push("Cover height is not a number.");
+            else if (parseInt(coverflowOptions.cover.interval) <= 0) validationMessages.push("Cover height must be greater than zero.");
+            if (coverflowOptions.cover.width == null) coverflowOptions.cover.width = defaultCoverflowOptions.cover.width;
+            else if (isNaN(parseInt(coverflowOptions.cover.width))) validationMessages.push("Cover width is not a number.");
+            else if (parseInt(coverflowOptions.cover.width) <= 0) validationMessages.push("Cover width must be greater than zero.");
+            
+            if (coverflowOptions.cover.animation == null) coverflowOptions.cover.animation = defaultCoverflowOptions.cover.animation;
+            else {
+                if (coverflowOptions.cover.animation.radius == null) coverflowOptions.cover.animation.radius = defaultCoverflowOptions.cover.animation.radius;
+                else if (isNaN(parseInt(coverflowOptions.cover.animation.radius))) validationMessages.push("Cover animation radius is not a number.");
+                else if (parseInt(coverflowOptions.cover.animation.radius) <= 0) validationMessages.push("Cover animation radius must be greater than zero.");
+                if (coverflowOptions.cover.animation.perspective == null) coverflowOptions.cover.animation.perspective = defaultCoverflowOptions.cover.animation.perspective;
+                else {
+                    if (coverflowOptions.cover.animation.perspective.duration == null) coverflowOptions.cover.animation.perspective.duration = defaultCoverflowOptions.cover.animation.perspective.duration;
+                    else if (isNaN(parseInt(coverflowOptions.cover.animation.perspective.duration))) validationMessages.push("Cover perspective animation duration is not a number.");
+                    else if (parseInt(coverflowOptions.cover.animation.perspective.duration) <= 0) validationMessages.push("Cover perspective animation duration must be greater than zero.");
+                    if (coverflowOptions.cover.animation.perspective.inner == null) coverflowOptions.cover.animation.perspective.inner = defaultCoverflowOptions.cover.animation.perspective.inner;
+                    else if (isNaN(parseInt(coverflowOptions.cover.animation.perspective.inner))) validationMessages.push("Cover perspective animation inner is not a number.");
+                }
+            }
+            
+            if (coverflowOptions.cover.background == null) coverflowOptions.cover.background = defaultCoverflowOptions.cover.background;
+            else {
+                if (coverflowOptions.cover.background.size == null) coverflowOptions.cover.background.size = defaultCoverflowOptions.cover.background.size;
+                else if (isNaN(parseInt(coverflowOptions.cover.background.size))) validationMessages.push("Background cover size is not a number.");    
+                else if (parseInt(coverflowOptions.cover.background.size) <= 0) validationMessages.push("Background cover size must be greater than zero.");
+                if (coverflowOptions.cover.background.overlap == null) coverflowOptions.cover.background.overlap = defaultCoverflowOptions.cover.background.overlap;
+                else {
+                    if (coverflowOptions.cover.background.overlap.inner == null) coverflowOptions.cover.background.overlap.inner = defaultCoverflowOptions.cover.background.overlap.inner;
+                    else if (isNaN(parseInt(coverflowOptions.cover.background.overlap.inner))) validationMessages.push("Inner background cover overlap is not a number.");
+                    if (coverflowOptions.cover.background.overlap.outer == null) coverflowOptions.cover.background.overlap.outer = defaultCoverflowOptions.cover.background.overlap.outer;
+                    else if (isNaN(parseInt(coverflowOptions.cover.background.overlap.outer))) validationMessages.push("Outer background cover overlap is not a number.");
+                }
+            }
+            
+            if (coverflowOptions.cover.perspective == null) coverflowOptions.cover.perspective = defaultCoverflowOptions.cover.perspective;
+            else {
+                if (coverflowOptions.cover.perspective.enabled == null) coverflowOptions.cover.perspective.enabled = defaultCoverflowOptions.cover.perspective.enabled;
+                else if (coverflowOptions.cover.perspective.enabled != true && coverflowOptions.cover.perspective.enabled != false) validationMessages.push("Cover perspective enabled is not a boolean.");
+                if (coverflowOptions.cover.perspective.angle == null) coverflowOptions.cover.perspective.angle = defaultCoverflowOptions.cover.perspective.angle;
+                else if (isNaN(parseInt(coverflowOptions.cover.perspective.angle))) validationMessages.push("Cover perspective angle is not a number.");
+            }
+
+            if (coverflowOptions.cover.reflection == null) coverflowOptions.cover.reflection = defaultCoverflowOptions.cover.reflection;
+            else {
+                if (coverflowOptions.cover.reflection.enabled == null) coverflowOptions.cover.reflection.enabled = defaultCoverflowOptions.cover.reflection.enabled;
+                else if (coverflowOptions.cover.reflection.enabled != true && coverflowOptions.cover.reflection.enabled != false) validationMessages.push("Cover reflection enabled is not a boolean.");
+                if (coverflowOptions.cover.reflection.length == null) coverflowOptions.cover.reflection.length = defaultCoverflowOptions.cover.reflection.length;
+                else if (isNaN(parseInt(coverflowOptions.cover.reflection.length))) validationMessages.push("Cover reflection length is not a number.");
+                else if (parseInt(coverflowOptions.cover.reflection.length) <= 0) validationMessages.push("Cover reflection length must be greater than zero.");
+                if (coverflowOptions.cover.reflection.initialOpacity == null) coverflowOptions.cover.reflection.initialOpacity = defaultCoverflowOptions.cover.reflection.initialOpacity;
+                else if (isNaN(parseInt(coverflowOptions.cover.reflection.initialOpacity))) validationMessages.push("Cover reflection initial opacity is not a number.");
+            }
+
+            if (coverflowOptions.cover.title == null) coverflowOptions.cover.title = defaultCoverflowOptions.cover.title;
+            else {
+                if (coverflowOptions.cover.title.enabled == null) coverflowOptions.cover.title.enabled = defaultCoverflowOptions.cover.title.enabled;
+                else if (coverflowOptions.cover.title.enabled != true && coverflowOptions.cover.title.enabled != false) validationMessages.push("Cover title enabled is not a boolean.");
+            }
+        }
+        if (coverflowOptions.slider == null) coverflowOptions.slider = defaultCoverflowOptions.slider;
+        else {
+            if (coverflowOptions.slider.enabled == null) coverflowOptions.slider.enabled = defaultCoverflowOptions.slider.enabled;
+            else if (coverflowOptions.slider.enabled != true && coverflowOptions.slider.enabled != false) validationMessages.push("Slider enabled is not a boolean.");
+            if (coverflowOptions.slider.width == null) coverflowOptions.slider.width = defaultCoverflowOptions.slider.width;
+            else if (isNaN(parseInt(coverflowOptions.slider.width))) validationMessages.push("Slider width is not a number.");
+            else if (parseInt(coverflowOptions.slider.width) <= 0) validationMessages.push("Slider width must be greater than zero.");
+        }
+    }
+
+    var isValid = validationMessages.length == 0;
+    $("#validationMessage").empty();
+    if (isValid) {
+        $("#validationMessage").hide();
+    }
+    else {
+        for (var i = 0; i < validationMessages.length; i++)
+            $("#validationMessage").append("<li>" + validationMessages[i] + "</li>");
+
+        $("#validationMessage").show();
+    }
+    return isValid;
+}
+
 // Define section on/off functions
 function turnOnAutoplay() {
     $("#coverflowOptionsAdminPanel #autoplay ul").show();
     $("#coverflowOptionsAdminPanel #autoplay > p").hide();
+    $autoplaySwitch.data("toggleSwitch").turnOn();
     if (!coverflowOptions.autoplay.enabled) {
         coverflowOptions.autoplay.enabled = true;
-        $autoplaySwitch.data("toggleSwitch").turnOn();
         $("#coverflowOptionsAdminPanel #changesLabel").show();
     }
 }
 function turnOffAutoplay() {
     $("#coverflowOptionsAdminPanel #autoplay ul").hide();
     $("#coverflowOptionsAdminPanel #autoplay > p").show();
+    $autoplaySwitch.data("toggleSwitch").turnOff();
     if (coverflowOptions.autoplay.enabled) {
         coverflowOptions.autoplay.enabled = false;
-        $autoplaySwitch.data("toggleSwitch").turnOff();
         $("#coverflowOptionsAdminPanel #changesLabel").show();
     }
 }
@@ -82,9 +209,9 @@ function turnOnCategories() {
     $("#coverflowOptionsAdminPanel #categories ul").show();
     $("#coverflowOptionsAdminPanel #categories > p").hide();
     $("#coverflowOptionsAdminPanel #flipsPerCategory").removeAttr("disabled");
+    $categoriesSwitch.data("toggleSwitch").turnOn();
     if (!coverflowOptions.categories.enabled) {
         coverflowOptions.categories.enabled = true;
-        $categoriesSwitch.data("toggleSwitch").turnOn();
         $("#coverflowOptionsAdminPanel #changesLabel").show();
     }
 }
@@ -92,79 +219,79 @@ function turnOffCategories() {
     $("#coverflowOptionsAdminPanel #categories ul").hide();
     $("#coverflowOptionsAdminPanel #categories > p").show();
     $("#coverflowOptionsAdminPanel #flipsPerCategory").attr("disabled", "disabled");
+    $categoriesSwitch.data("toggleSwitch").turnOff();    
     if (coverflowOptions.categories.enabled) {
         coverflowOptions.categories.enabled = false;
-        $categoriesSwitch.data("toggleSwitch").turnOff();
         $("#coverflowOptionsAdminPanel #changesLabel").show();
     }
 }
 function turnOnPerpective() {
     $("#coverflowOptionsAdminPanel #perspective ul").show();
     $("#coverflowOptionsAdminPanel #perspective > p").hide();
+    $perspectiveSwitch.data("toggleSwitch").turnOn();    
     if (!coverflowOptions.cover.perspective.enabled) {
         coverflowOptions.cover.perspective.enabled = true;
-        $perspectiveSwitch.data("toggleSwitch").turnOn();
         $("#coverflowOptionsAdminPanel #changesLabel").show();
     }
 }
 function turnOffPerpective() {
     $("#coverflowOptionsAdminPanel #perspective ul").hide();
     $("#coverflowOptionsAdminPanel #perspective > p").show();
+    $perspectiveSwitch.data("toggleSwitch").turnOff();
     if (coverflowOptions.cover.perspective.enabled) {
         coverflowOptions.cover.perspective.enabled = false;
-        $perspectiveSwitch.data("toggleSwitch").turnOff();
         $("#coverflowOptionsAdminPanel #changesLabel").show();
     }
 }
 function turnOnReflections() {
     $("#coverflowOptionsAdminPanel #reflections ul").show();
     $("#coverflowOptionsAdminPanel #reflections > p").hide();
+    $reflectionsSwitch.data("toggleSwitch").turnOn();
     if (!coverflowOptions.cover.reflection.enabled) {
         coverflowOptions.cover.reflection.enabled = true;
-        $reflectionsSwitch.data("toggleSwitch").turnOn();
         $("#coverflowOptionsAdminPanel #changesLabel").show();
     }
 }
 function turnOffReflections() {
     $("#coverflowOptionsAdminPanel #reflections ul").hide();
     $("#coverflowOptionsAdminPanel #reflections > p").show();
+    $reflectionsSwitch.data("toggleSwitch").turnOff();
     if (coverflowOptions.cover.reflection.enabled) {
         coverflowOptions.cover.reflection.enabled = false;
-        $reflectionsSwitch.data("toggleSwitch").turnOff();
         $("#coverflowOptionsAdminPanel #changesLabel").show();
     }
 }
 function turnOnSlider() {
     $("#coverflowOptionsAdminPanel #slider ul").show();
     $("#coverflowOptionsAdminPanel #slider > p").hide();
+    $sliderSwitch.data("toggleSwitch").turnOn();
     if (!coverflowOptions.slider.enabled) {
         coverflowOptions.slider.enabled = true;
-        $sliderSwitch.data("toggleSwitch").turnOn();
         $("#coverflowOptionsAdminPanel #changesLabel").show();
     }
 }
 function turnOffSlider() {
     $("#coverflowOptionsAdminPanel #slider ul").hide();
     $("#coverflowOptionsAdminPanel #slider > p").show();
+    $sliderSwitch.data("toggleSwitch").turnOff();
     if (coverflowOptions.slider.enabled) {
         coverflowOptions.slider.enabled = false;
-        $sliderSwitch.data("toggleSwitch").turnOff();
         $("#coverflowOptionsAdminPanel #changesLabel").show();
     }
 }
 function turnOnTitles() {
     $("#coverflowOptionsAdminPanel #titles > p").hide();
+    $titleSwitch.data("toggleSwitch").turnOn();
     if (!coverflowOptions.cover.title.enabled) {
         coverflowOptions.cover.title.enabled = true;
-        $titleSwitch.data("toggleSwitch").turnOn();
         $("#coverflowOptionsAdminPanel #changesLabel").show();
     }
 }
 function turnOffTitles() {
     $("#coverflowOptionsAdminPanel #titles > p").show();
+    $titleSwitch.data("toggleSwitch").turnOff();
     if (coverflowOptions.cover.title.enabled) {
         coverflowOptions.cover.title.enabled = false;
-        $titleSwitch.data("toggleSwitch").turnOff();
         $("#coverflowOptionsAdminPanel #changesLabel").show();
     }
 }
@@ -197,6 +324,9 @@ function updateOptions() {
 
 // Update form with options
 function updateForm(setSliders) {
+    if (!validateCoverflowOptions())
+        return;
+    
     if (setSliders) { // Set sliders
         $sliderAnimationDuration.slider("value", coverflowOptions.cover.animation.perspective.duration);
         $sliderInnerCoverAnimationOffset.slider("value", coverflowOptions.cover.animation.perspective.inner);

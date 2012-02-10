@@ -80,12 +80,12 @@
     <Content Include="admin\index.html" />
     <Content Include="admin\images\iphone_switch.png" />
     <Content Include="admin\images\iphone_switch_container_off.png" />
-    <Content Include="admin\js\admin.js" />
     <Content Include="admin\js\jquery.easing-1.3.pack.js" />
     <Content Include="admin\js\jquery.fancybox-1.3.4.pack.js" />
     <Content Include="admin\js\jquery.iphone-switch.js" />
     <Content Include="admin\js\jquery.mousewheel-3.0.4.pack.js" />
     <Content Include="admin\js\jquery.ui.accordion.min.js" />
+    <Content Include="admin\js\jquery.ui.pt_coverflow-admin.js" />
     <Content Include="admin\js\json.js" />
     <Content Include="css\jquery.ui.pt_coverflow.css" />
     <Content Include="css\reset.css" />
