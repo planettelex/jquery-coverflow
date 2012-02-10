@@ -21,7 +21,7 @@
     <title>Planet Telex Coverflow</title>
     <link type="text/css" href="../css/reset.css" rel="Stylesheet" />
     <link type="text/css" href="../css/ui-darkness/jquery-ui-1.8.17.custom.css" rel="Stylesheet" />
-    <link type="text/css" href="css/trontastic/jquery-ui-1.8.17.custom.css" rel="Stylesheet" /> 
+    <link type="text/css" href="css/trontastic/jquery-ui-1.8.17.custom.css" rel="Stylesheet" />
     <link type="text/css" href="css/jquery.fancybox-1.3.4.css" rel="Stylesheet" />
     <link type="text/css" href="../css/jquery.ui.pt_coverflow.css" rel="stylesheet" />
     <link type="text/css" href="../css/site.css" rel="Stylesheet" />
@@ -37,8 +37,8 @@
     <script type="text/javascript" src="../js/jquery.ui.pt_cover.js"></script>
     <script type="text/javascript" src="../js/jquery.ui.pt_coverflow.js"></script>
     <!-- Admin -->
-    <script type="text/javascript" src="js/json.js"></script>
-    <script type="text/javascript" src="js/jquery.ui.pt_coverflow-admin.js"></script>
+    <script type="text/javascript" src="js/pt_json.js"></script>
+    <script type="text/javascript" src="js/pt_coverflow-admin.js"></script>
 </head>
 <body>
     <div id="coverflowOptionsAdminPanel">
@@ -237,7 +237,7 @@
             </div>
         </div>
         <header>
-            <ul id="pageMenu"><li><a href="../index.html">Home</a></li><li><a href="../json.html">Json</a></li><li><a href="../demos/">Demos</a></li><li><a href="">Admin</a></li></ul>                
+            <ul id="pageMenu"><li><a href="../index.html">Home</a></li><li><a href="../json.html">Json</a></li><li><a href="../demos/">Demos</a></li><li><a href="">Admin</a></li></ul>
             <img id="header" alt="Planet Telex Coverflow" src="../images/_header.png" />
             <h1><a>Options</a></h1>
         </header>
@@ -297,7 +297,7 @@
                 $("#changesLabel").click(function () {
                     accordion.accordion("activate", false);
                 });
-            
+
                 // Initialize coverflow and admin form.
                 var $coverflow = $("#coverflowOptionsAdminPreview").coverflow(coverflowOptions);
                 updateForm(false);
@@ -316,7 +316,7 @@
                     onStart: function () {
                         updateOptions();
                         var jsonString = JSON.stringify(coverflowOptions);
-                        $("#jsonView textarea").html(formatJson(jsonString));
+                        $("#jsonView textarea").html(pt.json.format(jsonString));
                     },
                     titleShow: false
                 });
