@@ -136,3 +136,21 @@ header h2 {
 #removeImage {
     background: url(../../../images/controls/controls-light.png) no-repeat 0 0;
 }
+#pageMenu {
+    position: absolute;
+    top: 20px;
+    left: 243px;
+}
+#pageMenu li, #pageMenu li a {
+    display: block;
+    float: left;
+    position: relative;
+    font-family: Arial, Helvetica, sans-serif;
+    padding-right: 5px;
+    font-size: 10pt;
+    text-decoration: none;
+    color: black;
+}
+#pageMenu li a:hover {
+    text-decoration: underline;
+}
