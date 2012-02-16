@@ -139,6 +139,7 @@ typeof jQuery.ui != 'undefined' &&
             this._loadSlider();
 
             if (this.options.categories.enabled) {
+                this._setCurrentCategory(this.options.categories.selectedCategory);
                 this._loadCategoryTitles();
             }
 
@@ -404,6 +405,23 @@ typeof jQuery.ui != 'undefined' &&
             this._trigger("togglePlay", null, { selectedIndex: this._currentIndex });
         },
 
+        _setCurrentCategory: function (selectedCategory) {
+            ///<summary>
+            /// Finds the currentCategoryIndex based off the selectedCategory and sets it.
+            ///</summary>
+            ///<param name="selectedCategory" type="String" />
+            ///<returns type="Undefined" />
+
+            if (selectedCategory) {
+                for (var i = 0; i < this._categories.length; i++) {
+                    if (this._categories[i] == selectedCategory) {
+                        this._currentCategoryIndex = i;
+                        break;
+                    }
+                }
+            }
+        },
+
         _getCurrentCategory: function () {
             return this._categories[this._currentCategoryIndex];
         },
@@ -482,14 +500,7 @@ typeof jQuery.ui != 'undefined' &&
                     this._addImage($(images[i]), isChangingCategory, isAnimated);
                 }
 
-                // Finds the currentCategoryIndex based off the selectedCategory and sets it.
-                for (i = 0; i < this._categories.length; i++) {
-                    if (this._categories[i] == selectedCategory) {
-                        this._currentCategoryIndex = i;
-                        break;
-                    }
-                }
-
+                this._setCurrentCategory(selectedCategory);
                 this.options.categories.selectedCategory = selectedCategory;
                 this._loadCategoryTitles();
             }
