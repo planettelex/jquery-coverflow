@@ -57,7 +57,7 @@ typeof jQuery.ui != 'undefined' &&
                     radius: 20          // Number of covers animated on each side of the selected cover
                 },
                 background: {
-                	style: null,		// Color or url applied to the backround in CSS (defaults to the container color)
+                    style: null, 	// Color or url applied to the backround in CSS (defaults to the container color)
                     size: 90,           // Percentage of original image
                     overlap: {
                         inner: 20,      // Percentage of overlap
@@ -99,21 +99,21 @@ typeof jQuery.ui != 'undefined' &&
             this._currentIndex = this.options.selectedIndex;
 
             if (this.options.images.length > 0) {
-            	var i = null, image, alt;
+                var i, image, alt;
                 for (i in this.options.images) {
                     image = this.options.images[i];
-                    
+
                     alt = "";
                     if (image.title) {
-                    	alt = image.title;
+                        alt = image.title;
                     }
                     if (image.subtitle) {
-                    	if (alt != "") {
-                    		alt += ", ";
-                    	}
-                    	alt += image.subtitle;
+                        if (alt != "") {
+                            alt += ", ";
+                        }
+                        alt += image.subtitle;
                     }
-                    
+
                     this.element.append(
                        $("<img/>")
                            .attr({
@@ -180,6 +180,8 @@ typeof jQuery.ui != 'undefined' &&
         destroy: function () {
             ///<summary>Destroys the Coverflow instance and restores the DOM to its original state prior to the Coverflow creation.</summary>
             ///<returns type="Undefined" />
+
+            this._pause();
 
             this._$images.each(function (i, img) {
                 $(img).cover("destroy");
