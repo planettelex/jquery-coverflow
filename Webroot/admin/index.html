@@ -299,14 +299,14 @@
                 });
 
                 // Initialize coverflow and admin form.
-                var $coverflow = $("#coverflowOptionsAdminPreview").coverflow(coverflowOptions);
-                updateForm(false);
+                var $coverflow = $("#coverflowOptionsAdminPreview").coverflow(pt.coverflow.admin.coverflowOptions);
+                pt.coverflow.admin.updateForm(false);
 
                 // Refresh coverflow button
                 $("#refreshCoverflow").click(function () {
                     $coverflow.coverflow("destroy");
-                    updateOptions();
-                    $coverflow = $("#coverflowOptionsAdminPreview").coverflow(coverflowOptions);
+                    pt.coverflow.admin.updateOptions();
+                    $coverflow = $("#coverflowOptionsAdminPreview").coverflow(pt.coverflow.admin.coverflowOptions);
                     $("#changesLabel").hide();
                 });
 
@@ -314,8 +314,8 @@
                 $("#viewEditJson").fancybox({
                     overlayColor: '#000',
                     onStart: function () {
-                        updateOptions();
-                        var jsonString = JSON.stringify(coverflowOptions);
+                        pt.coverflow.admin.updateOptions();
+                        var jsonString = JSON.stringify(pt.coverflow.admin.coverflowOptions);
                         $("#jsonView textarea").html(pt.json.format(jsonString));
                     },
                     titleShow: false
@@ -327,9 +327,9 @@
                     var jsonEval = "coverflowOptions = " + jsonString + ";";
                     eval(jsonEval);
                     $coverflow.coverflow("destroy");
-                    $coverflow = $("#coverflowOptionsAdminPreview").coverflow(coverflowOptions);
+                    $coverflow = $("#coverflowOptionsAdminPreview").coverflow(pt.coverflow.admin.coverflowOptions);
                     $.fancybox.close();
-                    updateForm(true);
+                    pt.coverflow.admin.updateForm(true);
                 });
             });
         </script>
