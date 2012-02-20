@@ -208,140 +208,140 @@ pt.coverflow.admin = {
             }
         }
         var isValid = this.validationMessages.length == 0;
-        $("#validationMessage").empty();
+        $("#coverflowOptionsAdminPanel .validationMessage").empty();
         if (isValid) {
-            $("#validationMessage").hide();
+            $("#coverflowOptionsAdminPanel .validationMessage").hide();
         }
         else {
             for (var i = 0; i < this.validationMessages.length; i++)
-                $("#validationMessage").append("<li>" + this.validationMessages[i] + "</li>");
+                $("#coverflowOptionsAdminPanel .validationMessage").append("<li>" + this.validationMessages[i] + "</li>");
 
-            $("#validationMessage").show();
+            $("#coverflowOptionsAdminPanel .validationMessage").show();
         }
         return isValid;
     },
     turnOnAutoplay: function() {
-        $("#coverflowOptionsAdminPanel #autoplay ul").show();
-        $("#coverflowOptionsAdminPanel #autoplay > p").hide();
+        $("#coverflowOptionsAdminPanel .autoplay ul").show();
+        $("#coverflowOptionsAdminPanel .autoplay > p").hide();
         this.$autoplaySwitch.data("toggleSwitch").turnOn();
         if (!this.coverflowOptions.autoplay.enabled) {
             this.coverflowOptions.autoplay.enabled = true;
-            $("#coverflowOptionsAdminPanel #changesLabel").show();
+            $("#changesLabel").show();
         }
     },
     turnOffAutoplay: function() {
-        $("#coverflowOptionsAdminPanel #autoplay ul").hide();
-        $("#coverflowOptionsAdminPanel #autoplay > p").show();
+        $("#coverflowOptionsAdminPanel .autoplay ul").hide();
+        $("#coverflowOptionsAdminPanel .autoplay > p").show();
         this.$autoplaySwitch.data("toggleSwitch").turnOff();
         if (this.coverflowOptions.autoplay.enabled) {
             this.coverflowOptions.autoplay.enabled = false;
-            $("#coverflowOptionsAdminPanel #changesLabel").show();
+            $("#changesLabel").show();
         }
     },
     turnOnCategories: function() {
-        $("#coverflowOptionsAdminPanel #categories ul").show();
-        $("#coverflowOptionsAdminPanel #categories > p").hide();
-        $("#coverflowOptionsAdminPanel #flipsPerCategory").removeAttr("disabled");
+        $("#coverflowOptionsAdminPanel .categories ul").show();
+        $("#coverflowOptionsAdminPanel .categories > p").hide();
+        $("#flipsPerCategory").removeAttr("disabled");
         this.$categoriesSwitch.data("toggleSwitch").turnOn();
         if (!this.coverflowOptions.categories.enabled) {
             this.coverflowOptions.categories.enabled = true;
-            $("#coverflowOptionsAdminPanel #changesLabel").show();
+            $("#changesLabel").show();
         }
     },
     turnOffCategories: function() {
-        $("#coverflowOptionsAdminPanel #categories ul").hide();
-        $("#coverflowOptionsAdminPanel #categories > p").show();
-        $("#coverflowOptionsAdminPanel #flipsPerCategory").attr("disabled", "disabled");
+        $("#coverflowOptionsAdminPanel .categories ul").hide();
+        $("#coverflowOptionsAdminPanel .categories > p").show();
+        $("#flipsPerCategory").attr("disabled", "disabled");
         this.$categoriesSwitch.data("toggleSwitch").turnOff();
         if (this.coverflowOptions.categories.enabled) {
             this.coverflowOptions.categories.enabled = false;
-            $("#coverflowOptionsAdminPanel #changesLabel").show();
+            $("#changesLabel").show();
         }
     },
     turnOnPerpective: function() {
-        $("#coverflowOptionsAdminPanel #perspective ul").show();
-        $("#coverflowOptionsAdminPanel #perspective > p").hide();
+        $("#coverflowOptionsAdminPanel .perspective ul").show();
+        $("#coverflowOptionsAdminPanel .perspective > p").hide();
         this.$perspectiveSwitch.data("toggleSwitch").turnOn();
         if (!this.coverflowOptions.cover.perspective.enabled) {
             this.coverflowOptions.cover.perspective.enabled = true;
-            $("#coverflowOptionsAdminPanel #changesLabel").show();
+            $("#changesLabel").show();
         }
     },
     turnOffPerpective: function() {
-        $("#coverflowOptionsAdminPanel #perspective ul").hide();
-        $("#coverflowOptionsAdminPanel #perspective > p").show();
+        $("#coverflowOptionsAdminPanel .perspective ul").hide();
+        $("#coverflowOptionsAdminPanel .perspective > p").show();
         this.$perspectiveSwitch.data("toggleSwitch").turnOff();
         if (this.coverflowOptions.cover.perspective.enabled) {
             this.coverflowOptions.cover.perspective.enabled = false;
-            $("#coverflowOptionsAdminPanel #changesLabel").show();
+            $("#changesLabel").show();
         }
     },
     turnOnReflections: function() {
-        $("#coverflowOptionsAdminPanel #reflections ul").show();
-        $("#coverflowOptionsAdminPanel #reflections > p").hide();
+        $("#coverflowOptionsAdminPanel .reflections ul").show();
+        $("#coverflowOptionsAdminPanel .reflections > p").hide();
         this.$reflectionsSwitch.data("toggleSwitch").turnOn();
         if (!this.coverflowOptions.cover.reflection.enabled) {
             this.coverflowOptions.cover.reflection.enabled = true;
-            $("#coverflowOptionsAdminPanel #changesLabel").show();
+            $("#changesLabel").show();
         }
     },
     turnOffReflections: function() {
-        $("#coverflowOptionsAdminPanel #reflections ul").hide();
-        $("#coverflowOptionsAdminPanel #reflections > p").show();
+        $("#coverflowOptionsAdminPanel .reflections ul").hide();
+        $("#coverflowOptionsAdminPanel .reflections > p").show();
         this.$reflectionsSwitch.data("toggleSwitch").turnOff();
         if (this.coverflowOptions.cover.reflection.enabled) {
             this.coverflowOptions.cover.reflection.enabled = false;
-            $("#coverflowOptionsAdminPanel #changesLabel").show();
+            $("#changesLabel").show();
         }
     },
     turnOnSlider: function() {
-        $("#coverflowOptionsAdminPanel #slider ul").show();
-        $("#coverflowOptionsAdminPanel #slider > p").hide();
+        $("#coverflowOptionsAdminPanel .slider ul").show();
+        $("#coverflowOptionsAdminPanel .slider > p").hide();
         this.$sliderSwitch.data("toggleSwitch").turnOn();
         if (!this.coverflowOptions.slider.enabled) {
             this.coverflowOptions.slider.enabled = true;
-            $("#coverflowOptionsAdminPanel #changesLabel").show();
+            $("#changesLabel").show();
         }
     },
     turnOffSlider: function() {
-        $("#coverflowOptionsAdminPanel #slider ul").hide();
-        $("#coverflowOptionsAdminPanel #slider > p").show();
+        $("#coverflowOptionsAdminPanel .slider ul").hide();
+        $("#coverflowOptionsAdminPanel .slider > p").show();
         this.$sliderSwitch.data("toggleSwitch").turnOff();
         if (this.coverflowOptions.slider.enabled) {
             this.coverflowOptions.slider.enabled = false;
-            $("#coverflowOptionsAdminPanel #changesLabel").show();
+            $("#changesLabel").show();
         }
     },
     turnOnTitles: function() {
-        $("#coverflowOptionsAdminPanel #titles > p").hide();
+        $("#coverflowOptionsAdminPanel .titles > p").hide();
         this.$titleSwitch.data("toggleSwitch").turnOn();
         if (!this.coverflowOptions.cover.title.enabled) {
             this.coverflowOptions.cover.title.enabled = true;
-            $("#coverflowOptionsAdminPanel #changesLabel").show();
+            $("#changesLabel").show();
         }
     },
     turnOffTitles: function() {
-        $("#coverflowOptionsAdminPanel #titles > p").show();
+        $("#coverflowOptionsAdminPanel .titles > p").show();
         this.$titleSwitch.data("toggleSwitch").turnOff();
         if (this.coverflowOptions.cover.title.enabled) {
             this.coverflowOptions.cover.title.enabled = false;
-            $("#coverflowOptionsAdminPanel #changesLabel").show();
+            $("#changesLabel").show();
         }
     },
     updateOptions: function() {
-        this.coverflowOptions.selectedIndex = parseInt($("#coverflowOptionsAdminPanel #startingIndex").val());
-        this.coverflowOptions.autoplay.interval = parseInt($("#coverflowOptionsAdminPanel #flipInterval").val());
-        this.coverflowOptions.autoplay.pauseOnMouseenter = $("#coverflowOptionsAdminPanel #pauseOnHover").prop("checked");
-        this.coverflowOptions.autoplay.playsPerCategory = parseInt($("#coverflowOptionsAdminPanel #flipsPerCategory").val());
-        this.coverflowOptions.categories.defaultCategory = $("#coverflowOptionsAdminPanel #defaultCategory").val();
-        this.coverflowOptions.categories.selectedCategory = ($("#coverflowOptionsAdminPanel #startingCategory").val() == "- Not set -") ? null : $("#coverflowOptionsAdminPanel #startingCategory").val();
-        this.coverflowOptions.categories.renderTitles = $("#coverflowOptionsAdminPanel #displayCategoriesNav").prop("checked");
-        this.coverflowOptions.categories.rememberLastCover = $("#coverflowOptionsAdminPanel #categoriesStateful").prop("checked");
-        this.coverflowOptions.categories.delAnimationCount = parseInt($("#coverflowOptionsAdminPanel #animateOut").val());
-        this.coverflowOptions.categories.addAnimationRadius = parseInt($("#coverflowOptionsAdminPanel #animateIn").val());
-        this.coverflowOptions.cover.height = parseInt($("#coverflowOptionsAdminPanel #coverHeight").val());
-        this.coverflowOptions.cover.width = parseInt($("#coverflowOptionsAdminPanel #coverWidth").val());
-        this.coverflowOptions.cover.animation.radius = parseInt($("#coverflowOptionsAdminPanel #slideAnimationRadius").val());
+        this.coverflowOptions.selectedIndex = parseInt($("#startingIndex").val());
+        this.coverflowOptions.autoplay.interval = parseInt($("#flipInterval").val());
+        this.coverflowOptions.autoplay.pauseOnMouseenter = $("#pauseOnHover").prop("checked");
+        this.coverflowOptions.autoplay.playsPerCategory = parseInt($("#flipsPerCategory").val());
+        this.coverflowOptions.categories.defaultCategory = $("#defaultCategory").val();
+        this.coverflowOptions.categories.selectedCategory = ($("#startingCategory").val() == "- Not set -") ? null : $("#startingCategory").val();
+        this.coverflowOptions.categories.renderTitles = $("#displayCategoriesNav").prop("checked");
+        this.coverflowOptions.categories.rememberLastCover = $("#categoriesStateful").prop("checked");
+        this.coverflowOptions.categories.delAnimationCount = parseInt($("#animateOut").val());
+        this.coverflowOptions.categories.addAnimationRadius = parseInt($("#animateIn").val());
+        this.coverflowOptions.cover.height = parseInt($("#coverHeight").val());
+        this.coverflowOptions.cover.width = parseInt($("#coverWidth").val());
+        this.coverflowOptions.cover.animation.radius = parseInt($("#slideAnimationRadius").val());
         this.coverflowOptions.cover.animation.perspective.duration = this.$animationDurationSlider.slider("value");
         this.coverflowOptions.cover.animation.perspective.inner = this.$innerCoverAnimationOffsetSlider.slider("value");
         this.coverflowOptions.cover.background.size = this.$backgroundSizeSlider.slider("value") + 100;
@@ -370,31 +370,31 @@ pt.coverflow.admin = {
         // Set slider value displays
         var backgroundSize = this.coverflowOptions.cover.background.size - 100;
         var biggerSmaller = backgroundSize < 0 ? "smaller" : "bigger";
-        $("#coverflowOptionsAdminPanel #backgroundCoverSize").html(Math.abs(backgroundSize));
-        $("#coverflowOptionsAdminPanel #biggerSmaller").html(biggerSmaller);
-        $("#coverflowOptionsAdminPanel #innerCoverOverlap").html(this.coverflowOptions.cover.background.overlap.inner);
-        $("#coverflowOptionsAdminPanel #outerCoverOverlap").html(this.coverflowOptions.cover.background.overlap.outer);
-        $("#coverflowOptionsAdminPanel #angle").html(this.coverflowOptions.cover.perspective.angle);
-        $("#coverflowOptionsAdminPanel #animationDuration").html(this.coverflowOptions.cover.animation.perspective.duration);
-        $("#coverflowOptionsAdminPanel #innerCoverAnimationOffset").html(this.coverflowOptions.cover.animation.perspective.inner);
-        $("#coverflowOptionsAdminPanel #initialOpacity").html(this.coverflowOptions.cover.reflection.initialOpacity);
-        $("#coverflowOptionsAdminPanel #reflectionLength").html(this.coverflowOptions.cover.reflection.length);
-        $("#coverflowOptionsAdminPanel #sliderWidth").html(this.coverflowOptions.slider.width);
+        $("#backgroundCoverSize").html(Math.abs(backgroundSize));
+        $("#biggerSmaller").html(biggerSmaller);
+        $("#innerCoverOverlap").html(this.coverflowOptions.cover.background.overlap.inner);
+        $("#outerCoverOverlap").html(this.coverflowOptions.cover.background.overlap.outer);
+        $("#angle").html(this.coverflowOptions.cover.perspective.angle);
+        $("#animationDuration").html(this.coverflowOptions.cover.animation.perspective.duration);
+        $("#innerCoverAnimationOffset").html(this.coverflowOptions.cover.animation.perspective.inner);
+        $("#initialOpacity").html(this.coverflowOptions.cover.reflection.initialOpacity);
+        $("#reflectionLength").html(this.coverflowOptions.cover.reflection.length);
+        $("#sliderWidth").html(this.coverflowOptions.slider.width);
         // Set non-slider form values
-        $("#coverflowOptionsAdminPanel #coverWidth").val(this.coverflowOptions.cover.width);
-        $("#coverflowOptionsAdminPanel #coverHeight").val(this.coverflowOptions.cover.height);
-        $("#coverflowOptionsAdminPanel #startingIndex").val(Math.min(this.coverflowOptions.selectedIndex, this.numberOfCovers - 1));
-        $("#coverflowOptionsAdminPanel #slideAnimationRadius").val(Math.min(this.coverflowOptions.cover.animation.radius, this.numberOfCovers));
-        $("#coverflowOptionsAdminPanel #flipInterval").val(this.coverflowOptions.autoplay.interval);
-        $("#coverflowOptionsAdminPanel #flipsPerCategory").val(Math.min(this.coverflowOptions.autoplay.playsPerCategory, this.numberOfCovers));
-        $("#coverflowOptionsAdminPanel #pauseOnHover").prop("checked", this.coverflowOptions.autoplay.pauseOnMouseenter);
-        $("#coverflowOptionsAdminPanel #displayCategoriesNav").prop("checked", this.coverflowOptions.categories.renderTitles);
-        $("#coverflowOptionsAdminPanel #categoriesStateful").prop("checked", this.coverflowOptions.categories.rememberLastCover);
-        $("#coverflowOptionsAdminPanel #defaultCategory").val(this.coverflowOptions.categories.defaultCategory);
+        $("#coverWidth").val(this.coverflowOptions.cover.width);
+        $("#coverHeight").val(this.coverflowOptions.cover.height);
+        $("#startingIndex").val(Math.min(this.coverflowOptions.selectedIndex, this.numberOfCovers - 1));
+        $("#slideAnimationRadius").val(Math.min(this.coverflowOptions.cover.animation.radius, this.numberOfCovers));
+        $("#flipInterval").val(this.coverflowOptions.autoplay.interval);
+        $("#flipsPerCategory").val(Math.min(this.coverflowOptions.autoplay.playsPerCategory, this.numberOfCovers));
+        $("#pauseOnHover").prop("checked", this.coverflowOptions.autoplay.pauseOnMouseenter);
+        $("#displayCategoriesNav").prop("checked", this.coverflowOptions.categories.renderTitles);
+        $("#categoriesStateful").prop("checked", this.coverflowOptions.categories.rememberLastCover);
+        $("#defaultCategory").val(this.coverflowOptions.categories.defaultCategory);
         if (this.coverflowOptions.categories.selectedCategory != null)
-            $("#coverflowOptionsAdminPanel #startingCategory").val(this.coverflowOptions.categories.selectedCategory);
-        $("#coverflowOptionsAdminPanel #animateIn").val(Math.min(this.coverflowOptions.categories.addAnimationRadius, this.numberOfCovers));
-        $("#coverflowOptionsAdminPanel #animateOut").val(Math.min(this.coverflowOptions.categories.delAnimationCount, this.numberOfCovers));
+            $("#startingCategory").val(this.coverflowOptions.categories.selectedCategory);
+        $("#animateIn").val(Math.min(this.coverflowOptions.categories.addAnimationRadius, this.numberOfCovers));
+        $("#animateOut").val(Math.min(this.coverflowOptions.categories.delAnimationCount, this.numberOfCovers));
         // Set visibile areas
         if (!this.coverflowOptions.autoplay.enabled) this.turnOffAutoplay();
         else this.turnOnAutoplay();
@@ -408,15 +408,13 @@ pt.coverflow.admin = {
         else this.turnOnSlider();
         if (!this.coverflowOptions.cover.title.enabled) this.turnOffTitles();
         else this.turnOnTitles();
-        $("#coverflowOptionsAdminPanel #changesLabel").hide();
+        $("#changesLabel").hide();
     }
 };
 
 
 // On page load
 $(function () {
-    pt.coverflow.admin.numberOfCovers = $("#coverflowOptionsAdminPreview > img").length;
-
     // Initialize categories
     $.each($("#coverflowOptionsAdminPreview > img"), function (index, value) {
         var category = value.dataset["category"] != null ? value.dataset["category"] : pt.coverflow.admin.coverflowOptions.categories.defaultCategory;
@@ -425,128 +423,129 @@ $(function () {
     });
 
     // Initialize on/off switches
-    pt.coverflow.admin.$autoplaySwitch = $("#coverflowOptionsAdminPanel #autoplay .onOffSwitch").iphoneSwitch(pt.coverflow.admin.coverflowOptions.autoplay.enabled ? "on" : "off", pt.coverflow.admin.turnOnAutoplay, pt.coverflow.admin.turnOffAutoplay);
-    pt.coverflow.admin.$categoriesSwitch = $("#coverflowOptionsAdminPanel #categories .onOffSwitch").iphoneSwitch(pt.coverflow.admin.coverflowOptions.categories.enabled ? "on" : "off", pt.coverflow.admin.turnOnCategories, pt.coverflow.admin.turnOffCategories);
-    pt.coverflow.admin.$perspectiveSwitch = $("#coverflowOptionsAdminPanel #perspective .onOffSwitch").iphoneSwitch(pt.coverflow.admin.coverflowOptions.cover.perspective.enabled ? "on" : "off", pt.coverflow.admin.turnOnPerpective, pt.coverflow.admin.turnOffPerpective);
-    pt.coverflow.admin.$reflectionsSwitch = $("#coverflowOptionsAdminPanel #reflections .onOffSwitch").iphoneSwitch(pt.coverflow.admin.coverflowOptions.cover.reflection.enabled ? "on" : "off", pt.coverflow.admin.turnOnReflections, pt.coverflow.admin.turnOffReflections);
-    pt.coverflow.admin.$sliderSwitch = $("#coverflowOptionsAdminPanel #slider .onOffSwitch").iphoneSwitch(pt.coverflow.admin.coverflowOptions.slider.enabled ? "on" : "off", pt.coverflow.admin.turnOnSlider, pt.coverflow.admin.turnOffSlider);
-    pt.coverflow.admin.$titleSwitch = $("#coverflowOptionsAdminPanel #titles .onOffSwitch").iphoneSwitch(pt.coverflow.admin.coverflowOptions.cover.title.enabled ? "on" : "off", pt.coverflow.admin.turnOnTitles, pt.coverflow.admin.turnOffTitles);
+    pt.coverflow.admin.$autoplaySwitch = $("#coverflowOptionsAdminPanel .autoplay .onOffSwitch").iphoneSwitch(pt.coverflow.admin.coverflowOptions.autoplay.enabled ? "on" : "off", pt.coverflow.admin.turnOnAutoplay, pt.coverflow.admin.turnOffAutoplay);
+    pt.coverflow.admin.$categoriesSwitch = $("#coverflowOptionsAdminPanel .categories .onOffSwitch").iphoneSwitch(pt.coverflow.admin.coverflowOptions.categories.enabled ? "on" : "off", pt.coverflow.admin.turnOnCategories, pt.coverflow.admin.turnOffCategories);
+    pt.coverflow.admin.$perspectiveSwitch = $("#coverflowOptionsAdminPanel .perspective .onOffSwitch").iphoneSwitch(pt.coverflow.admin.coverflowOptions.cover.perspective.enabled ? "on" : "off", pt.coverflow.admin.turnOnPerpective, pt.coverflow.admin.turnOffPerpective);
+    pt.coverflow.admin.$reflectionsSwitch = $("#coverflowOptionsAdminPanel .reflections .onOffSwitch").iphoneSwitch(pt.coverflow.admin.coverflowOptions.cover.reflection.enabled ? "on" : "off", pt.coverflow.admin.turnOnReflections, pt.coverflow.admin.turnOffReflections);
+    pt.coverflow.admin.$sliderSwitch = $("#coverflowOptionsAdminPanel .slider .onOffSwitch").iphoneSwitch(pt.coverflow.admin.coverflowOptions.slider.enabled ? "on" : "off", pt.coverflow.admin.turnOnSlider, pt.coverflow.admin.turnOffSlider);
+    pt.coverflow.admin.$titleSwitch = $("#coverflowOptionsAdminPanel .titles .onOffSwitch").iphoneSwitch(pt.coverflow.admin.coverflowOptions.cover.title.enabled ? "on" : "off", pt.coverflow.admin.turnOnTitles, pt.coverflow.admin.turnOffTitles);
 
     // Initialize select lists
-    for (var i = 0; i < pt.coverflow.admin.coverflowOptions.numberOfCovers; i++) {
+    pt.coverflow.admin.numberOfCovers = $("#coverflowOptionsAdminPreview > img").length;
+    for (var i = 0; i < pt.coverflow.admin.numberOfCovers; i++) {
         var selectOption = $("<option value='" + i + "'>" + i + "</option>");
-        $("#coverflowOptionsAdminPanel #startingIndex").append(selectOption.clone());
+        $("#startingIndex").append(selectOption.clone());
         if (i > 1) {
-            $("#coverflowOptionsAdminPanel #slideAnimationRadius").append(selectOption.clone());
-            $("#coverflowOptionsAdminPanel #animateIn").append(selectOption.clone());
-            $("#coverflowOptionsAdminPanel #animateOut").append(selectOption.clone());
+            $("#slideAnimationRadius").append(selectOption.clone());
+            $("#animateIn").append(selectOption.clone());
+            $("#animateOut").append(selectOption.clone());
         }
-        if (i > 0) $("#coverflowOptionsAdminPanel #flipsPerCategory").append(selectOption.clone());
+        if (i > 0) $("#flipsPerCategory").append(selectOption.clone());
     }
     $.each(pt.coverflow.admin.categories, function (index, value) {
         var categorySelectOption = $("<option value='" + value + "'>" + value + "</option>");
-        $("#coverflowOptionsAdminPanel #startingCategory").append(categorySelectOption.clone());
+        $("#startingCategory").append(categorySelectOption.clone());
     });
 
     // Initialize sliders
-    pt.coverflow.admin.$backgroundSizeSlider = $("#coverflowOptionsAdminPanel #backgroundCoverSizeSlider").slider({
+    pt.coverflow.admin.$backgroundSizeSlider = $("#backgroundCoverSizeSlider").slider({
         value: pt.coverflow.admin.coverflowOptions.cover.background.size - 100,
         min: -50,
         max: 50,
         step: 1,
         slide: function (event, ui) {
-            $("#coverflowOptionsAdminPanel #backgroundCoverSize").html(Math.abs(ui.value));
+            $("#backgroundCoverSize").html(Math.abs(ui.value));
             var biggerSmaller = ui.value < 0 ? "smaller" : "bigger";
-            $("#coverflowOptionsAdminPanel #biggerSmaller").html(biggerSmaller);
-            $("#coverflowOptionsAdminPanel #changesLabel").show();
+            $("#biggerSmaller").html(biggerSmaller);
+            $("#changesLabel").show();
         }
     });
-    pt.coverflow.admin.$innerOverlapSlider = $("#coverflowOptionsAdminPanel #innerCoverOverlapSlider").slider({
+    pt.coverflow.admin.$innerOverlapSlider = $("#innerCoverOverlapSlider").slider({
         value: pt.coverflow.admin.coverflowOptions.cover.background.overlap.inner,
         min: -100,
         max: 100,
         step: 1,
         slide: function (event, ui) {
-            $("#coverflowOptionsAdminPanel #innerCoverOverlap").html(ui.value);
-            $("#coverflowOptionsAdminPanel #changesLabel").show();
+            $("#innerCoverOverlap").html(ui.value);
+            $("#changesLabel").show();
         }
     });
-    pt.coverflow.admin.$outerOverlapSlider = $("#coverflowOptionsAdminPanel #outerCoverOverlapSlider").slider({
+    pt.coverflow.admin.$outerOverlapSlider = $("#outerCoverOverlapSlider").slider({
         value: pt.coverflow.admin.coverflowOptions.cover.background.overlap.outer,
         min: -100,
         max: 100,
         step: 1,
         slide: function (event, ui) {
-            $("#coverflowOptionsAdminPanel #outerCoverOverlap").html(ui.value);
-            $("#coverflowOptionsAdminPanel #changesLabel").show();
+            $("#outerCoverOverlap").html(ui.value);
+            $("#changesLabel").show();
         }
     });
-    pt.coverflow.admin.$angleSlider = $("#coverflowOptionsAdminPanel #angleSlider").slider({
+    pt.coverflow.admin.$angleSlider = $("#angleSlider").slider({
         value: pt.coverflow.admin.coverflowOptions.cover.perspective.angle,
         min: 0,
         max: 180,
         step: 1,
         slide: function (event, ui) {
-            $("#coverflowOptionsAdminPanel #angle").html(ui.value);
-            $("#coverflowOptionsAdminPanel #changesLabel").show();
+            $("#angle").html(ui.value);
+            $("#changesLabel").show();
         }
     });
-    pt.coverflow.admin.$animationDurationSlider = $("#coverflowOptionsAdminPanel #animationDurationSlider").slider({
+    pt.coverflow.admin.$animationDurationSlider = $("#animationDurationSlider").slider({
         value: pt.coverflow.admin.coverflowOptions.cover.animation.perspective.duration,
         min: 0,
         max: 1000,
         step: 10,
         slide: function (event, ui) {
-            $("#coverflowOptionsAdminPanel #animationDuration").html(ui.value);
-            $("#coverflowOptionsAdminPanel #changesLabel").show();
+            $("#animationDuration").html(ui.value);
+            $("#changesLabel").show();
         }
     });
-    pt.coverflow.admin.$innerCoverAnimationOffsetSlider = $("#coverflowOptionsAdminPanel #innerCoverAnimationOffsetSlider").slider({
+    pt.coverflow.admin.$innerCoverAnimationOffsetSlider = $("#innerCoverAnimationOffsetSlider").slider({
         value: pt.coverflow.admin.coverflowOptions.cover.animation.perspective.inner,
         min: 0,
         max: 200,
         step: 1,
         slide: function (event, ui) {
-            $("#coverflowOptionsAdminPanel #innerCoverAnimationOffset").html(ui.value);
-            $("#coverflowOptionsAdminPanel #changesLabel").show();
+            $("#innerCoverAnimationOffset").html(ui.value);
+            $("#changesLabel").show();
         }
     });
-    pt.coverflow.admin.$initialOpacitySlider = $("#coverflowOptionsAdminPanel #initialOpacitySlider").slider({
+    pt.coverflow.admin.$initialOpacitySlider = $("#initialOpacitySlider").slider({
         value: pt.coverflow.admin.coverflowOptions.cover.reflection.initialOpacity,
         min: 0,
         max: 100,
         step: 1,
         slide: function (event, ui) {
-            $("#coverflowOptionsAdminPanel #initialOpacity").html(ui.value);
-            $("#coverflowOptionsAdminPanel #changesLabel").show();
+            $("#initialOpacity").html(ui.value);
+            $("#changesLabel").show();
         }
     });
-    pt.coverflow.admin.$reflectionLengthSlider = $("#coverflowOptionsAdminPanel #reflectionLengthSlider").slider({
+    pt.coverflow.admin.$reflectionLengthSlider = $("#reflectionLengthSlider").slider({
         value: pt.coverflow.admin.coverflowOptions.cover.reflection.length,
         min: 0,
         max: 100,
         step: 1,
         slide: function (event, ui) {
-            $("#coverflowOptionsAdminPanel #reflectionLength").html(ui.value);
-            $("#coverflowOptionsAdminPanel #changesLabel").show();
+            $("#reflectionLength").html(ui.value);
+            $("#changesLabel").show();
         }
     });
-    pt.coverflow.admin.$sliderWidthSlider = $("#coverflowOptionsAdminPanel #sliderWidthSlider").slider({
+    pt.coverflow.admin.$sliderWidthSlider = $("#sliderWidthSlider").slider({
         value: pt.coverflow.admin.coverflowOptions.slider.width,
         min: 0,
         max: 100,
         step: 1,
         slide: function (event, ui) {
-            $("#coverflowOptionsAdminPanel #sliderWidth").html(ui.value);
-            $("#coverflowOptionsAdminPanel #changesLabel").show();
+            $("#sliderWidth").html(ui.value);
+            $("#changesLabel").show();
         }
     });
 
     // Hide show changes label.
-    $("#coverflowOptionsAdminPanel #optionsForm input").change(function () {
-        $("#coverflowOptionsAdminPanel #changesLabel").show();
+    $("#optionsForm input").change(function () {
+        $("#changesLabel").show();
     });
-    $("#coverflowOptionsAdminPanel #optionsForm select").change(function () {
-        $("#coverflowOptionsAdminPanel #changesLabel").show();
+    $("#optionsForm select").change(function () {
+        $("#changesLabel").show();
     });
 });

@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 a {
     cursor: pointer;
 }
@@ -26,6 +27,34 @@ sub {
     text-align: center;
 }
 
+.backgroundCovers li span, .perspective li span, 
+.reflections li span, .slider li span {
+    display: block;
+    width: 100%;
+    min-width: 220px;
+    margin-top: 10px;
+}
+.autoplay label.short {
+    width: 120px;
+}
+.autoplay label.long {
+    width: 148px;
+}
+.categories label.short {
+    width: 115px;
+}
+.categories label.long {
+    width: 194px;
+}
+.categories select.short {
+    width: 42px;
+}
+.categories select.long {
+    width: 90px;
+}
+.categories #defaultCategory {
+    width: 85px;
+}
 .clear {
      clear: both;
 }
@@ -37,6 +66,15 @@ sub {
 }
 .floatRight {
     float: right;
+}
+.generalSettings input {
+    width: 35px;
+}
+.generalSettings select, #autoplay select {
+    width: 42px;
+}
+.generalSettings label {
+    width: 141px;
 }
 .onOffSwitch {
     float: right;
@@ -56,9 +94,6 @@ sub {
     background-image: none;
 }
 
-#coverflowOptionsAdminPreview {
-    background-color: black;
-}
 #changesLabel {
     font-family: Arial, Helvetica, sans-serif;
     font-size: 8pt;
@@ -69,6 +104,9 @@ sub {
     top: 3px;
     display: none;
     cursor: pointer;
+}
+#coverflowOptionsAdminPreview {
+    background-color: black;
 }
 #refreshCoverflow {
     background-image: url(../images/refresh.png);
@@ -172,41 +210,4 @@ sub {
 }
 #optionsForm .ui-slider-horizontal {
     height: 6px;   
-}
-#generalSettings input {
-    width: 35px;
-}
-#generalSettings select, #autoplay select {
-    width: 42px;
-}
-#generalSettings label {
-    width: 141px;
-}
-#backgroundCovers li span, #perspective li span, 
-#reflections li span, #slider li span {
-    display: block;
-    width: 100%;
-    min-width: 220px;
-    margin-top: 10px;
-}
-#autoplay label.short {
-    width: 120px;
-}
-#autoplay label.long {
-    width: 148px;
-}
-#categories label.short {
-    width: 115px;
-}
-#categories label.long {
-    width: 194px;
-}
-#categories select.short {
-    width: 42px;
-}
-#categories select.long {
-    width: 90px;
-}
-#categories #defaultCategory {
-    width: 85px;
 }
