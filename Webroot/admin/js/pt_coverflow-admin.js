@@ -423,12 +423,12 @@ $(function () {
     });
 
     // Initialize on/off switches
-    pt.coverflow.admin.$autoplaySwitch = $("#coverflowOptionsAdminPanel .autoplay .onOffSwitch").iphoneSwitch(pt.coverflow.admin.coverflowOptions.autoplay.enabled ? "on" : "off", pt.coverflow.admin.turnOnAutoplay, pt.coverflow.admin.turnOffAutoplay);
-    pt.coverflow.admin.$categoriesSwitch = $("#coverflowOptionsAdminPanel .categories .onOffSwitch").iphoneSwitch(pt.coverflow.admin.coverflowOptions.categories.enabled ? "on" : "off", pt.coverflow.admin.turnOnCategories, pt.coverflow.admin.turnOffCategories);
-    pt.coverflow.admin.$perspectiveSwitch = $("#coverflowOptionsAdminPanel .perspective .onOffSwitch").iphoneSwitch(pt.coverflow.admin.coverflowOptions.cover.perspective.enabled ? "on" : "off", pt.coverflow.admin.turnOnPerpective, pt.coverflow.admin.turnOffPerpective);
-    pt.coverflow.admin.$reflectionsSwitch = $("#coverflowOptionsAdminPanel .reflections .onOffSwitch").iphoneSwitch(pt.coverflow.admin.coverflowOptions.cover.reflection.enabled ? "on" : "off", pt.coverflow.admin.turnOnReflections, pt.coverflow.admin.turnOffReflections);
-    pt.coverflow.admin.$sliderSwitch = $("#coverflowOptionsAdminPanel .slider .onOffSwitch").iphoneSwitch(pt.coverflow.admin.coverflowOptions.slider.enabled ? "on" : "off", pt.coverflow.admin.turnOnSlider, pt.coverflow.admin.turnOffSlider);
-    pt.coverflow.admin.$titleSwitch = $("#coverflowOptionsAdminPanel .titles .onOffSwitch").iphoneSwitch(pt.coverflow.admin.coverflowOptions.cover.title.enabled ? "on" : "off", pt.coverflow.admin.turnOnTitles, pt.coverflow.admin.turnOffTitles);
+    pt.coverflow.admin.$autoplaySwitch = $("#coverflowOptionsAdminPanel .autoplay .onOffSwitch").iphoneSwitch(pt.coverflow.admin.coverflowOptions.autoplay.enabled ? "on" : "off", pt.coverflow.admin.turnOnAutoplay.bind(pt.coverflow.admin), pt.coverflow.admin.turnOffAutoplay.bind(pt.coverflow.admin));
+    pt.coverflow.admin.$categoriesSwitch = $("#coverflowOptionsAdminPanel .categories .onOffSwitch").iphoneSwitch(pt.coverflow.admin.coverflowOptions.categories.enabled ? "on" : "off", pt.coverflow.admin.turnOnCategories.bind(pt.coverflow.admin), pt.coverflow.admin.turnOffCategories.bind(pt.coverflow.admin));
+    pt.coverflow.admin.$perspectiveSwitch = $("#coverflowOptionsAdminPanel .perspective .onOffSwitch").iphoneSwitch(pt.coverflow.admin.coverflowOptions.cover.perspective.enabled ? "on" : "off", pt.coverflow.admin.turnOnPerpective.bind(pt.coverflow.admin), pt.coverflow.admin.turnOffPerpective.bind(pt.coverflow.admin));
+    pt.coverflow.admin.$reflectionsSwitch = $("#coverflowOptionsAdminPanel .reflections .onOffSwitch").iphoneSwitch(pt.coverflow.admin.coverflowOptions.cover.reflection.enabled ? "on" : "off", pt.coverflow.admin.turnOnReflections.bind(pt.coverflow.admin), pt.coverflow.admin.turnOffReflections.bind(pt.coverflow.admin));
+    pt.coverflow.admin.$sliderSwitch = $("#coverflowOptionsAdminPanel .slider .onOffSwitch").iphoneSwitch(pt.coverflow.admin.coverflowOptions.slider.enabled ? "on" : "off", pt.coverflow.admin.turnOnSlider.bind(pt.coverflow.admin), pt.coverflow.admin.turnOffSlider.bind(pt.coverflow.admin));
+    pt.coverflow.admin.$titleSwitch = $("#coverflowOptionsAdminPanel .titles .onOffSwitch").iphoneSwitch(pt.coverflow.admin.coverflowOptions.cover.title.enabled ? "on" : "off", pt.coverflow.admin.turnOnTitles.bind(pt.coverflow.admin), pt.coverflow.admin.turnOffTitles.bind(pt.coverflow.admin));
 
     // Initialize select lists
     pt.coverflow.admin.numberOfCovers = $("#coverflowOptionsAdminPreview > img").length;
