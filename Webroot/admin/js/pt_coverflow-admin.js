@@ -431,7 +431,7 @@ $(function () {
     pt.coverflow.admin.$titleSwitch = $("#coverflowOptionsAdminPanel .titles .onOffSwitch").iphoneSwitch(pt.coverflow.admin.coverflowOptions.cover.title.enabled ? "on" : "off", pt.coverflow.admin.turnOnTitles.bind(pt.coverflow.admin), pt.coverflow.admin.turnOffTitles.bind(pt.coverflow.admin));
 
     // Initialize select lists
-    pt.coverflow.admin.numberOfCovers = $("#coverflowOptionsAdminPreview > img").length;
+    pt.coverflow.admin.numberOfCovers = Math.max($("#coverflowOptionsAdminPreview > img").length, 25);
     for (var i = 0; i < pt.coverflow.admin.numberOfCovers; i++) {
         var selectOption = $("<option value='" + i + "'>" + i + "</option>");
         $("#startingIndex").append(selectOption.clone());
