@@ -222,7 +222,7 @@ typeof jQuery.ui != 'undefined' &&
             /// Adds a new image to the end of the Coverflow on the right.
             /// If categories are active then the image may not immediately
             /// be displayed if its category doesn't match the currently active one.
-            /// </summary> 
+            /// </summary>
             /// <param name="$image" type="jQuery">The image to be added.</param>
             /// <param name="isAnimated" type="Boolean">Determines if the image should be animated as its added.</param>
             ///<returns type="Undefined" />
@@ -235,14 +235,14 @@ typeof jQuery.ui != 'undefined' &&
         _addImage: function ($image, isChangingCategory, isAnimated) {
             /// <summary>
             /// Adds a new image to the end of the Coverflow on the right.
-            /// </summary> 
+            /// </summary>
             /// <param name="$image" type="jQuery">The image to be added.</param>
             /// <param name="isChangingCategory" type="Boolean">
             /// Determines if the category is being changed or not.
             /// This way during a category change images are allowed to be added to the previously active category.
             /// Defaults to false.
             /// </param>
-            /// <param name="isAnimated" type="Boolean">Determines if the image should be animated as its added.</param>            
+            /// <param name="isAnimated" type="Boolean">Determines if the image should be animated as its added.</param>
             ///<returns type="Undefined" />
 
             isChangingCategory = isChangingCategory || false;
@@ -280,13 +280,13 @@ typeof jQuery.ui != 'undefined' &&
         _removeImage: function (isChangingCategory, isAnimated) {
             /// <summary>
             /// Removes one image from the front of the Coverflow on the left.
-            /// </summary> 
+            /// </summary>
             /// <param name="isChangingCategory" type="Boolean">
             /// Determines if the category is being changed or not.
             /// This way during a category change images are allowed to be added to the previously active category.
             /// Defaults to false.
             /// </param>
-            /// <param name="isAnimated" type="Boolean">Determines if the image should be animated as its added.</param>            
+            /// <param name="isAnimated" type="Boolean">Determines if the image should be animated as its added.</param>
             ///<returns type="Undefined" />
 
             var removeIndex = 0,
@@ -648,7 +648,7 @@ typeof jQuery.ui != 'undefined' &&
 
             targetPosition = targetPosition || position.center;
             var coverOptions = this._coverConfig(selectedIndex, index, targetPosition, isSliding);
-            //TODO Find another solution to using the positioning for settings these? 
+            //TODO Find another solution to using the positioning for settings these?
             //TODO For example, when going to previous category we might want to reverse this.
             if (targetPosition == position.left) {
                 coverOptions.canvas.opacity = 0;
@@ -673,7 +673,21 @@ typeof jQuery.ui != 'undefined' &&
         },
 
         _clickCover: function (e, data) {
-            this._gotoCover(data.image.data("coverflow").index);
+        	var imageIndex = data.image.data("coverflow").index;
+        	var lastIndex = this._currentIndex;
+
+            this._gotoCover(imageIndex);
+
+            var eventName = "backgroundCoverClick";
+            if (imageIndex == lastIndex) {
+            	eventName = "selectedCoverClick";
+            }
+
+           	this._trigger(eventName, null, {
+           		lastIndex: lastIndex,
+        		selectedIndex: this._currentIndex,
+        		image: data.image
+        	});
         },
 
         _autoplayMouseEnter: function () {
