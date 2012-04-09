@@ -1,0 +1,25 @@
+<Documentation Component="">
+    <Overview><![CDATA[ ]]></Overview>
+    <Example><![CDATA[ ]]></Example>
+    <Options>
+        <Section Name="">
+            <Option Name="" Type="" Default="">
+                <Desc></Desc>
+                <Example><![CDATA[ ]]></Example>
+            </Option>
+        </Section>
+    </Options>
+    <Events>
+        <Event Name="">
+            <Desc></Desc>
+            <Example><![CDATA[ ]]></Example>
+        </Event>
+    </Events>
+    <Methods>
+        <Method Name="">
+            <Sig></Sig>
+            <Desc></Desc>
+            <Example><![CDATA[ ]]></Example>
+        </Method>
+    </Methods>
+</Documentation>

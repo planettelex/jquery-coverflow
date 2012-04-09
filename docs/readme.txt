@@ -1,0 +1,2 @@
+The documentation included here is intended for web publishing. For maximum flexibility, documentation will be saved in
+a simple XML format along with an XSLT to generate HTML. Create new transforms for each web context to publish to.
