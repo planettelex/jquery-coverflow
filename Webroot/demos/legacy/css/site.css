@@ -53,8 +53,16 @@ header h2 {
     width: 300px;
     font-weight: normal;
 }
+h4 {
+    font-family: Arial, Sans-Serif;
+    font-size: 15px;
+    font-weight: bold;
+}
 
 /* Classes */
+.hidden {
+    display: none;
+}
 .button-controls {
     width: 110px;
     margin: 0 auto;
@@ -122,6 +130,9 @@ header h2 {
     border: 1px solid #EF9B51;
     background: #9e5c20;
 }
+.syntaxhighlighter {
+    padding: 5px;
+}
 
 /* IDs */
 #coverflow {
@@ -153,4 +164,19 @@ header h2 {
 }
 #pageMenu li a:hover {
     text-decoration: underline;
+}
+#source {
+    clear: both;
+    overflow-y: visible;
+    background: white;
+}
+#source > div {
+    width: 99%;
+}
+#viewSource {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    color: black;
+    padding-left: 10px;
+    margin-top: 3px;
 }

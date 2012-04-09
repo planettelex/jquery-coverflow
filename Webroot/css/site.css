@@ -53,6 +53,11 @@ header h2 {
     width: 300px;
     font-weight: normal;
 }
+h4 {
+    font-family: Arial, Sans-Serif;
+    font-size: 15px;
+    font-weight: bold;
+}
 
 /* Classes */
 .hidden {
@@ -110,6 +115,12 @@ header h2 {
 }
 .cover-title {
 	font-family: Arial, Helvetica, sans-serif;
+}
+.titleLight {
+    color: white;
+}
+.syntaxhighlighter {
+    padding: 5px;
 }
 .ui-slider {
     cursor: default;
@@ -199,4 +210,18 @@ header h2 {
 }
 #pageMenu a.coverflow-selected-page {
     color: white;
+}
+#source {
+    clear: both;
+    overflow-y: visible;
+    background: black;
+}
+#source > div {
+    width: 99%;
+}
+#viewSource {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    padding-left: 10px;
+    margin-top: 3px;
 }

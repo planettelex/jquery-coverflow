@@ -19,15 +19,24 @@
 <html>
 <head>
     <title>Coverflow Bookstore Demo</title>
-    <link type="text/css" href="../../css/reset.css" rel="Stylesheet" />
-    <link type="text/css" href="css/ui-overcast/jquery-ui-1.8.17.custom.css" rel="Stylesheet" />
+    <link type="text/css" href="../../css/reset.css" rel="stylesheet" />
+    <link type="text/css" href="css/ui-overcast/jquery-ui-1.8.17.custom.css" rel="stylesheet" />
+    <link type="text/css" href="../css/shCore.css" rel="stylesheet" />
+    <link type="text/css" href="../css/shThemeDefault.css" rel="stylesheet" />
+    <link type="text/css" href="../css/jquery.fancybox-1.3.4.css" rel="stylesheet" />
     <link type="text/css" href="../../css/jquery.ui.pt_coverflow.css" rel="stylesheet" />
-    <link type="text/css" href="css/site.css" rel="Stylesheet" />
+    <link type="text/css" href="css/site.css" rel="stylesheet" />
     <!-- Include jQuery and UI -->
     <script type="text/javascript" src="../../js/jquery-1.7.1.min.js"></script>
     <script type="text/javascript" src="../../js/jquery-ui-1.8.17.custom.min.js"></script>
-    <!-- Include jQuery CoverFlow widgets -->
+    <script type="text/javascript" src="../js/jquery.mousewheel-3.0.4.pack.js"></script>
+    <script type="text/javascript" src="../js/jquery.fancybox-1.3.4.pack.js"></script>
+    <!-- Include jQuery CoverFlow -->
     <script type="text/javascript" src="../../js/jquery.ui.pt_coverflow-combined.min.js"></script>
+    <!-- Include Syntax Highlighter -->
+    <script type="text/javascript" src="../js/shCore.js"></script>
+    <script type="text/javascript" src="../js/shBrushJScript.js"></script>
+    <script type="text/javascript" src="../js/shBrushXml.js"></script>
     <script type="text/javascript">
         $(function () {
             // Instantiate Coverflow
@@ -71,6 +80,8 @@
                     $(this).toggleClass("pause").fadeIn();
                 });
             });
+            SyntaxHighlighter.all();
+            $("#viewSource").fancybox({ overlayColor: '#fff', scrolling: false });
         });
     </script>
 </head>
@@ -79,7 +90,7 @@
         <ul id="pageMenu"><li><a href="../../index.html">Home</a></li><li><a href="../../json.html">Json</a></li><li><a href="../">Demos</a></li><li><a href="../../admin/">Admin</a></li></ul>        
         <img id="header" alt="Planet Telex Coverflow" src="../../images/_header-transparent.png" />
         <h1><a href="../">Demos</a></h1>
-        <h2>Bookstore Demo</h2>
+        <h2>Bookstore Demo<a id="viewSource" href="#source">View Source</a></h2>
     </header>
     <div class="category-controls">
         <a id="previousCategory" title="Go to previous category">&lsaquo;&lsaquo;</a>
@@ -113,5 +124,95 @@
         </div>
         <a id="playPause" class="play" title="Play/Pause">&ge;</a> 
     </footer>
+    <div class="hidden">
+        <div id="source">
+            <h4 class="titleLight">The Markup:</h4>
+            <script type="syntaxhighlighter" class="brush: html">
+                <![CDATA[
+                <div class="category-controls">
+                    <a id="previousCategory" title="Go to previous category">&lsaquo;&lsaquo;</a>
+                    <a id="nextCategory" title="Go to next category">&rsaquo;&rsaquo;</a>
+                </div>
+                <div id="coverflow" class="coverflow">
+                    <!-- Coverflow uses all img tags in the container not nested in other elements. 
+                    The alt tags are not used by coverflow, but should be rendered to be standards compliant and accessible. -->
+                    <img src="images/adland.large.jpg" alt="Ad Land" data-subtitle="James P. Othmer" data-title="Ad Land" data-category="Fiction" />
+                    <img src="images/and_then_theres_this.large.jpg" alt="And Then There's This" data-subtitle="Bill Wasik" data-title="And Then There's This" data-category="Fiction" />
+                    <img src="images/even_silence_has_an_end.large.jpg" alt="Even Silence Has An End" data-subtitle="Ingrid Betancourt" data-title="Even Silence Has An End" data-category="Fiction" />
+                    <img src="images/how_to_live_or_a_life_of_montaigne_in_one_question_and_twenty_attempts_at_an_answer.large.jpg" alt="How To Live" data-subtitle="Sarah Bakewell" data-title="How To Live" data-category="Fiction" />
+                    <img src="images/in_the_year_of_the_long_division.large.jpg" alt="In The Year of Long Division" data-subtitle="Dawn Raefel" data-title="In The Year of Long Division" data-category="Fiction" />
+                    <img src="images/lost_decades.large.jpg" alt="Lost Decades" data-subtitle="Menzie D. Chinn and Jeffry A. Frieden" data-title="Lost Decades" data-category="Non-Fiction"/>
+                    <img src="images/milk.large.jpg" alt="Milk" data-subtitle="Anne Mendeleson" data-title="Milk" data-category="Non-Fiction"/>
+                    <img src="images/palo_alto.large.jpg" alt="Palo Alto Stories" data-subtitle="James Franco" data-title="Palo Alto Stories" data-category="Non-Fiction"/>
+                    <img src="images/parrot_and_olivier_in_america.large.jpg" alt="Parrot & Oliver in America" data-subtitle="Peter Carey" data-title="Parrot & Oliver in America" data-category="Non-Fiction"/>
+                    <img src="images/stolen_world.large.jpg" alt="Stolen World" data-subtitle="Jennie Erin Smith" data-title="Stolen World" data-category="Fiction" />
+                    <img src="images/the_fractalist.large.jpg" alt="The Fractalist" data-subtitle="Benoit Mandelbrot" data-title="The Fractalist" data-category="Non-Fiction" />
+                    <img src="images/the_pale_king.large.jpg" alt="The Pale King" data-subtitle="David Foster Wallace" data-title="The Pale King" data-category="Non-Fiction" />
+                    <img src="images/the_pale_king_1.large.jpg" alt="The Pale King" data-subtitle="David Foster Wallace" data-title="The Pale King" data-category="Biography" />
+                    <img src="images/the_revolution_of_little_girls.large.jpg" alt="The Revolution of Little Girls" data-subtitle="Blanche McCrary Boyd" data-title="The Revolution of Little Girls" data-category="Biography" />
+                    <img src="images/three_delays.large.jpg" alt="Three Delays" data-subtitle="Charlie Smith" data-title="Three Delays" data-category="Biography" />
+                    <img src="images/wall_street.large.jpg" alt="Wall Street" data-subtitle="Steve Fraser" data-title="Wall Street" data-category="Biography" />
+                    <img src="images/who_will_run_the_frog_hospital.large.jpg" alt="Who Will Run the Frog Hospital?" data-subtitle="Lorrie Moore" data-title="Who Will Run the Frog Hospital?" data-category="Philosophy" />
+                    <img src="images/winchell.large.jpg" alt="Winchell" data-subtitle="Neal Gabler" data-title="Winchell" data-category="Philosophy" />       
+                </div>
+                <footer>
+                    <div class="slider-controls">
+                        <a id="previous" title="Previous Cover">&lsaquo;</a>
+                        <a id="next" title="Next Cover">&rsaquo;</a>
+                    </div>
+                    <a id="playPause" class="play" title="Play/Pause">&ge;</a> 
+                </footer>
+                ]]>
+            </script>
+            <h4 class="titleLight">The Script:</h4>
+            <script type="syntaxhighlighter" class="brush: js">
+                <![CDATA[
+                $(function () {
+                    // Instantiate Coverflow
+                    var $demo = $("#coverflow").coverflow({
+                        autoplay: {
+                            playsPerCategory: 3
+                        },
+                        categories: {
+                            enabled: true
+                        },
+                        cover: {
+                            height: 450,
+                            reflection: {
+                                initialOpacity: 40,
+                                length: 20
+                            }
+                        }
+                    });
+
+                    // Attach click events to the coverflow API
+                    var $playButton = $("#playPause").click(function () {
+                        $demo.coverflow("togglePlay");
+                    });
+                    $("#previous").click(function () {
+                        $demo.coverflow("prevCover");
+                    });
+                    $("#next").click(function () {
+                        $demo.coverflow("nextCover");
+                    });
+                    $("#previousCategory").click(function () {
+                        $demo.coverflow("prevCategory");
+                    });
+                    $("#nextCategory").click(function () {
+                        $demo.coverflow("nextCategory");
+                    });
+           
+                    // Bind a method to the coverflow event pt.coverflowtoggleplay
+                    $("#coverflow").bind('pt.coverflowtoggleplay', function () {
+                        // Toggle between play and pause image.
+                        $playButton.fadeOut(function () {
+                            $(this).toggleClass("pause").fadeIn();
+                        });
+                    });
+                });
+                ]]>
+            </script>
+        </div>
+    </div>
 </body>
 </html>
