@@ -9,11 +9,11 @@
             In the most simple case, the markup for a coverflow looks like:
         </p>
         <pre>
-            <div id="coverflow">
-                <img src="#1" alt="Cover #1" data-title="" data-subtitle="" data-category="" />
-                <img src="#2" alt="Cover #2" data-title="" data-subtitle="" data-category="" />
-                <img src="#3" alt="Cover #3" data-title="" data-subtitle="" data-category="" />
-            </div>
+            &lt;div id="coverflow"&gt;
+                &lt;img src="#1" alt="Cover #1" data-title="" data-subtitle="" data-category="" /&gt;
+                &lt;img src="#2" alt="Cover #2" data-title="" data-subtitle="" data-category="" /&gt;
+                &lt;img src="#3" alt="Cover #3" data-title="" data-subtitle="" data-category="" /&gt;
+            &lt;/div&gt;
         </pre>
         <p>In order to transform the image collection in the DOM into a coverflow, add the following JavaScript.</p>
         <pre>
