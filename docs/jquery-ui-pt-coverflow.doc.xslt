@@ -37,20 +37,24 @@
                     </div>
                     <div id="Events">
                         <xsl:for-each select="Documentation/Events/Event">
-                            <h5><xsl:value-of select="@Name" /></h5>
-                            <p><xsl:value-of select="Desc" /></p>
-                            <div class="example">
-                                <xsl:value-of select="Example" disable-output-escaping="yes" /> 
+                            <div>
+                                <h5><xsl:value-of select="@Name" /></h5>
+                                <p><xsl:value-of select="Desc" /></p>
+                                <pre class="example">
+                                    <xsl:value-of select="Example" disable-output-escaping="yes" /> 
+                                </pre>
                             </div>
                         </xsl:for-each>
                     </div>
                     <div id="Methods">
                         <xsl:for-each select="Documentation/Methods/Method">
-                            <h5><xsl:value-of select="@Name" /></h5>
-                            <strong><xsl:value-of select="Sig" /></strong>
-                            <p><xsl:value-of select="Desc" /></p>
-                            <div class="example">
-                                <xsl:value-of select="Example" disable-output-escaping="yes" />
+                            <div>
+                                <h5><xsl:value-of select="@Name" /></h5>
+                                <strong><xsl:value-of select="Sig" /></strong>
+                                <p><xsl:value-of select="Desc" /></p>
+                                <pre class="example">
+                                    <xsl:value-of select="Example" disable-output-escaping="yes" />
+                                </pre>
                             </div>
                         </xsl:for-each>
                     </div>
