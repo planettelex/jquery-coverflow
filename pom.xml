@@ -261,6 +261,9 @@
 				<configuration>
 					<header>etc/header.txt</header>
 					<strictCheck>true</strictCheck>
+                    <mapping>
+                        <xslt>XML_STYLE</xslt>
+                    </mapping>
 					<excludes>
 						<exclude>**/${js.header.file}</exclude>
 						<exclude>**/jquery-1*.js</exclude>
