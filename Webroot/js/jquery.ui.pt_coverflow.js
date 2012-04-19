@@ -365,7 +365,7 @@ typeof jQuery.ui != 'undefined' &&
 
             if (this.options.categories.enabled) {
                 if (this._playCountInCategory > this._imagesCount() || this._playCountInCategory >= this.options.autoplay.playsPerCategory - 1) {
-                    this._nextCategory();
+                    this.nextCategory();
                     this._playCountInCategory = 0;
 
                     return;
