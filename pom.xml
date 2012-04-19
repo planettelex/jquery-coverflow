@@ -5,7 +5,7 @@
 	<groupId>net.planettelex.jquery</groupId>
 	<artifactId>jquery.ui.pt_coverflow</artifactId>
 	<name>Planet Telex jQueryUI Coverflow</name>
-	<version>1.0-SNAPSHOT</version>
+	<version>1.2-SNAPSHOT</version>
 	<description>Coverflow plugin for jQueryUI</description>
 
 	<inceptionYear>2011</inceptionYear>
@@ -284,6 +284,10 @@
 						<exclude>**/admin/**/jquery*</exclude>
 						<exclude>**/jquery-ui-*</exclude>
 						<exclude>**/reset.css</exclude>
+						<exclude>**/css/sh*.*</exclude>
+						<exclude>**/js/sh*.*</exclude>
+						<exclude>**/jquery.fancybox*</exclude>
+						<exclude>**/jquery.mousewheel*</exclude>
 					</excludes>
 				</configuration>
 				<executions>
