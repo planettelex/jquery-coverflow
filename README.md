@@ -87,7 +87,7 @@ See the accompanying [demos](http://www.planettelex.net/tools/jquery/coverflow/d
 
 ### Everything else:
 
-    Copyright 2011 Planet Telex, Inc.
+    Copyright 2012 Planet Telex, Inc.
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
