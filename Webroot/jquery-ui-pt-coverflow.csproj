@@ -174,7 +174,7 @@
     <Content Include="demos\js\jquery.mousewheel-3.0.4.pack.js" />
     <Content Include="demos\js\shBrushJScript.js" />
     <Content Include="demos\js\shBrushXml.js" />
-    <Content Include="demos\js\shCore.js" />
+    <Content Include="demos\js\shCore.min.js" />
     <Content Include="demos\legacy\css\site.css" />
     <Content Include="demos\legacy\images\acne-amy.jpg" />
     <Content Include="demos\legacy\images\alice-island.jpg" />
