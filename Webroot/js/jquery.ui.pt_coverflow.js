@@ -57,7 +57,7 @@ typeof jQuery.ui != 'undefined' &&
                     radius: 20          // Number of covers animated on each side of the selected cover
                 },
                 background: {
-                    style: null, 	// Color or url applied to the backround in CSS (defaults to the container color)
+                    style: null,        // Color or url applied to the backround in CSS (defaults to the container color)
                     size: 90,           // Percentage of original image
                     overlap: {
                         inner: 20,      // Percentage of overlap
@@ -99,7 +99,7 @@ typeof jQuery.ui != 'undefined' &&
             this._currentIndex = this.options.selectedIndex;
 
             if (this.options.images.length > 0) {
-                var i, image, alt;
+                var i = null, image, alt;
                 for (i in this.options.images) {
                     image = this.options.images[i];
 
@@ -108,7 +108,7 @@ typeof jQuery.ui != 'undefined' &&
                         alt = image.title;
                     }
                     if (image.subtitle) {
-                        if (alt != "") {
+                        if (alt !== "") {
                             alt += ", ";
                         }
                         alt += image.subtitle;
@@ -329,7 +329,7 @@ typeof jQuery.ui != 'undefined' &&
             ///</summary>
             ///<returns type="Boolean"><c>true</c> if play mode is active.</returns>
 
-            return (this._playIntervalId != null);
+            return (this._playIntervalId !== null);
         },
 
         play: function () {
@@ -456,7 +456,7 @@ typeof jQuery.ui != 'undefined' &&
 
         _prevCategory: function () {
             var selectedIndex;
-            if (this._currentCategoryIndex == 0) {
+            if (this._currentCategoryIndex === 0) {
                 selectedIndex = this._categories.length - 1;
             }
             else {
@@ -530,7 +530,7 @@ typeof jQuery.ui != 'undefined' &&
 
         _prevCover: function () {
             var selectedIndex;
-            if (this._currentIndex == 0) {
+            if (this._currentIndex === 0) {
                 selectedIndex = this._imagesCount() - 1;
             }
             else {
@@ -673,21 +673,21 @@ typeof jQuery.ui != 'undefined' &&
         },
 
         _clickCover: function (e, data) {
-        	var imageIndex = data.image.data("coverflow").index;
-        	var lastIndex = this._currentIndex;
+            var imageIndex = data.image.data("coverflow").index;
+            var lastIndex = this._currentIndex;
 
             this._gotoCover(imageIndex);
 
             var eventName = "backgroundCoverClick";
             if (imageIndex == lastIndex) {
-            	eventName = "selectedCoverClick";
+                eventName = "selectedCoverClick";
             }
 
-           	this._trigger(eventName, null, {
-           		lastIndex: lastIndex,
-        		selectedIndex: this._currentIndex,
-        		image: data.image
-        	});
+            this._trigger(eventName, null, {
+                lastIndex: lastIndex,
+                selectedIndex: this._currentIndex,
+                image: data.image
+            });
         },
 
         _autoplayMouseEnter: function () {
@@ -794,7 +794,7 @@ typeof jQuery.ui != 'undefined' &&
 
         _coverTop: function (centerOffset, coverHeight, scalePercentage) {
             var top = 0;
-            if (centerOffset != 0) {
+            if (centerOffset !== 0) {
                 top += coverHeight * (scalePercentage / 2);
             }
             return top;

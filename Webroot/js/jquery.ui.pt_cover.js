@@ -132,33 +132,33 @@ typeof jQuery.ui != 'undefined' &&
         left: function () {
             var height = this._height();
             var points = [
-				[0, 0], // top left
-				[this.options.width, this._skewLength()], // top right
-				[0, height], // bottom left
-				[this.options.width, height - this._skewLength()]  // bottom right
-			];
+                [0, 0], // top left
+                [this.options.width, this._skewLength()], // top right
+                [0, height], // bottom left
+                [this.options.width, height - this._skewLength()]  // bottom right
+            ];
             this._draw(points);
         },
 
         center: function () {
             var height = this._height();
             var points = [
-				[0, 0], // top left
-				[this.options.width, 0], // top right
-				[0, height], // bottom left
-				[this.options.width, height]  // bottom right
-			];
+                [0, 0], // top left
+                [this.options.width, 0], // top right
+                [0, height], // bottom left
+                [this.options.width, height]  // bottom right
+            ];
             this._draw(points);
         },
 
         right: function () {
             var height = this._height();
             var points = [
-				[0, this._skewLength()], // top left
-				[this.options.width, 0], // top right
-				[0, height - this._skewLength()], // bottom left
-				[this.options.width, height]  // bottom right
-			];
+                [0, this._skewLength()], // top left
+                [this.options.width, 0], // top right
+                [0, height - this._skewLength()], // bottom left
+                [this.options.width, height]  // bottom right
+            ];
             this._draw(points);
         },
 
@@ -178,14 +178,10 @@ typeof jQuery.ui != 'undefined' &&
             ++this.options.refreshState;
 
             if (this._hasTitle()) {
-                switch (this.options.perspective.position) {
-                    case "center":
-                        this._$titleContainer.show();
-                        break;
-
-                    default:
-                        this._$titleContainer.hide();
-                }
+                if ("center" == this.options.perspective.position)
+                    this._$titleContainer.show();
+                else
+                    this._$titleContainer.hide();
             }
 
             if (!animate) {
@@ -202,28 +198,28 @@ typeof jQuery.ui != 'undefined' &&
             else {
                 // Animation CSS
                 this._$cover
-				.css({
-				    zIndex: this.options.canvas.zIndex,
-				    top: this.options.canvas.top
-				})
-				.animate({
-				    left: this.options.canvas.left,
-				    opacity: this.options.canvas.opacity
-				}, {
-				    queue: false,
-				    duration: this.options.animation.slide.duration,
-				    easing: this.options.animation.slide.easing,
-				    complete: this._animateLeftComplete.bind(this)
-				})
-				.animate({
-				    textIndent: this.options.perspective.position == "center" ? 0 : this.options.perspective.angle
-				}, {
-				    queue: false,
-				    duration: this.options.animation.perspective.duration,
-				    easing: this.options.animation.perspective.easing,
-				    step: this._animateAngleStep.bind(this),
-				    complete: this._animateAngleComplete.bind(this)
-				});
+                .css({
+                    zIndex: this.options.canvas.zIndex,
+                    top: this.options.canvas.top
+                })
+                .animate({
+                    left: this.options.canvas.left,
+                    opacity: this.options.canvas.opacity
+                }, {
+                    queue: false,
+                    duration: this.options.animation.slide.duration,
+                    easing: this.options.animation.slide.easing,
+                    complete: this._animateLeftComplete.bind(this)
+                })
+                .animate({
+                    textIndent: this.options.perspective.position == "center" ? 0 : this.options.perspective.angle
+                }, {
+                    queue: false,
+                    duration: this.options.animation.perspective.duration,
+                    easing: this.options.animation.perspective.easing,
+                    step: this._animateAngleStep.bind(this),
+                    complete: this._animateAngleComplete.bind(this)
+                });
             }
         },
 
@@ -281,19 +277,19 @@ typeof jQuery.ui != 'undefined' &&
                 width: this.options.width,
                 height: this.options.height
             })
-				.css({
-				    opacity: this.options.canvas.opacity,
-				    background: this.options.canvas.background,
-				    top: this.options.canvas.top,
-				    left: this.options.canvas.left,
-				    zIndex: this.options.canvas.zIndex,
-				    textIndent: this.options.perspective.angle,  //textIndent is a placeholder for animation
-				    position: "absolute",
-				    cursor: "pointer"
-				})
-				.click(this._click.bind(this))
-				.mouseenter(this._mouseenter.bind(this))
-				.mouseleave(this._mouseleave.bind(this));
+                .css({
+                    opacity: this.options.canvas.opacity,
+                    background: this.options.canvas.background,
+                    top: this.options.canvas.top,
+                    left: this.options.canvas.left,
+                    zIndex: this.options.canvas.zIndex,
+                    textIndent: this.options.perspective.angle,  //textIndent is a placeholder for animation
+                    position: "absolute",
+                    cursor: "pointer"
+                })
+                .click(this._click.bind(this))
+                .mouseenter(this._mouseenter.bind(this))
+                .mouseleave(this._mouseleave.bind(this));
 
             if (this.supportsCanvas) {
                 this.element.css({ top: -1000, left: -1000, position: "absolute" }).after(this._$cover);
@@ -315,10 +311,10 @@ typeof jQuery.ui != 'undefined' &&
 
             if (this.options.title.enabled) {
                 this._$titleContainer = $("<div/>")
-					.addClass("cover-title")
-					.append($("<h1/>").text(this.element.data("title")))
-					.append($("<h2/>").text(this.element.data("subtitle"))
-				).hide();
+                    .addClass("cover-title")
+                    .append($("<h1/>").text(this.element.data("title")))
+                    .append($("<h2/>").text(this.element.data("subtitle"))
+                ).hide();
 
                 this.element.after(this._$titleContainer);
             }
@@ -407,7 +403,7 @@ typeof jQuery.ui != 'undefined' &&
 
     // ReSharper disable UsageOfPossiblyUnassignedValue
     var pt = pt || {};
-    // ReSharper restore UsageOfPossiblyUnassignedValue    
+    // ReSharper restore UsageOfPossiblyUnassignedValue
 
     pt.Drawing = function (canvas, options) {
         this.canvas = canvas;
@@ -541,7 +537,7 @@ typeof jQuery.ui != 'undefined' &&
             // Check area > patchSize pixels (note factor 4 due to not averaging
             // d1 and d2)
             // The non-affinity measure is used as a correction factor.
-            if ((u1 == 0 && u4 == 1) || ((.25 + r * 5) * area > (this.options.patchSize * this.options.patchSize))) {
+            if ((u1 === 0 && u4 == 1) || ((0.25 + r * 5) * area > (this.options.patchSize * this.options.patchSize))) {
                 // Calculate subdivision points (middle, top, bottom, left, right).
                 var umid = (u1 + u4) / 2;
                 var vmid = (v1 + v4) / 2;
@@ -634,7 +630,7 @@ typeof jQuery.ui != 'undefined' &&
         var padv = pady * dv;
 
         this.ctx.drawImage(this.image, u1 * this.iw, v1 * this.ih,
-			Math.min(u4 - u1 + padu, 1) * this.iw, Math.min(v4 - v1 + padv, 1) * this.ih, dx, dy, 1 + padx, 1 + pady);
+            Math.min(u4 - u1 + padu, 1) * this.iw, Math.min(v4 - v1 + padv, 1) * this.ih, dx, dy, 1 + padx, 1 + pady);
         this.ctx.restore();
     };
 
@@ -650,23 +646,23 @@ typeof jQuery.ui != 'undefined' &&
     */
     matrix.getProjectiveTransform = function (points) {
         var eqMatrix = new matrix(
-			[
-				[1, 1, 1, 0, 0, 0, -points[3][0], -points[3][0], -points[3][0]],
-				[0, 1, 1, 0, 0, 0, 0, -points[2][0], -points[2][0]],
-				[1, 0, 1, 0, 0, 0, -points[1][0], 0, -points[1][0]],
-				[0, 0, 1, 0, 0, 0, 0, 0, -points[0][0]],
-				[0, 0, 0, -1, -1, -1, points[3][1], points[3][1], points[3][1]],
-				[0, 0, 0, 0, -1, -1, 0, points[2][1], points[2][1]],
-				[0, 0, 0, -1, 0, -1, points[1][1], 0, points[1][1]],
-				[0, 0, 0, 0, 0, -1, 0, 0, points[0][1]]
-			]);
+            [
+                [1, 1, 1, 0, 0, 0, -points[3][0], -points[3][0], -points[3][0]],
+                [0, 1, 1, 0, 0, 0, 0, -points[2][0], -points[2][0]],
+                [1, 0, 1, 0, 0, 0, -points[1][0], 0, -points[1][0]],
+                [0, 0, 1, 0, 0, 0, 0, 0, -points[0][0]],
+                [0, 0, 0, -1, -1, -1, points[3][1], points[3][1], points[3][1]],
+                [0, 0, 0, 0, -1, -1, 0, points[2][1], points[2][1]],
+                [0, 0, 0, -1, 0, -1, points[1][1], 0, points[1][1]],
+                [0, 0, 0, 0, 0, -1, 0, 0, points[0][1]]
+            ]);
 
         var kernel = eqMatrix.rowEchelon().values;
         var transform = new matrix([
-			[-kernel[0][8], -kernel[1][8], -kernel[2][8]],
-			[-kernel[3][8], -kernel[4][8], -kernel[5][8]],
-			[-kernel[6][8], -kernel[7][8], 1]
-		]);
+            [-kernel[0][8], -kernel[1][8], -kernel[2][8]],
+            [-kernel[3][8], -kernel[4][8], -kernel[5][8]],
+            [-kernel[6][8], -kernel[7][8], 1]
+        ]);
         return transform;
     };
 
@@ -705,10 +701,10 @@ typeof jQuery.ui != 'undefined' &&
         for (var yp = 0; yp < this.h; ++yp) {
             // Look up pivot value.
             var pivot = temp[yp][yp];
-            while (pivot == 0) {
+            while (pivot === 0) {
                 // If pivot is zero, find non-zero pivot below.
                 for (var ys = yp + 1; ys < this.h; ++ys) {
-                    if (temp[ys][yp] != 0) {
+                    if (temp[ys][yp] !== 0) {
                         // Swap rows.
                         var tmpRow = temp[ys];
                         temp[ys] = temp[yp];
@@ -758,9 +754,7 @@ typeof jQuery.ui != 'undefined' &&
             fToBind = this,
             fNOP = function () { },
             fBound = function () {
-                return fToBind.apply(this instanceof fNOP
-                                     ? this
-                                     : oThis || window,
+                return fToBind.apply(this instanceof fNOP ? this : oThis || window,
                                     aArgs.concat(Array.prototype.slice.call(arguments)));
             };
 
