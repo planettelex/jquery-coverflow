@@ -4,6 +4,7 @@ obj
 *.user
 *.suo
 *.dotCover
+.classpath
 .settings
 .project
 target
