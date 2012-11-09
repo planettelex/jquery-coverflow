@@ -878,6 +878,11 @@ typeof jQuery.ui != 'undefined' &&
             }
 
             var coverCount = this._imagesCount();
+            
+            if (coverCount < 2) {
+                return;
+            }
+            
             this._$slider
                 .css({ zIndex: coverCount + 1 })
                 .slider("option", "max", coverCount - 1)
