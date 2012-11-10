@@ -27,6 +27,8 @@ Planet Telex  brings you the most fully featured JavaScript Coverflow plugin ava
 
 ## Quick start
 
+*Note: PT Coverflow must be loaded through a web server such as [Apache][4] or [IIS][5] due to security requirements of the [HTML5 Canvas][3].*
+
 ### Step 1
 
 Include jQuery, jQuery UI, and jQuery UI CSS in your HTML.
@@ -37,8 +39,8 @@ Include jQuery, jQuery UI, and jQuery UI CSS in your HTML.
 
 Include the PT Coverflow and its starter CSS in your HTML.
 
-	<script type="text/javascript" src="js/jquery.ui.pt_coverflow-1.0.min.js"></script>
-	<link type="text/css" href="css/jquery.ui.pt_coverflow-1.0.css" rel="stylesheet">
+	<script type="text/javascript" src="js/jquery.ui.pt_coverflow-1.2.min.js"></script>
+	<link type="text/css" href="css/jquery.ui.pt_coverflow.css" rel="stylesheet">
 
 ### Step 2
 
@@ -103,3 +105,6 @@ See the accompanying [demos][2] for more complete examples.
 
 [1]: http://www.planettelex.net/tools/jquery-ui/pt-coverflow
 [2]: http://www.planettelex.net/tools/jquery-ui/pt-coverflow/demos
+[3]: http://www.w3schools.com/html/html5_canvas.asp
+[4]: http://httpd.apache.org
+[5]: http://www.iis.net
