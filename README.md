@@ -1,9 +1,9 @@
-# [Planet Telex (PT) Coverflow](http://www.planettelex.net/tools/jquery/coverflow/demos/)
+# [Planet Telex (PT) Coverflow][1]
 
 Planet Telex  brings you the most fully featured JavaScript Coverflow plugin available. It is a jQuery UI widget that will display a succession of images with accompanying text titles in the style of an iTunes&reg;
  "Cover Flow" view. It is configurable in a numerous ways that can allow you to create a unique look for your site.
 
-[Demos and Documentation](http://www.planettelex.net/tools/jquery/coverflow/demos/)
+[Demos and Documentation][1]
 
 ## Requirements
 * jQuery 1.3.2+
@@ -76,7 +76,7 @@ Add the JavaScript to your page to hook up the PT Coverflow to your container.
         });
     </script>
 
-See the accompanying [demos](http://www.planettelex.net/tools/jquery/coverflow/demos/) for more complete examples.
+See the accompanying [demos][2] for more complete examples.
 
 
 ## License
@@ -100,3 +100,6 @@ See the accompanying [demos](http://www.planettelex.net/tools/jquery/coverflow/d
     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
     See the License for the specific language governing permissions and
     limitations under the License.
+
+[1]: http://www.planettelex.net/tools/jquery-ui/pt-coverflow
+[2]: http://www.planettelex.net/tools/jquery-ui/pt-coverflow/demos
