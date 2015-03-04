@@ -79,8 +79,7 @@ Add the JavaScript to your page to hook up the PT Coverflow to your container.
         });
     </script>
 
-See the accompanying [demos][2] for more complete examples.
-View [this code][6] hosted on GitHub.
+See the accompanying [demos][2] for more complete examples or view [this code][6] hosted on GitHub.
 
 ### License
 
