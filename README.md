@@ -6,13 +6,13 @@ Planet Telex  brings you the most fully featured JavaScript Coverflow plugin ava
 
 ## [Demos and Documentation][1]
 
-## Requirements
+### Requirements
 * jQuery 1.6+
 * jQueryUI 1.9+ (Core, Widget, Effects Core)
 	* Add the "Slider" widget if you want to see that feature on your site.
 
 
-## Features
+### Features
 
 * Very simple setup requiring miminal markup.
 * Cross-browser compatible with graceful degredation.
@@ -26,11 +26,11 @@ Planet Telex  brings you the most fully featured JavaScript Coverflow plugin ava
 * Extensive inline and accompanying documentation.
 
 
-## Quick start
+### Quick start
 
 *Note: PT Coverflow must be loaded through a web server such as [Apache][4] or [IIS][5] due to security requirements of the [HTML5 Canvas][3].*
 
-### Step 1
+##### Step 1
 
 Include jQuery, jQuery UI, and jQuery UI CSS in your HTML.
 
@@ -43,7 +43,7 @@ Include the PT Coverflow and its starter CSS in your HTML.
 	<script type="text/javascript" src="js/jquery.ui.pt-coverflow.js"></script>
 	<link type="text/css" href="css/jquery.ui.pt-coverflow.css" rel="stylesheet">
 
-### Step 2
+##### Step 2
 
 Create your HTML structure with a wrapper element that has the class "coverflow".  Add some images to your container including the title and subtitle as data attributes if you want those to be displayed.
 
@@ -60,7 +60,7 @@ Create your HTML structure with a wrapper element that has the class "coverflow"
         <img src="img/bjork-post.jpg" alt="Bjork, Post" data-subtitle="Bjork" data-title="Post" />
     </div>
 
-### Step 3
+##### Step 3
 
 Add the JavaScript to your page to hook up the PT Coverflow to your container.
 
@@ -82,13 +82,13 @@ Add the JavaScript to your page to hook up the PT Coverflow to your container.
 See the accompanying [demos][2] for more complete examples.
 
 
-## License
+### License
 
-### Major components:
+##### Major components:
 
 * jQuery, jQueryUI: MIT/GPL license
 
-### Everything else:
+##### Everything else:
 
     Copyright 2012 Planet Telex, Inc.
 
