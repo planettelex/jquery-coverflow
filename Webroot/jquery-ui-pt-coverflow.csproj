@@ -305,11 +305,11 @@
     <Content Include="images\vast-visualaudiosensorytheater.jpg" />
     <Content Include="images\ween-quebec.jpg" />
     <Content Include="images\weezer-maladroit.jpg" />
-    <Content Include="images\_demo-1.jpg" />
-    <Content Include="images\_demo-2.jpg" />
-    <Content Include="images\_demo-3.jpg" />
-    <Content Include="images\_header-transparent.png" />
-    <Content Include="images\_header.png" />
+    <Content Include="images\demo-1.jpg" />
+    <Content Include="images\demo-2.jpg" />
+    <Content Include="images\demo-3.jpg" />
+    <Content Include="images\header-transparent.png" />
+    <Content Include="images\header.png" />
     <Content Include="cover.html" />
     <Content Include="index.html" />
     <Content Include="json.html" />
