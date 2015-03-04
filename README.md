@@ -80,7 +80,7 @@ Add the JavaScript to your page to hook up the PT Coverflow to your container.
     </script>
 
 See the accompanying [demos][2] for more complete examples.
-
+View [this code][6] hosted on GitHub.
 
 ### License
 
@@ -90,7 +90,7 @@ See the accompanying [demos][2] for more complete examples.
 
 ##### Everything else:
 
-    Copyright 2012 Planet Telex, Inc.
+    Copyright 2015 Planet Telex, Inc.
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -109,3 +109,4 @@ See the accompanying [demos][2] for more complete examples.
 [3]: http://www.w3schools.com/html/html5_canvas.asp
 [4]: http://httpd.apache.org
 [5]: http://www.iis.net
+[6]: 
