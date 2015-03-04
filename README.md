@@ -6,13 +6,13 @@ Planet Telex  brings you the most fully featured JavaScript Coverflow plugin ava
 
 ### [Demos and Documentation][1]
 
-### Requirements
+#### Requirements
 * jQuery 1.6+
 * jQueryUI 1.9+ (Core, Widget, Effects Core)
 	* Add the "Slider" widget if you want to see that feature on your site.
 
 
-### Features
+#### Features
 
 * Very simple setup requiring miminal markup.
 * Cross-browser compatible with graceful degredation.
@@ -26,7 +26,7 @@ Planet Telex  brings you the most fully featured JavaScript Coverflow plugin ava
 * Extensive inline and accompanying documentation.
 
 
-### Quick start
+#### Quick start
 
 *Note: PT Coverflow must be loaded through a web server such as [Apache][4] or [IIS][5] due to security requirements of the [HTML5 Canvas][3].*
 
@@ -81,7 +81,7 @@ Add the JavaScript to your page to hook up the PT Coverflow to your container.
 
 See the accompanying [demos][2] for more complete examples or view [this code][6] hosted on GitHub.
 
-### License
+#### License
 
 ##### Major components:
 
