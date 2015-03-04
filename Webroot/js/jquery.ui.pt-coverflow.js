@@ -246,7 +246,7 @@ typeof jQuery.ui != 'undefined' &&
             ///<returns type="Undefined" />
 
             isChangingCategory = isChangingCategory || false;
-            if (!$image.data("cover")) {
+            if (!$image.data("pt-cover")) {
                 this._$activeImages.each(function (i, img) {
                     $(img).cover("raiseZ");
                 });
@@ -292,7 +292,7 @@ typeof jQuery.ui != 'undefined' &&
             var removeIndex = 0,
                 image = this._$activeImages.splice(removeIndex, 1);
 
-            this.element.one("pt.coverrefreshed-" + $(image).data("coverflow").id, function (e, data) {
+            this.element.one("pt.coverrefreshed-" + $(image).data("pt-coverflow").id, function (e, data) {
                 $(data.image).cover("destroy");
             });
 
@@ -300,7 +300,7 @@ typeof jQuery.ui != 'undefined' &&
 
             this._$activeImages.each(function (index, img) {
                 $(img).cover("lowerZ");
-                $(img).data("coverflow").index = index;
+                $(img).data("pt-coverflow").index = index;
             });
 
             var selectedIndex;
@@ -487,7 +487,6 @@ typeof jQuery.ui != 'undefined' &&
                 for (i = 0; i < prevImagesCount; i++) {
                     this._removeImage(isChangingCategory, (i + 1 > this.options.categories.delAnimationCount ? false : true));
                 }
-
                 if ((this.options.autoplay.enabled && !this._isPauseManual) || this.options.categories.rememberLastCover) {
                     this._currentIndex = this._categoryData[selectedCategory].selectedIndex;
                 }
@@ -592,7 +591,7 @@ typeof jQuery.ui != 'undefined' &&
                     mouseenter: this._autoplayMouseEnter.bind(this),
                     mouseleave: this._autoplayMouseLeave.bind(this)
                 });
-            $(image).show().cover(options).data("coverflow", {
+            $(image).show().cover(options).data("pt-coverflow", {
                 index: index,
                 id: options.id
             });
@@ -652,12 +651,12 @@ typeof jQuery.ui != 'undefined' &&
             //TODO For example, when going to previous category we might want to reverse this.
             if (targetPosition == position.left) {
                 coverOptions.canvas.opacity = 0;
-                coverOptions.animation.slide.easing = "jswing";
+                coverOptions.animation.slide.easing = "swing";
             }
             else {
                 coverOptions.canvas.opacity = 1;
             }
-            var cover = $(image).data("cover");
+            var cover = $(image).data("pt-cover");
             for (var option in coverOptions) {
                 cover.option(option, coverOptions[option]);
             }
@@ -673,7 +672,7 @@ typeof jQuery.ui != 'undefined' &&
         },
 
         _clickCover: function (e, data) {
-            var imageIndex = data.image.data("coverflow").index;
+            var imageIndex = data.image.data("pt-coverflow").index;
             var lastIndex = this._currentIndex;
 
             this._gotoCover(imageIndex);
@@ -752,7 +751,7 @@ typeof jQuery.ui != 'undefined' &&
                         },
                         perspective: {
                             duration: perspectiveDuration,
-                            easing: "jswing"
+                            easing: "swing"
                         }
                     }
                 });
@@ -853,7 +852,7 @@ typeof jQuery.ui != 'undefined' &&
                     slide: this._sliderChange.bind(this)
                 });
 
-
+            
             this._$sliderHandleHelper = this._$slider.find(".ui-slider-handle")
                 .css({
                     width: handleSize,
@@ -868,7 +867,7 @@ typeof jQuery.ui != 'undefined' &&
                     })
                 )
                 .parent();
-
+                
             this.element.append(this._$slider);
         },
 

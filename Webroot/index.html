@@ -1,6 +1,6 @@
 <!--
 
-    Copyright (c) 2012 Planet Telex Inc. all rights reserved.
+    Copyright (c) 2015 Planet Telex Inc. all rights reserved.
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -18,16 +18,18 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-    <title>jQuery UI PT Coverflow</title>
+    <title>Coverflow</title>
     <link type="text/css" href="css/reset.css" rel="stylesheet" />
-    <link type="text/css" href="css/ui-darkness/jquery-ui-1.8.17.custom.css" rel="stylesheet" />
-    <link type="text/css" href="css/jquery.ui.pt_coverflow.css" rel="stylesheet" />
-    <link type="text/css" href="css/site.css" rel="Stylesheet" />
-    <script type="text/javascript" src="js/jquery-1.7.1.min.js"></script>
-    <script type="text/javascript" src="js/jquery-ui-1.8.17.custom.min.js"></script>
+    <link type="text/css" href="css/ui-darkness/jquery-ui.theme.css" rel="stylesheet" />
+    <link type="text/css" href="css/slider.css" rel="Stylesheet" />
+    <link type="text/css" href="css/jquery.ui.pt-coverflow.css" rel="stylesheet" />
+    <link type="text/css" href="css/site.css" rel="stylesheet" />
+    <!-- Include jQuery and UI -->
+    <script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>
+    <script type="text/javascript" src="js/jquery-ui-1.11.3.min.js"></script>
     <!-- Include jQuery CoverFlow widgets -->
-    <script type="text/javascript" src="js/jquery.ui.pt_cover.js"></script>
-    <script type="text/javascript" src="js/jquery.ui.pt_coverflow.js"></script>
+    <script type="text/javascript" src="js/jquery.ui.pt-cover.js"></script>
+    <script type="text/javascript" src="js/jquery.ui.pt-coverflow.js"></script>
     <script type="text/javascript">
         $(function () {
             var extraImage = $("#extraImage").hide();
@@ -75,7 +77,7 @@
     <a id="add" title="Add Image">+</a>
     <a id="remove" title="Remove Image">-</a>
     <header>
-        <ul id="pageMenu"><li><a href="" class="coverflow-selected-page">Home</a></li><li><a href="json.html">Json</a></li><li><a href="demos/">Demos</a></li><li><a href="admin/">Admin</a></li></ul>
+        <ul id="pageMenu"><li><a href="" class="coverflow-selected-page">Home</a></li><li><a href="json.html">Json</a></li><li><a href="demos/">Demos</a></li><li><a href="admin/">Admin</a></li><li><a href="cover.html">Cover</a></li></ul>
         <img id="header" alt="Planet Telex Coverflow" src="images/_header.png" />
         <img id="play" alt="Play" src="images/controls/play.png" title="Play" />
         <img id="pause" alt="Pause" src="images/controls/pause.png" title="Pause" class="hidden" />

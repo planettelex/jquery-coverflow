@@ -27,8 +27,14 @@ sub {
     text-align: center;
 }
 
-.backgroundCovers li span, .perspective li span, 
-.reflections li span, .slider li span {
+#pageMenu {
+    position: relative;
+    top: 35px;
+    left: 243px;
+}
+
+.backgroundCovers li > span, .perspective li > span, 
+.reflections li > span, .slider li > span {
     display: block;
     width: 100%;
     min-width: 220px;

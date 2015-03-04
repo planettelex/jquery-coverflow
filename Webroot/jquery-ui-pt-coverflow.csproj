@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -14,6 +15,15 @@
     <AssemblyName>jquery-ui-pt-coverflow</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <UseIISExpress>false</UseIISExpress>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>4.0</OldToolsVersion>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -41,6 +51,11 @@
     <Content Include="admin\css\images\fancybox-x.png" />
     <Content Include="admin\css\images\fancybox-y.png" />
     <Content Include="admin\css\images\fancybox.png" />
+    <Content Include="admin\css\images\fancybox_loading%402x.gif" />
+    <Content Include="admin\css\images\fancybox_loading.gif" />
+    <Content Include="admin\css\images\fancybox_overlay.png" />
+    <Content Include="admin\css\images\fancybox_sprite%402x.png" />
+    <Content Include="admin\css\images\fancybox_sprite.png" />
     <Content Include="admin\css\images\fancy_close.png" />
     <Content Include="admin\css\images\fancy_loading.png" />
     <Content Include="admin\css\images\fancy_nav_left.png" />
@@ -57,7 +72,7 @@
     <Content Include="admin\css\images\fancy_title_main.png" />
     <Content Include="admin\css\images\fancy_title_over.png" />
     <Content Include="admin\css\images\fancy_title_right.png" />
-    <Content Include="admin\css\jquery.fancybox-1.3.4.css" />
+    <Content Include="admin\css\jquery.fancybox-2.1.5.css" />
     <Content Include="admin\css\trontastic\images\ui-bg_diagonals-small_50_262626_40x40.png" />
     <Content Include="admin\css\trontastic\images\ui-bg_flat_0_303030_40x100.png" />
     <Content Include="admin\css\trontastic\images\ui-bg_flat_0_4c4c4c_40x100.png" />
@@ -73,23 +88,23 @@
     <Content Include="admin\css\trontastic\images\ui-icons_b8ec79_256x240.png" />
     <Content Include="admin\css\trontastic\images\ui-icons_cd0a0a_256x240.png" />
     <Content Include="admin\css\trontastic\images\ui-icons_ffffff_256x240.png" />
-    <Content Include="admin\css\trontastic\jquery-ui-1.8.17.custom.css" />
+    <Content Include="admin\css\trontastic\jquery-ui.theme.css" />
     <Content Include="admin\images\eye.png" />
     <Content Include="admin\images\iphone_switch_container_on.png" />
     <Content Include="admin\images\refresh.png" />
     <Content Include="admin\index.html" />
     <Content Include="admin\images\iphone_switch.png" />
     <Content Include="admin\images\iphone_switch_container_off.png" />
-    <Content Include="admin\js\jquery.easing-1.3.pack.js" />
-    <Content Include="admin\js\jquery.fancybox-1.3.4.pack.js" />
+    <Content Include="admin\js\jquery-ui-1.11.3.min.js" />
+    <Content Include="admin\js\jquery.fancybox-2.1.5.pack.js" />
     <Content Include="admin\js\jquery.iphone-switch.js" />
-    <Content Include="admin\js\jquery.mousewheel-3.0.4.pack.js" />
-    <Content Include="admin\js\jquery.ui.accordion.min.js" />
-    <Content Include="admin\js\pt_coverflow-admin.js" />
-    <Content Include="admin\js\pt_json.js" />
-    <Content Include="css\jquery.ui.pt_coverflow.css" />
+    <Content Include="admin\js\jquery.mousewheel-3.0.6.pack.js" />
+    <Content Include="admin\js\pt-coverflow-admin.js" />
+    <Content Include="admin\js\pt-json.js" />
+    <Content Include="css\jquery.ui.pt-coverflow.css" />
     <Content Include="css\reset.css" />
     <Content Include="css\site.css" />
+    <Content Include="css\slider.css" />
     <Content Include="css\ui-darkness\images\ui-bg_flat_30_cccccc_40x100.png" />
     <Content Include="css\ui-darkness\images\ui-bg_flat_50_5c5c5c_40x100.png" />
     <Content Include="css\ui-darkness\images\ui-bg_glass_20_555555_1x400.png" />
@@ -104,7 +119,7 @@
     <Content Include="css\ui-darkness\images\ui-icons_a83300_256x240.png" />
     <Content Include="css\ui-darkness\images\ui-icons_cccccc_256x240.png" />
     <Content Include="css\ui-darkness\images\ui-icons_ffffff_256x240.png" />
-    <Content Include="css\ui-darkness\jquery-ui-1.8.17.custom.css" />
+    <Content Include="css\ui-darkness\jquery-ui.theme.css" />
     <Content Include="demos\bookstore\css\site.css" />
     <Content Include="demos\bookstore\css\ui-overcast\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="demos\bookstore\css\ui-overcast\images\ui-bg_flat_0_eeeeee_40x100.png" />
@@ -120,7 +135,7 @@
     <Content Include="demos\bookstore\css\ui-overcast\images\ui-icons_70b2e1_256x240.png" />
     <Content Include="demos\bookstore\css\ui-overcast\images\ui-icons_999999_256x240.png" />
     <Content Include="demos\bookstore\css\ui-overcast\images\ui-icons_fbc856_256x240.png" />
-    <Content Include="demos\bookstore\css\ui-overcast\jquery-ui-1.8.17.custom.css" />
+    <Content Include="demos\bookstore\css\ui-overcast\jquery-ui.theme.css" />
     <Content Include="demos\bookstore\images\adland.large.jpg" />
     <Content Include="demos\bookstore\images\and_then_theres_this.large.jpg" />
     <Content Include="demos\bookstore\images\even_silence_has_an_end.large.jpg" />
@@ -144,6 +159,11 @@
     <Content Include="demos\css\images\fancybox-x.png" />
     <Content Include="demos\css\images\fancybox-y.png" />
     <Content Include="demos\css\images\fancybox.png" />
+    <Content Include="demos\css\images\fancybox_loading%402x.gif" />
+    <Content Include="demos\css\images\fancybox_loading.gif" />
+    <Content Include="demos\css\images\fancybox_overlay.png" />
+    <Content Include="demos\css\images\fancybox_sprite%402x.png" />
+    <Content Include="demos\css\images\fancybox_sprite.png" />
     <Content Include="demos\css\images\fancy_close.png" />
     <Content Include="demos\css\images\fancy_loading.png" />
     <Content Include="demos\css\images\fancy_nav_left.png" />
@@ -160,7 +180,7 @@
     <Content Include="demos\css\images\fancy_title_main.png" />
     <Content Include="demos\css\images\fancy_title_over.png" />
     <Content Include="demos\css\images\fancy_title_right.png" />
-    <Content Include="demos\css\jquery.fancybox-1.3.4.css" />
+    <Content Include="demos\css\jquery.fancybox-2.1.5.css" />
     <Content Include="demos\css\shCore.css" />
     <Content Include="demos\css\shCoreDefault.css" />
     <Content Include="demos\css\shCoreEclipse.css" />
@@ -170,8 +190,8 @@
     <Content Include="demos\css\shThemeEmacs.css" />
     <Content Include="demos\index.html" />
     <Content Include="demos\itunes\index.html" />
-    <Content Include="demos\js\jquery.fancybox-1.3.4.pack.js" />
-    <Content Include="demos\js\jquery.mousewheel-3.0.4.pack.js" />
+    <Content Include="demos\js\jquery.fancybox-2.1.5.pack.js" />
+    <Content Include="demos\js\jquery.mousewheel-3.0.6.pack.js" />
     <Content Include="demos\js\shBrushJScript.js" />
     <Content Include="demos\js\shBrushXml.js" />
     <Content Include="demos\js\shCore.min.js" />
@@ -290,17 +310,22 @@
     <Content Include="images\_demo-3.jpg" />
     <Content Include="images\_header-transparent.png" />
     <Content Include="images\_header.png" />
+    <Content Include="cover.html" />
     <Content Include="index.html" />
     <Content Include="json.html" />
-    <Content Include="js\jquery-1.7.1-vsdoc.js" />
-    <Content Include="js\jquery-1.7.1.min.js" />
-    <Content Include="js\jquery-ui-1.8.17.custom.min.js" />
-    <Content Include="js\jquery.ui.pt_cover.js" />
-    <Content Include="js\jquery.ui.pt_coverflow-combined.min.js" />
-    <Content Include="js\jquery.ui.pt_coverflow.js" />
+    <Content Include="js\jquery-1.11.2.min.js" />
+    <Content Include="js\jquery-ui-1.11.3.min.js" />
+    <Content Include="js\jquery.ui.pt-cover.js" />
+    <Content Include="js\jquery.ui.pt-coverflow.min.js" />
+    <Content Include="js\jquery.ui.pt-coverflow.js" />
   </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
   <ProjectExtensions>
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">

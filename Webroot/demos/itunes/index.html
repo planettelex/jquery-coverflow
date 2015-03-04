@@ -1,6 +1,6 @@
 <!--
 
-    Copyright (c) 2012 Planet Telex Inc. all rights reserved.
+    Copyright (c) 2015 Planet Telex Inc. all rights reserved.
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -18,21 +18,23 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-    <title>Coverflow iTunes Demo</title>
+    <title>iTunes Coverflow Demo</title>
     <link type="text/css" href="../../css/reset.css" rel="stylesheet" />
-    <link type="text/css" href="../../css/ui-darkness/jquery-ui-1.8.17.custom.css" rel="stylesheet" />
+    <link type="text/css" href="../../css/ui-darkness/jquery-ui.theme.css" rel="stylesheet" />
+    <link type="text/css" href="../../css/slider.css" rel="Stylesheet" />
     <link type="text/css" href="../css/shCore.css" rel="stylesheet" />
     <link type="text/css" href="../css/shCoreEmacs.css" rel="stylesheet" />
-    <link type="text/css" href="../css/jquery.fancybox-1.3.4.css" rel="stylesheet" />
-    <link type="text/css" href="../../css/jquery.ui.pt_coverflow.css" rel="stylesheet" />
+    <link type="text/css" href="../css/jquery.fancybox-2.1.5.css" rel="stylesheet" />
+    <link type="text/css" href="../../css/jquery.ui.pt-coverflow.css" rel="stylesheet" />
     <link type="text/css" href="../../css/site.css" rel="stylesheet" />
     <!-- Include jQuery and UI -->
-    <script type="text/javascript" src="../../js/jquery-1.7.1.min.js"></script>
-    <script type="text/javascript" src="../../js/jquery-ui-1.8.17.custom.min.js"></script>
-    <script type="text/javascript" src="../js/jquery.mousewheel-3.0.4.pack.js"></script>
-    <script type="text/javascript" src="../js/jquery.fancybox-1.3.4.pack.js"></script>
+    <script type="text/javascript" src="../../js/jquery-1.11.2.min.js"></script>
+    <script type="text/javascript" src="../../js/jquery-ui-1.11.3.min.js"></script>
+    <script type="text/javascript" src="../js/jquery.mousewheel-3.0.6.pack.js"></script>
+    <script type="text/javascript" src="../js/jquery.fancybox-2.1.5.pack.js"></script>
     <!-- Include jQuery CoverFlow -->
-    <script type="text/javascript" src="../../js/jquery.ui.pt_coverflow-combined.min.js"></script>
+    <script type="text/javascript" src="../../js/jquery.ui.pt-cover.js"></script>
+    <script type="text/javascript" src="../../js/jquery.ui.pt-coverflow.js"></script>
     <!-- Include Syntax Highlighter -->
     <script type="text/javascript" src="../js/shCore.min.js"></script>
     <script type="text/javascript" src="../js/shBrushJScript.js"></script>
@@ -50,13 +52,13 @@
                 $demo.coverflow("nextCover");
             });
             SyntaxHighlighter.all();
-            $("#viewSource").fancybox({ overlayColor: '#000', scrolling: false });
+            $("#viewSource").fancybox({ overlayColor: '#000', scrolling: "visible" });
         });
     </script>
 </head>
 <body>
     <header>
-        <ul id="pageMenu"><li><a href="../../index.html">Home</a></li><li><a href="../../json.html">Json</a></li><li><a href="../">Demos</a></li><li><a href="../../admin/">Admin</a></li></ul>
+        <ul id="pageMenu"><li><a href="../../index.html">Home</a></li><li><a href="../../json.html">Json</a></li><li><a href="../">Demos</a></li><li><a href="../../admin/">Admin</a></li><li><a href="../../cover.html">Cover</a></li></ul>
         <img id="header" alt="Planet Telex Coverflow" src="../../images/_header.png" />
         <h1><a href="../">Demos</a></h1>
         <h2>iTunes Demo<a id="viewSource" href="#source">View Source</a></h2>

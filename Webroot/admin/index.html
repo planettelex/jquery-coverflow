@@ -1,6 +1,6 @@
 <!--
 
-    Copyright (c) 2012 Planet Telex Inc. all rights reserved.
+    Copyright (c) 2015 Planet Telex Inc. all rights reserved.
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -18,27 +18,25 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-    <title>Planet Telex Coverflow</title>
-    <link type="text/css" href="../css/reset.css" rel="Stylesheet" />
-    <link type="text/css" href="../css/ui-darkness/jquery-ui-1.8.17.custom.css" rel="Stylesheet" />
-    <link type="text/css" href="css/trontastic/jquery-ui-1.8.17.custom.css" rel="Stylesheet" />
-    <link type="text/css" href="css/jquery.fancybox-1.3.4.css" rel="Stylesheet" />
-    <link type="text/css" href="../css/jquery.ui.pt_coverflow.css" rel="stylesheet" />
+    <title>Coverflow Admin</title>
+    <link type="text/css" href="../css/reset.css" rel="stylesheet" />
+    <link type="text/css" href="../css/ui-darkness/jquery-ui.theme.css" rel="stylesheet" />
+    <link type="text/css" href="css/trontastic/jquery-ui.theme.css" rel="stylesheet" />
+    <link type="text/css" href="../css/slider.css" rel="Stylesheet" />
+    <link type="text/css" href="css/jquery.fancybox-2.1.5.css" rel="stylesheet" />
+    <link type="text/css" href="../css/jquery.ui.pt-coverflow.css" rel="stylesheet" />
     <link type="text/css" href="../css/site.css" rel="Stylesheet" />
     <link type="text/css" href="css/admin.css" rel="Stylesheet" />
     <!-- Include jQuery and UI -->
-    <script type="text/javascript" src="../js/jquery-1.7.1.min.js"></script>
-    <script type="text/javascript" src="js/jquery.mousewheel-3.0.4.pack.js"></script>
-    <script type="text/javascript" src="js/jquery.fancybox-1.3.4.pack.js"></script>
-    <script type="text/javascript" src="../js/jquery-ui-1.8.17.custom.min.js"></script>
-    <script type="text/javascript" src="js/jquery.ui.accordion.min.js"></script>
+    <script type="text/javascript" src="../js/jquery-1.11.2.min.js"></script>
+    <script type="text/javascript" src="js/jquery-ui-1.11.3.min.js"></script>
+    <script type="text/javascript" src="js/jquery.mousewheel-3.0.6.pack.js"></script>
+    <script type="text/javascript" src="js/jquery.fancybox-2.1.5.pack.js"></script>
     <script type="text/javascript" src="js/jquery.iphone-switch.js"></script>
-    <!-- Include jQuery CoverFlow widgets -->
-    <script type="text/javascript" src="../js/jquery.ui.pt_cover.js"></script>
-    <script type="text/javascript" src="../js/jquery.ui.pt_coverflow.js"></script>
+    <script type="text/javascript" src="../js/jquery.ui.pt-coverflow.min.js"></script>
     <!-- Admin -->
-    <script type="text/javascript" src="js/pt_json.js"></script>
-    <script type="text/javascript" src="js/pt_coverflow-admin.js"></script>
+    <script type="text/javascript" src="js/pt-json.js"></script>
+    <script type="text/javascript" src="js/pt-coverflow-admin.js"></script>
 </head>
 <body>
     <div id="coverflowOptionsAdminPanel">
@@ -46,7 +44,7 @@
             <div id="optionsLinks">
                 <label id="changesLabel">Options Updated: Click Refresh to Apply to Coverflow -&gt;</label>
                 <a id="refreshCoverflow">Refresh Coverflow</a>
-                <a id="viewEditJson" href="#jsonView">View/Edit JSON</a>
+                <a id="viewEditJson" href="#jsonView">View JSON</a>
             </div>
             <div id="optionsPanel">
                 <h3>Coverflow Options</h3>
@@ -231,13 +229,12 @@
                 <div class="hidden">
                     <div id="jsonView">
                         <textarea></textarea>
-                        <input type="button" value="Update Coverflow with These Settings"/>
                     </div>
                 </div>
             </div>
         </div>
-        <header>
-            <ul id="pageMenu"><li><a href="../index.html">Home</a></li><li><a href="../json.html">Json</a></li><li><a href="../demos/">Demos</a></li><li><a href="">Admin</a></li></ul>
+        <header style="position: relative">
+            <ul id="pageMenu"><li><a href="../index.html">Home</a></li><li><a href="../json.html">Json</a></li><li><a href="../demos/">Demos</a></li><li><a href="">Admin</a></li><li><a href="../cover.html">Cover</a></li></ul>
             <img id="header" alt="Planet Telex Coverflow" src="../images/_header.png" />
             <h1><a>Options</a></h1>
         </header>
@@ -295,7 +292,7 @@
 
                 // Flag for changes
                 $("#changesLabel").click(function () {
-                    accordion.accordion("activate", false);
+                    $("#optionsPanel").accordion('option', { active: false });
                 });
 
                 // Initialize coverflow and admin form.
@@ -308,12 +305,12 @@
                     pt.coverflow.admin.updateOptions();
                     $coverflow = $("#coverflowOptionsAdminPreview").coverflow(pt.coverflow.admin.coverflowOptions);
                     $("#changesLabel").hide();
+                    $("#optionsPanel").accordion('option', { active: false });
                 });
 
                 // View/Edit JSON button
                 $("#viewEditJson").fancybox({
-                    overlayColor: '#000',
-                    onStart: function () {
+                    beforeLoad: function () {
                         pt.coverflow.admin.updateOptions();
                         var jsonString = JSON.stringify(pt.coverflow.admin.coverflowOptions);
                         $("#jsonView textarea").html(pt.json.format(jsonString));

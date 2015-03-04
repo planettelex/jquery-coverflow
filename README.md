@@ -1,13 +1,13 @@
 # [Planet Telex (PT) Coverflow][1]
 
 Planet Telex  brings you the most fully featured JavaScript Coverflow plugin available. It is a jQuery UI widget that will display a succession of images with accompanying text titles in the style of an iTunes&reg;
- "Cover Flow" view. It is configurable in a numerous ways that can allow you to create a unique look for your site.
+ "coverflow" view. It is configurable in a numerous ways that can allow you to create a unique look for your site.
 
 [Demos and Documentation][1]
 
 ## Requirements
-* jQuery 1.3.2+
-* jQueryUI 1.8+ (Core, Widget, Effects Core)
+* jQuery 1.6+
+* jQueryUI 1.9+ (Core, Widget, Effects Core)
 	* Add the "Slider" widget if you want to see that feature on your site.
 
 
@@ -33,14 +33,14 @@ Planet Telex  brings you the most fully featured JavaScript Coverflow plugin ava
 
 Include jQuery, jQuery UI, and jQuery UI CSS in your HTML.
 
-	<script type="text/javascript" src="js/jquery-1.7.1.min.js"></script>
-	<script type="text/javascript" src="js/jquery-ui-1.8.17.custom.min.js"></script>
-    <link type="text/css" href="css/ui-darkness/jquery-ui-1.8.17.custom.css" rel="Stylesheet" />
+	<script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>
+	<script type="text/javascript" src="js/jquery-ui-1.11.3.min.js"></script>
+    <link type="text/css" href="css/ui-darkness/jquery-ui.theme.css" rel="stylesheet" />
 
 Include the PT Coverflow and its starter CSS in your HTML.
 
-	<script type="text/javascript" src="js/jquery.ui.pt_coverflow-1.2.min.js"></script>
-	<link type="text/css" href="css/jquery.ui.pt_coverflow.css" rel="stylesheet">
+	<script type="text/javascript" src="js/jquery.ui.pt-coverflow.js"></script>
+	<link type="text/css" href="css/jquery.ui.pt-coverflow.css" rel="stylesheet">
 
 ### Step 2
 

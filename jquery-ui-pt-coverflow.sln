@@ -1,26 +1,18 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "jquery-ui-pt-coverflow", "Webroot\jquery-ui-pt-coverflow.csproj", "{A6A5DB5C-CB14-4BAC-87A1-2D7F04C27EF1}"
 EndProject
-Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "docs", "docs\", "{761A7959-7E2C-467B-A434-1847D3887FCC}"
-	ProjectSection(WebsiteProperties) = preProject
-		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
-		Debug.AspNetCompiler.VirtualPath = "/docs"
-		Debug.AspNetCompiler.PhysicalPath = "docs\"
-		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\docs\"
-		Debug.AspNetCompiler.Updateable = "true"
-		Debug.AspNetCompiler.ForceOverwrite = "true"
-		Debug.AspNetCompiler.FixedNames = "false"
-		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.VirtualPath = "/docs"
-		Release.AspNetCompiler.PhysicalPath = "docs\"
-		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\docs\"
-		Release.AspNetCompiler.Updateable = "true"
-		Release.AspNetCompiler.ForceOverwrite = "true"
-		Release.AspNetCompiler.FixedNames = "false"
-		Release.AspNetCompiler.Debug = "False"
-		VWDPort = "2553"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{CCF6F1C3-2C7C-45AB-A444-52BB8E145271}"
+	ProjectSection(SolutionItems) = preProject
+		docs\doc.xml = docs\doc.xml
+		docs\doc.xslt = docs\doc.xslt
+		docs\jquery-ui-pt-coverflow.doc.xml = docs\jquery-ui-pt-coverflow.doc.xml
+		docs\jquery-ui-pt-coverflow.doc.xslt = docs\jquery-ui-pt-coverflow.doc.xslt
+		docs\jquery-ui-pt-coverflow.html = docs\jquery-ui-pt-coverflow.html
+		docs\readme.txt = docs\readme.txt
 	EndProjectSection
 EndProject
 Global
@@ -33,10 +25,6 @@ Global
 		{A6A5DB5C-CB14-4BAC-87A1-2D7F04C27EF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A6A5DB5C-CB14-4BAC-87A1-2D7F04C27EF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A6A5DB5C-CB14-4BAC-87A1-2D7F04C27EF1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{761A7959-7E2C-467B-A434-1847D3887FCC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{761A7959-7E2C-467B-A434-1847D3887FCC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{761A7959-7E2C-467B-A434-1847D3887FCC}.Release|Any CPU.ActiveCfg = Debug|Any CPU
-		{761A7959-7E2C-467B-A434-1847D3887FCC}.Release|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
