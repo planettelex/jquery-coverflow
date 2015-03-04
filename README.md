@@ -109,4 +109,4 @@ View [this code][6] hosted on GitHub.
 [3]: http://www.w3schools.com/html/html5_canvas.asp
 [4]: http://httpd.apache.org
 [5]: http://www.iis.net
-[6]: 
+[6]: http://planettelexinc.github.io/jquery-ui-pt-coverflow
