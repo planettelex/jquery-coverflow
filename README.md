@@ -38,7 +38,7 @@ Include jQuery, jQuery UI, and jQuery UI CSS in your HTML.
 	<script type="text/javascript" src="js/jquery-ui-1.11.3.min.js"></script>
     <link type="text/css" href="css/ui-darkness/jquery-ui.theme.css" rel="stylesheet" />
 
-Include the PT Coverflow and its starter CSS in your HTML.
+Include PT Coverflow and its starter CSS in your HTML.
 
 	<script type="text/javascript" src="js/jquery.ui.pt-coverflow.js"></script>
 	<link type="text/css" href="css/jquery.ui.pt-coverflow.css" rel="stylesheet">
@@ -62,7 +62,7 @@ Create your HTML structure with a wrapper element that has the class "coverflow"
 
 ##### Step 3
 
-Add the JavaScript to your page to hook up the PT Coverflow to your container.
+Add the JavaScript to your page to hook up PT Coverflow to your container.
 
     <script type="text/javascript">
         $(function () {
