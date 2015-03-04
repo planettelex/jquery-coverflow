@@ -1,6 +1,7 @@
 # jQuery UI Coverflow
 #### by [Planet Telex][1]
 
+![7]
 Planet Telex  brings you the most fully featured JavaScript Coverflow plugin available. It is a jQuery UI widget that will display a succession of images with accompanying text titles in the style of an iTunes&reg;
  "coverflow" view. It is configurable in a numerous ways that can allow you to create a unique look for your site.
 
@@ -10,7 +11,6 @@ Planet Telex  brings you the most fully featured JavaScript Coverflow plugin ava
 * jQuery 1.6+
 * jQueryUI 1.9+ (Core, Widget, Effects Core)
 	* Add the "Slider" widget if you want to see that feature on your site.
-
 
 #### Features
 
@@ -109,3 +109,4 @@ See the accompanying [demos][2] for more complete examples or view [this code][6
 [4]: http://httpd.apache.org
 [5]: http://www.iis.net
 [6]: http://planettelexinc.github.io/jquery-ui-pt-coverflow
+[7]: http://planettelexinc.github.io/jquery-ui-pt-coverflow/images/demo-2.jpg
