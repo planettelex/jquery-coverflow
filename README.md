@@ -4,15 +4,14 @@
 ![7]
 Planet Telex  brings you the most fully featured JavaScript Coverflow plugin available. It is a jQuery UI widget that will display a succession of images with accompanying text titles in the style of an iTunes&reg;
  "coverflow" view. It is configurable in a numerous ways that can allow you to create a unique look for your site.
+#### [View Demos and Complete Documentation][2]
 
-### [Demos and Documentation][1]
-
-#### Requirements
+#### Requirements:
 * jQuery 1.6+
 * jQueryUI 1.9+ (Core, Widget, Effects Core)
 	* Add the "Slider" widget if you want to see that feature on your site.
 
-#### Features
+#### Features:
 
 * Very simple setup requiring miminal markup.
 * Cross-browser compatible with graceful degredation.
@@ -26,29 +25,29 @@ Planet Telex  brings you the most fully featured JavaScript Coverflow plugin ava
 * Extensive inline and accompanying documentation.
 
 
-#### Quick start
+#### Quick start:
 
-*Note: PT Coverflow must be loaded through a web server such as [Apache][4] or [IIS][5] due to security requirements of the [HTML5 Canvas][3].*
+*Note: jQuery UI Coverflow must be loaded through a web server such as [Apache][4] or [IIS][5] due to security requirements of the [HTML5 Canvas][3].*
 
 ##### Step 1
 
-Include jQuery, jQuery UI, and jQuery UI CSS in your HTML.
+Include jQuery, jQuery UI, and jQuery UI CSS:
 
 	<script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>
 	<script type="text/javascript" src="js/jquery-ui-1.11.3.min.js"></script>
     <link type="text/css" href="css/ui-darkness/jquery-ui.theme.css" rel="stylesheet" />
 
-Include PT Coverflow and its starter CSS in your HTML.
+Include jQuery Coverflow and its CSS:
 
-	<script type="text/javascript" src="js/jquery.ui.pt-coverflow.js"></script>
-	<link type="text/css" href="css/jquery.ui.pt-coverflow.css" rel="stylesheet">
+	<script type="text/javascript" src="js/jquery-ui-coverflow.js"></script>
+	<link type="text/css" href="css/jquery-ui-coverflow.min.css" rel="stylesheet">
 
 ##### Step 2
 
-Create your HTML structure with a wrapper element that has the class "coverflow".  Add some images to your container including the title and subtitle as data attributes if you want those to be displayed.
+Create your HTML structure with a wrapper element that has the class "coverflow".  Add some images to your container including the title and subtitle as data attributes if you want those to be displayed:
 
     <div id="coverflow" class="coverflow">
-        <!-- (Optional) Add additional controls. PT Coverflow leaves non-img tags in the container untouched, so you can absolute position them relative to the container. -->
+        <!-- (Optional) Add additional controls. Coverflow leaves non-img tags in the container untouched, so you can absolute position them relative to the container. -->
         <div class="controls">
             <a id="previous" title="Previous Cover">&lsaquo;</a>
             <a id="next" title="Next Cover">&rsaquo;</a>
@@ -62,14 +61,14 @@ Create your HTML structure with a wrapper element that has the class "coverflow"
 
 ##### Step 3
 
-Add the JavaScript to your page to hook up PT Coverflow to your container.
+Add the JavaScript to make your images into a coverflow:
 
     <script type="text/javascript">
         $(function () {
-            // Instantiate PT Coverflow
+            // Instantiate Coverflow
             var $demo = $("#coverflow").coverflow();
 
-            // (Optional) Attach control click events to the PT Coverflow API
+            // (Optional) Attach control click events to the Coverflow API
             $("#previous").click(function () {
                 $demo.coverflow("prevCover");
             });
@@ -79,15 +78,15 @@ Add the JavaScript to your page to hook up PT Coverflow to your container.
         });
     </script>
 
-See the accompanying [demos][2] for more complete examples or view [this code][6] hosted on GitHub.
+[See the demos in action][3] for complete examples.
 
 #### License
 
-##### Major components:
+##### Major Components:
 
 * jQuery, jQueryUI: MIT/GPL license
 
-##### Everything else:
+##### Everything Else:
 
     Copyright 2015 Planet Telex, Inc.
 
@@ -104,9 +103,9 @@ See the accompanying [demos][2] for more complete examples or view [this code][6
     limitations under the License.
 
 [1]: http://www.planettelex.com
-[2]: http://www.planettelex.com/products/jquery/pt-coverflow/demos
+[2]: http://www.planettelex.com/products/jquery-coverflow
 [3]: http://www.w3schools.com/html/html5_canvas.asp
 [4]: http://httpd.apache.org
 [5]: http://www.iis.net
-[6]: http://planettelexinc.github.io/jquery-ui-pt-coverflow
-[7]: http://planettelexinc.github.io/jquery-ui-pt-coverflow/images/demo-2.jpg
+[6]: http://planettelex.github.io/jquery-coverflow
+[7]: http://planettelex.github.io/jquery-coverflow/images/demo.png
