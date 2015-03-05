@@ -25,7 +25,7 @@ Planet Telex  brings you the most fully featured JavaScript Coverflow plugin ava
 * Extensive inline and accompanying documentation.
 
 
-#### Quick start:
+#### Quick Start:
 
 *Note: jQuery UI Coverflow must be loaded through a web server such as [Apache][4] or [IIS][5] due to security requirements of the [HTML5 Canvas][3].*
 
@@ -47,12 +47,12 @@ Include jQuery Coverflow and its CSS:
 Create your HTML structure with a wrapper element that has the class "coverflow".  Add some images to your container including the title and subtitle as data attributes if you want those to be displayed:
 
     <div id="coverflow" class="coverflow">
-        <!-- (Optional) Add additional controls. Coverflow leaves non-img tags in the container untouched, so you can absolute position them relative to the container. -->
+        <!-- (Optional) Add additional controls. jQuery Coverflow leaves non-img tags in the container untouched, so you can absolute position them relative to the container. -->
         <div class="controls">
             <a id="previous" title="Previous Cover">&lsaquo;</a>
             <a id="next" title="Next Cover">&rsaquo;</a>
         </div>
-        <!-- PT Coverflow uses all img tags in the container not nested in other elements. The alt tags are not used by coverflow, but should be rendered to be standards compliant and accessible. -->
+        <!-- jQuery Coverflow uses all img tags in the container not nested in other elements. The alt tags are not used by coverflow, but should be rendered to be standards compliant and accessible. -->
         <img src="img/muse-the-resistance.jpg" alt="Muse, The Resistance" data-subtitle="Muse" data-title="The Resistance" />
         <img src="img/albertacross-thebrokensideoftime.jpg" alt="Alberta Cross, Broken Side of Time" data-subtitle="Alberta Cross" data-title="Broken Side of Time" />
         <img src="img/batforlashes-twosuns.jpg" alt="Bat For Lashes, Two Suns" data-subtitle="Bat For Lashes" data-title="Two Suns" />
@@ -78,7 +78,7 @@ Add the JavaScript to make your images into a coverflow:
         });
     </script>
 
-[See the demos in action][3] for complete examples.
+[See the demos in action][6] for complete examples.
 
 #### License
 
